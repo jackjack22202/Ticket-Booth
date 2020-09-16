@@ -9,11 +9,11 @@ import "react-loadingmask/dist/react-loadingmask.css";
 import "./App.css";
 
 // Import Pages
-import Dashboard from './Dashboard';
-import Tickets from './Tickets';
-import Details from './Details';
-import Settings from './Settings';
-import Announcements from './Announcements';
+import Dashboard from './pages/Dashboard';
+import Tickets from './pages/Tickets';
+import Details from './pages/Details';
+import Settings from './pages/Settings';
+import Announcements from './pages/Announcements';
 
 // Import Icon Images for Side Nav
 import DashboardIcon from "./images/nav-icons/Icons_Misc_activity.svg";
