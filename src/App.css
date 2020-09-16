@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+body {
+  margin: 0;
+  font-family: "Roboto";
+}
+
+.App {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar-component {
+  padding-left: 64px;
+}
+
+.btn {
+  display: inline-block;
+  font-weight: bold;
+  font-family: 'Roboto';
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  border: 1px solid rgba(0, 0, 0, 0);
+  padding: 0rem 1.5rem;
+  font-size: 1rem;
+  line-height: 1.25;
+  height: 2rem;
+  border-radius: 15rem;
+  transition: padding-left 0.35s cubic-bezier(0.19, 1, 0.22, 1), padding-right 0.35s cubic-bezier(0.19, 1, 0.22, 1), color 0.1s ease-in-out, background-color 0.1s ease-in-out, border-color 0.1s ease-in-out;
+}
+
+.btn-primary {
+  outline: none;
+  color: #fff;
+  background-color: #0085ff;
+  border-color: #0085ff;
+  box-shadow: none;
+}
+
+.btn-secondary {
+  outline: none;
+  color: #fff;
+  background-color: #676879;
+  border-color: #676879;
+  box-shadow: none;
+}
+
+button:disabled {
+  background-color: #e2e6ec;
+  border-color: #e2e6ec;
+  color: #666776;
+}
+
+.status-box {
+  height: 34px;
+  width: 75%;
+  background-color: #c4c4c4;
+  color: #fff;
+  text-align: center;
+  padding: 7px;
+  font-size: 14px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.list-card {
+  margin: 24px;
+  border-width: 2px;
+}
