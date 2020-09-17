@@ -76,3 +76,24 @@ body {
 #rightbar {
   height: 100vh;
 }
+
+// Settings Styles
+.subtext {
+  color: grey;
+}
+.setting-wrapper {
+  margin: 1em;
+  padding: 1em;
+  border: 2px solid lightgrey;
+  border-radius: 1em;
+}
+
+
+// Utility classes
+.flex {
+  display: flex;
+}
+.bold {
+ font-weight: bold;
+}
+

@@ -1,9 +1,7 @@
 import React from "../../../node_modules/react";
 import mondaySdk from "monday-sdk-js";
 
-import { Container, Dropdown } from 'react-bootstrap';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Container, Dropdown, Row, Col } from 'react-bootstrap';
 
 const monday = mondaySdk();
 
