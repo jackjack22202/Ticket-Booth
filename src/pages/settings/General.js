@@ -11,6 +11,14 @@ import Col from 'react-bootstrap/Col';
 
 export class General extends React.Component {
 
+  setPrimary(color, event) {
+    
+  }
+
+  setSecondary(color, event) {
+
+  }
+
     render() {
         return (
             <>
@@ -21,11 +29,11 @@ export class General extends React.Component {
                         <Row>
                           <Col sm={3}>
                             <Form.Label>Primary</Form.Label>
-                            <CirclePicker />
+                            <CirclePicker onChange={this.setPrimary}/>
                           </Col>
                           <Col sm={3}>
                             <Form.Label>Accent</Form.Label>
-                            <CirclePicker />
+                            <CirclePicker onChange={this.setSecondary}/>
                           </Col>
                         </Row>
                         <Row>
