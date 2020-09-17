@@ -12,7 +12,7 @@ import "./App.css";
 import Dashboard from './pages/Dashboard';
 import Tickets from './pages/Tickets';
 import Details from './pages/Details';
-import Settings from './pages/Settings';
+import SettingRouter from './pages/settings/SettingRouter';
 import Announcements from './pages/Announcements';
 
 // Import Icon Images for Side Nav
@@ -77,7 +77,7 @@ function App() {
                         <Route path="/dashboard" component={props => <Dashboard />} />
                         <Route path="/tickets" component={props => <Tickets />} />
                         <Route path="/details/:id" component={Details} />
-                        <Route path="/settings" component={props => <Settings />} />
+                        <Route path="/settings" component={props => <SettingRouter />} />
                         <Route path="/announcements" component={props => <Announcements />} />
                         <Route path="/" component={props => <Dashboard />} />
                     </Switch>

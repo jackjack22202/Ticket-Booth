@@ -3,14 +3,14 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import mondaySdk from "monday-sdk-js";
 
-import Card from 'react-bootstrap/Card'
-import Image from 'react-bootstrap/Image'
+import Card from 'react-bootstrap/Card';
+import Image from 'react-bootstrap/Image';
 
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
-import ticketBooth from "./images/TicketBooth.gif";
+import ticketBooth from "../images/TicketBooth.gif";
 
 const monday = mondaySdk();
 const TicketBoothLogo = <img src={ticketBooth} alt="Ticket Booth Logo"/>
