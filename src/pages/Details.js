@@ -24,9 +24,11 @@ class Details extends React.Component {
         client_email_column_key: this.props.location.data?.settings.client_email_column_key,
         updates: [],
         client_emails: null,
-        reply_to_email: null,
+        ticket_address: null,
         username: null,
+        user_email: null,
         settings: null,
+        slug: null,
         field_values: [],
         fields_selected: [],
         outerLoading: true,
@@ -46,15 +48,17 @@ class Details extends React.Component {
     })
     monday.listen("context", res => {
       this.setState({context: res.data});
-      monday.api(`query { me { name account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
+      monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
       .then(res => {
         this.setState({
             ticket_data: res.data.items[0],
             updates: res.data.items[0].updates, 
             client_emails: res.data.items[0].column_values.find(x => x.id === this.state.client_email_column_key)?.text, 
-            reply_to_email: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
+            ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
             username: res.data.me.name, 
-            outerLoading: false
+            user_email: res.data.me.email,
+            outerLoading: false,
+            slug: res.data.me.account?.slug,
           });
         this.setState({updates: this.state.updates?.reverse()})
         this.parseSidebarSettings();
@@ -62,15 +66,18 @@ class Details extends React.Component {
     })
     monday.listen("events", res => {
       this.setState({context: res.data});
-      monday.api(`query { me { name account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
+      monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
       .then(res => {
         this.setState({
             ticket_data: res.data.items[0],
             updates: res.data.items[0].updates, 
             client_emails: res.data.items[0].column_values.find(x => x.id === this.state.client_email_column_key)?.text, 
-            reply_to_email: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
+            ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
             username: res.data.me.name, 
-            outerLoading: false
+            user_email: res.data.me.email,
+            outerLoading: false,
+            slug: res.data.me.account?.slug,
+
           });
           this.setState({updates: this.state.updates?.reverse()})
           this.parseSidebarSettings();
@@ -148,7 +155,10 @@ class Details extends React.Component {
           recipient: this.state.client_emails, 
           creator: this.state.username, 
           update_body: update_string, 
-          reply_to: this.state.reply_to_email
+          ticket_address: this.state.ticket_address,
+          ticket_slug: this.state.slug,
+          ticket_id: this.state.ticket_data.id,
+          creator_address: this.state.user_email
         });
 
         var requestOptions = {
