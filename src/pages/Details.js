@@ -158,6 +158,7 @@ class Details extends React.Component {
           ticket_address: this.state.ticket_address,
           ticket_slug: this.state.slug,
           ticket_id: this.state.ticket_data.id,
+          ticket_name: this.state.ticket_data.name,
           creator_address: this.state.user_email
         });
 
