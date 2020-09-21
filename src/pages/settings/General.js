@@ -2,7 +2,7 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
 //controls
-import { Container, Row, Col, Form, Dropdown } from 'react-bootstrap';
+import { Container, Row, Col, Form, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
 import { CirclePicker} from "react-color";
 import { CircleSwatch } from 'react-color/lib/components/circle/CircleSwatch';
 
@@ -19,11 +19,11 @@ export class General extends React.Component {
     //bindings
     this.setPrimary = this.setPrimary.bind(this);
     this.setSecondary = this.setSecondary.bind(this);
+    
+    this.state = {primary: 'grey', secondary: 'grey'};
 
     this.getPrimary();
     this.getSecondary();
-
-    this.state = {primary: 'grey', secondary: 'grey'};
   }
 
   componentDidMount() {
@@ -85,11 +85,11 @@ export class General extends React.Component {
                       <Col md>
                         <Form.Label>
                           <div className={'flex'}>
-                            <span>Accent</span>
+                            <span>Secondary</span>
                             <CircleSwatch color={this.state.secondary} />
                           </div>
                           <div className={'subtext'}>
-                            Choose your accent color for the Tickets view
+                            Choose your accent color
                           </div>
                         </Form.Label>
                         <CirclePicker onChange={this.setSecondary} color={this.state.secondary}/>
@@ -97,13 +97,22 @@ export class General extends React.Component {
                     </Row>
                     <Row className={'setting-wrapper'}>
                       <Col>
+                        <div className={'bold'}>Ticket List</div>
                         <Form.Label>
-                          <div className={'bold'}>Ticket List</div>
                           <div>Tickets Displayed</div>
                           <div className={'subtext'}>Choose the number of tickets to display per page</div>
-                          <Dropdown>
-
-                          </Dropdown>
+                          <ButtonToolbar>
+                            <ButtonGroup>
+                              <Button variant="secondary">1</Button>
+                              <Button variant="secondary">2</Button>
+                              <Button variant="secondary">3</Button>
+                              <Button variant="secondary">4</Button>
+                              <Button variant="secondary">5</Button>
+                              <Button variant="secondary">6</Button>
+                              <Button variant="secondary">7</Button>
+                              <Button variant="secondary">8</Button>
+                            </ButtonGroup>
+                          </ButtonToolbar>
                         </Form.Label>
                       </Col>
                     </Row>
