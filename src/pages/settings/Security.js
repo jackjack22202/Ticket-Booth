@@ -66,6 +66,7 @@ export class Security extends React.Component {
                             <div>API Agreement</div>
                             <div className='text-muted'>Allows Ticket Booth to store users API key on a thirdparty database for board view integrations.</div>
                           </Form.Label>
+                          <Form.Check type='checkbox' label='I Accept' />
                         </Col>
                       </Row>
                       <Row className='setting-wrapper'>

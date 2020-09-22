@@ -9,15 +9,18 @@ export class Integration extends React.Component {
                 <Container>
                     <Col>
                         <Row className='setting-wrapper'>
+                            
+                                
+                            
                             <Col md>
-                                <div className='bold'>API</div>
+                            <div className='bold'>API</div>
                                 <Form.Label>
                                     <div>API Key</div>
                                     <div className='text-muted'>
                                         Admins personal API v2 Token
                                     </div>
                                 </Form.Label>
-                                <Form.Control>
+                                <Form.Control placeholder='Paste token here' type='password'>
 
                                 </Form.Control>
                             </Col>
@@ -25,25 +28,29 @@ export class Integration extends React.Component {
                         <Row className='setting-wrapper'>
                             <Col md>
                                 <div className='bold'>Client Support System</div>
-                                <Form.Label>
-                                    <div>Client Email</div>
-                                    <div className='text-muted'>
-                                        Choose the column that contains your client's email.
-                                    </div>
-                                </Form.Label>
-                                <Dropdown>
-                                    <Dropdown.Toggle>text...</Dropdown.Toggle>
-                                </Dropdown>
-                                <div className='bold'></div>
-                                <Form.Label>
-                                    <div>Client Email</div>
-                                    <div className='text-muted'>
-                                        Provide the footer template that will be insterted into outgoing support emails.
-                                    </div>
-                                </Form.Label>
-                                <Form.Control>
 
-                                </Form.Control>
+                                <Form.Group>
+                                    <Form.Label>
+                                        <div>Client Email</div>
+                                        <div className='text-muted'>
+                                            Choose the column that contains your client's email.
+                                        </div>
+                                    </Form.Label>
+                                    <Form.Control as='select'>
+            
+                                    </Form.Control>
+                                </Form.Group>
+                                <Form.Group>
+                                    <Form.Label>
+                                        <div>Client Email</div>
+                                        <div className='text-muted'>
+                                            Provide the footer template that will be insterted into outgoing support emails.
+                                        </div>
+                                    </Form.Label>
+                                    <Form.Control>
+
+                                    </Form.Control>
+                                </Form.Group>
                             </Col>
                         </Row>
                     </Col>

@@ -16,6 +16,15 @@ export class Fields extends React.Component {
     }
 
     componentDidMount() {
+        monday.api(`
+        query {
+            boards
+        }
+        `).then((value) => {
+            console.warn('__dev query results');
+            console.log(value);
+        })
+
         monday.get('context').then((value) => {
             console.warn('__dev');
             console.log(value);
@@ -47,49 +56,42 @@ export class Fields extends React.Component {
                                             Choose a column that uniquely identifies each ticket.
                                         </div>
                                     </Form.Label>
-                                    <Dropdown>
-                                        <Dropdown.Toggle>{this.state.idColumn ? this.state.idColumn : 'Select a Column'}</Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onSelect={() => this.setIDColumn('single')}>First</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => this.setIDColumn('double')}>Second</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => this.setIDColumn('triple')}>Third</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                    <Form.Control as='select' placeholder='Select a Column' >
+                                        <option>blah blah blah</option>
+                                    </Form.Control>
                                 </Col>
+                                <Col md></Col>
                             </Row>
                             <Row className='setting-wrapper'>
                                 <Col md>
-                                    <div className={'bold'}>Ticket List</div>
-                                    <Form.Label>
-                                        <div>Ticket Subtitle</div>
-                                        <div className='text-muted'>
-                                            Choose any column to display under each ticket name.
-                                        </div>
-                                    </Form.Label>
-                                    <Dropdown>
-                                        <Dropdown.Toggle>{this.state.subtitleColumn ? this.state.subtitleColumn : 'Select a Column'}</Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onSelect={() => this.setSubtitle('first')}>one</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => this.setSubtitle('second')}>two</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => this.setSubtitle('third')}>three</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                    <div className={'bold'}>General</div>
+                                    <Form.Group>
+                                        <Form.Label>
+                                            <div>Ticket Subtitle</div>
+                                            <div className='text-muted'>
+                                                Choose any column to display under each ticket name.
+                                            </div>
+                                        </Form.Label>
+                                        <Form.Control as='select'>
+                                            <option>First Option</option>
+                                            <option>Second Opinion</option>
+                                            <option>Third Ornery</option>
+                                        </Form.Control>
+                                    </Form.Group>
                                 </Col>
-                                <Col>
-                                    <Form.Label>
-                                        <div>Ticket Status</div>
-                                        <div className='text-muted'>
-                                            Choose a status column to display on your tickets.
-                                        </div>
-                                    </Form.Label>
-                                    <Dropdown>
-                                        <Dropdown.Toggle>{this.state.statusColumn ? this.state.statusColumn : 'Select a Column'}</Dropdown.Toggle>
-                                        <Dropdown.Menu>
-                                            <Dropdown.Item onSelect={() => this.setSubtitle('first')}>one</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => this.setSubtitle('second')}>two</Dropdown.Item>
-                                            <Dropdown.Item onSelect={() => this.setSubtitle('third')}>three</Dropdown.Item>
-                                        </Dropdown.Menu>
-                                    </Dropdown>
+                                <Col md>
+                                    <div style={{height: '1.5em', marginBottom: '1em'}}></div>
+                                    <Form.Group>
+                                        <Form.Label>
+                                            <div>Ticket Status</div>
+                                            <div className='text-muted'>
+                                                Choose a status column to display on your tickets.
+                                            </div>
+                                        </Form.Label>
+                                        <Form.Control as='select'>
+
+                                        </Form.Control>
+                                    </Form.Group>
                                 </Col>
                             </Row>
                             <Row className='setting-wrapper'>
