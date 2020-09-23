@@ -48,7 +48,7 @@ export class Security extends React.Component {
             mode: 'cors'
           };
       
-          fetch("https://9c96768575e3.ngrok.io/storeToken", requestOptions)
+          fetch("https://api.carbonweb.co/storeToken", requestOptions)
         }
       }
 

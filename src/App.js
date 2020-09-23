@@ -52,20 +52,20 @@ function App() {
                                 Tickets
                             </NavText>
                         </NavItem>
-                        <NavItem eventKey="settings">
-                            <NavIcon>
-                                <img src={SettingsIcon} alt="Settings Icon" style={{height:"32px", width:"32px"}}/>
-                            </NavIcon>
-                            <NavText>
-                                Settings
-                            </NavText>
-                        </NavItem>
                         <NavItem eventKey="announcements">
                             <NavIcon>
                                 <img src={AnnouncementsIcon} alt="Announcements Icon" style={{height:"32px", width:"32px"}}/>
                             </NavIcon>
                             <NavText>
                                 Announcements
+                            </NavText>
+                        </NavItem>
+                        <NavItem eventKey="settings">
+                            <NavIcon>
+                                <img src={SettingsIcon} alt="Settings Icon" style={{height:"32px", width:"32px"}}/>
+                            </NavIcon>
+                            <NavText>
+                                Settings
                             </NavText>
                         </NavItem>
                     </SideNav.Nav>
@@ -77,8 +77,8 @@ function App() {
                         <Route path="/dashboard" component={props => <Dashboard />} />
                         <Route path="/tickets" component={props => <Tickets />} />
                         <Route path="/details/:id" component={Details} />
-                        <Route path="/settings" component={props => <SettingRouter />} />
                         <Route path="/announcements" component={props => <Announcements />} />
+                        <Route path="/settings" component={props => <SettingRouter />} />
                         <Route path="/" component={props => <Dashboard />} />
                     </Switch>
                 </main>
