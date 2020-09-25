@@ -7,6 +7,8 @@ const monday = mondaySdk();
 
 export class Fields extends React.Component {
 
+    columns = [];
+
     constructor() {
         super();
         //bindings
@@ -16,28 +18,32 @@ export class Fields extends React.Component {
     }
 
     componentDidMount() {
-        monday.api(`
-        query {
-            boards
-        }
-        `).then((value) => {
-            console.warn('__dev query results');
-            console.log(value);
-        })
+        // get the column information from the application table
+        monday.get('context').then(board_context => {
+            monday.api(`
+                query { 
+                    boards(ids: ${board_context.data ?? board_context.data.boardId}) {
+                        columns { type id title }
+                    }
+                }
+            `).then(query_return => {
+                console.warn('__DEV: query return');
+                console.log(query_return);
 
-        monday.get('context').then((value) => {
-            console.warn('__dev');
-            console.log(value);
+                this.columns = query_return.data.boards[0].columns;
+            })
         })
 
         monday.get('settings').then((value) => {
-            console.warn('__dev');
+            console.warn('__dev settings');
             console.log(value);
         })
+
+
     }
 
     setIDColumn(value) {
-        this.setState({idColumn: value})
+        this.setState({idColumn: this.columns[value]})
     }
 
     render() {
@@ -57,7 +63,9 @@ export class Fields extends React.Component {
                                         </div>
                                     </Form.Label>
                                     <Form.Control as='select' placeholder='Select a Column' >
-                                        <option>blah blah blah</option>
+                                        {this.columns ?? this.columns.map((column, i) => 
+                                            <option id={column.id} onClick={this.setIDColumn(i)}>{column.title}</option>
+                                        )}
                                     </Form.Control>
                                 </Col>
                                 <Col md></Col>
@@ -73,9 +81,9 @@ export class Fields extends React.Component {
                                             </div>
                                         </Form.Label>
                                         <Form.Control as='select'>
-                                            <option>First Option</option>
-                                            <option>Second Opinion</option>
-                                            <option>Third Ornery</option>
+                                        {this.columns ?? this.columns.map((column, i) => 
+                                            <option id={column.id} onClick={this.setSubtitleColumn(i)}>{column.title}</option>
+                                        )}
                                         </Form.Control>
                                     </Form.Group>
                                 </Col>
@@ -89,7 +97,9 @@ export class Fields extends React.Component {
                                             </div>
                                         </Form.Label>
                                         <Form.Control as='select'>
-
+                                            {this.columns ?? this.columns.map((column, i) => 
+                                                <option id={column.id} onClick={this.set}>{column.title}</option>
+                                            )}
                                         </Form.Control>
                                     </Form.Group>
                                 </Col>
@@ -103,6 +113,11 @@ export class Fields extends React.Component {
                                             Select the columns to be displayed inside your tickets.
                                         </div>
                                     </Form.Label>
+                                    <div>
+                                        {this.columns ?? this.columns.map(column =>
+                                            <Form.Check type="checkbox" label={column.title} value={column.id}  />
+                                        )}
+                                    </div>
                                 </Col>
                             </Row>
                         </Col>
