@@ -23,8 +23,14 @@ export class Fields extends React.Component {
     }
 
     componentDidMount() {
-        // get the column information from the application table
-        monday.get('context').then(board_context => {
+        // get both the context and settings
+        let contextPromise = monday.get('context');
+        let settingPromise = monday.get('settings');
+
+        Promise.all([contextPromise, settingPromise]).then((ret) => {
+            const board_context = ret[0];
+            const settings = ret[1];
+            
             monday.api(`
                 query { 
                     boards(ids: ${board_context.data.boardId}) {
@@ -32,16 +38,17 @@ export class Fields extends React.Component {
                     }
                 }
             `).then(query_return => {
+
                 console.warn('__DEV: query return');
                 console.log(query_return);
 
-                this.setState({columns: query_return.data.boards[0].columns});
+                this.setState({
+                    columns:  query_return.data.boards[0].columns,
+                    idColumn: (settings.data.id_column) ? Object.keys(settings.data.id_column)[0] : '',
+                    subtitleColumn:(settings.data.subheading_column) ? Object.keys(settings.data.subheading_column)[0] : '',
+                    statusColumn: (settings.data.status_column) ? Object.keys(settings.data.status_column)[0] : ''
+                });
             })
-        })
-
-        monday.get('settings').then((value) => {
-            console.warn('__dev settings');
-            console.log(value);
         })
     }
 

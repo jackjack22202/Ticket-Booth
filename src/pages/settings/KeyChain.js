@@ -2,7 +2,7 @@
 
 export const KeyChain = {
     Colors: {
-        Primary: 'color-primary',
-        Secondary: 'color-secondary'
+        Primary: 'color_primary',
+        Secondary: 'color_secondary'
     }
 }

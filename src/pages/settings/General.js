@@ -21,9 +21,6 @@ export class General extends React.Component {
     this.setSecondary = this.setSecondary.bind(this);
     
     this.state = {primary: 'grey', secondary: 'grey'};
-
-    this.getPrimary();
-    this.getSecondary();
   }
 
   componentDidMount() {
@@ -32,34 +29,30 @@ export class General extends React.Component {
   }
 
   getPrimary() {
-    monday.storage.instance.getItem(KeyChain.Colors.Primary).then(res => {
-      if (res.data) {
-        const { color, version } = res.data;
-        this.setState({primary: color});
-      }
-    });
+    monday.storage.instance.getItem(KeyChain.Colors.Primary).then(res => 
+        this.setState({ primary: res.data ? res.data.value : 'grey'})
+    );
   }
 
   getSecondary() {
-    monday.storage.instance.getItem(KeyChain.Colors.Secondary).then(res => {
-      if (res.data) {
-        const { color, version } = res.data;
-        this.setState({secondary: color});
-      }
-    });
+    monday.storage.instance.getItem(KeyChain.Colors.Secondary).then(res => 
+        this.setState({ secondary: res.data ? res.data.value : 'grey' })
+    );
   }
 
   setPrimary(color) {
-    this.setState({primary: color.hex});
-    monday.storage.instance.setItem(KeyChain.Colors.Primary, color).then(res => {
-      console.log(`Updated the Primary Color Setting to ${color}.`);
+    const hex = color.hex;
+    this.setState({primary: hex});
+    monday.storage.instance.setItem(KeyChain.Colors.Primary, hex).then(res => {
+      console.log(`Updated the Primary Color Setting to ${hex}.`);
     })
   }
 
   setSecondary(color) {
-    this.setState({secondary: color.hex});
-    monday.storage.instance.setItem(KeyChain.Colors.Secondary, color).then(res => {
-      console.log(`Updated the Secondary Color Setting to ${color}.`);
+    const hex = color.hex;
+    this.setState({secondary: hex});
+    monday.storage.instance.setItem(KeyChain.Colors.Secondary, hex).then(res => {
+      console.log(`Updated the Secondary Color Setting to ${hex}.`);
     })
   }
 
@@ -74,7 +67,6 @@ export class General extends React.Component {
                         <Form.Label>
                             <div className={'flex'}>                          
                               <span>Primary</span>
-                              <CircleSwatch color={this.state.primary} />
                             </div>
                             <div className={'subtext'}>
                               Choose your main theme color
@@ -86,7 +78,6 @@ export class General extends React.Component {
                         <Form.Label>
                           <div className={'flex'}>
                             <span>Secondary</span>
-                            <CircleSwatch color={this.state.secondary} />
                           </div>
                           <div className={'subtext'}>
                             Choose your accent color
