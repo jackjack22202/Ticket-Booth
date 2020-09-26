@@ -17,6 +17,12 @@ body {
   padding-left: 64px;
 }
 
+.sidenav-custom {
+  height: 100%;
+  position: fixed; 
+  z-index: 1
+}
+
 .btn {
   display: inline-block;
   font-weight: bold;

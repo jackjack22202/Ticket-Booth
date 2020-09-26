@@ -27,7 +27,7 @@ function App() {
       <Router>
         <Route render={({ location, history }) => (
             <React.Fragment>
-                <div className="sidenav">
+                <div className="sidenav sidenav-custom">
                 <SideNav onSelect={(selected) => { 
                   const to = '/' + selected; 
                   if (location.pathname !== to) { 
