@@ -14,16 +14,23 @@ export class Fields extends React.Component {
         this.setIDColumn.bind(this);
         this.setStatusColumn.bind(this);
         this.setSubtitleColumn.bind(this);
+        this.toggleDetail.bind(this);
 
         this.state = { 
             idColumn: null,
             subtitleColumn: null,
-            statusColumn: null
+            statusColumn: null,
+            details: []
         };
+
+        this.getSettings();
     }
 
     componentDidMount() {
-        // get both the context and settings
+        this.getSettings();
+    }
+
+    getSettings() {
         Promise.all([
             monday.storage.instance.getItem(KeyChain.Columns.ID), //0
             monday.storage.instance.getItem(KeyChain.Columns.Status), //1
@@ -34,26 +41,12 @@ export class Fields extends React.Component {
             const storedIDColumn =  allPromises[0].data ? allPromises[0].data.value : '' ;
             const storedStatusColumn = allPromises[1].data ? allPromises[1].data.value : '';
             const storedSubtitleColumn = allPromises[2].data ? allPromises[2].data.value : '';
-            // collect up the monday.setting values
-            const settingIDColumn = (this.props.settings.id_column) ? Object.keys(this.props.settings.id_column)[0] : '';
-            const settingStatusColumn = (this.props.settings.status_column) ? Object.keys(this.props.settings.status_column)[0] : '';
-            const settingSubtitleColumn = (this.props.settings.subheading_column) ? Object.keys(this.props.settings.subheading_column)[0] : '';
-
-            // if there is no stored setting, but there is a monday.setting, apply the monday.setting
-            if (!storedIDColumn && settingIDColumn) {
-                monday.storage.instance.setItem(KeyChain.Columns.ID, settingIDColumn);
-            }
-            if (!storedStatusColumn && settingStatusColumn) {
-                monday.storage.instance.setItem(KeyChain.Columns.Status, settingStatusColumn);
-            }
-            if (!storedSubtitleColumn && settingSubtitleColumn) {
-                monday.storage.instance.setItem(KeyChain.Columns.Status, settingSubtitleColumn);
-            }
-
+            const storedDetails = allPromises[3].data ? (allPromises[3].data.value ?? []) : [];
             this.setState({
-                idColumn: storedIDColumn ? storedIDColumn : settingIDColumn,
-                statusColumn: storedStatusColumn ? storedStatusColumn : settingStatusColumn,
-                subtitleColumn: storedSubtitleColumn ? storedSubtitleColumn : settingSubtitleColumn 
+                idColumn: storedIDColumn,
+                statusColumn: storedStatusColumn,
+                subtitleColumn: storedSubtitleColumn,
+                details: storedDetails
             });
         })
     }
@@ -79,8 +72,22 @@ export class Fields extends React.Component {
         })
         monday.storage.instance.setItem(KeyChain.Columns.Status, newStatus);
     }
-    toggleDetail(id) {
+    toggleDetail(value) {
+        const targetId = this.props.columns[value].id;
+        const targetIndex = this.state.details ? this.state.details.indexOf(targetId) : -1;
 
+        let temp = this.state.details;
+        if (targetIndex !== -1) {
+            temp.splice(targetIndex, 1);
+
+        } else {
+            temp.push(targetId);
+        }
+        console.log("__DEV detail toggle output");
+        console.log(temp);
+
+        this.setState({details: temp});
+        monday.storage.instance.setItem(KeyChain.Columns.Details, temp);
     }
 
     render() {
@@ -162,8 +169,10 @@ export class Fields extends React.Component {
                                     </div>
                                 </Form.Label>
                                 <div>
-                                    {this.props.columns.map(column =>
-                                        <Form.Check type="checkbox" label={column.title} value={column.id}  onclick={this.toggleCheck(column.id)}/>
+                                    {this.props.columns.map((column, i) => {
+                                        let contains = this.state.details ? (this.state.details.indexOf(column.id) !== -1) : false;
+                                        return <Form.Check type="checkbox" label={column.title} value={column.id}  onChange={() => this.toggleDetail(i)} checked={contains}/>
+                                        }
                                     )}
                                 </div>
                                 </div>
