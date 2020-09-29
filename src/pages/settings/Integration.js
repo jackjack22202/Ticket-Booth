@@ -25,6 +25,23 @@ export class Integration extends React.Component {
             acceptedTerms: false,
             //emailFooter: '',  //@TODO Unfinished as it is not yet implemented
         }
+
+        this.getSettings();
+    }
+
+    getSettings() {
+        Promise.all([
+            monday.storage.instance.getItem(KeyChain.AcceptedTerms),
+            monday.storage.instance.getItem(KeyChain.Columns.Email)
+        ]).then(allPromises => {
+            const storedAcceptedTerms = allPromises[0].data ? (allPromises[0].data.value == 'true') : false;
+            const storedEmailColumn =  allPromises[1].data ? allPromises[1].data.value : '' ;
+            
+            this.setState({
+                emailColumn: storedEmailColumn,
+                acceptedTerms: storedAcceptedTerms
+            })
+        })
     }
 
     setAcceptTerms() {
@@ -35,8 +52,8 @@ export class Integration extends React.Component {
         monday.storage.instance.setItem(KeyChain.AcceptedTerms, newVal);
     }
 
-    setEmailColumn(value) {
-        const newEmailColumn = this.props.columns[value].id;
+    setEmailColumn(e) {
+        const newEmailColumn = this.props.columns.find(c => c.title == e.target.value)?.id;
         this.setState({
             emailColumn: newEmailColumn
         });
@@ -83,26 +100,7 @@ export class Integration extends React.Component {
             });
         })
 
-        // GET storage and settings
-        Promise.all([
-            monday.get('settings'),
-            monday.storage.instance.getItem(KeyChain.Columns.Email)
-        ]).then(allPromises => {
-            console.log('__DEV  settings return');
-            console.log(allPromises);
-
-            const settings = allPromises[0];
-            const settingEmailColumn = (settings.data.email_column) ? Object.keys(settings.data.email_column)[0] : '';
-            const storedEmailColumn = allPromises[1].data ? allPromises[1].data.value : '';
-
-            if (!storedEmailColumn && settingEmailColumn) {
-                monday.storage.instance.setItem(KeyChain.Columns.Email, settingEmailColumn);
-            }
-
-            this.setState({
-                emailColumn: storedEmailColumn ? storedEmailColumn : settingEmailColumn
-            })
-        })
+        this.getSettings();
     }
 
     render() {
@@ -123,7 +121,7 @@ export class Integration extends React.Component {
                                         <div>API Agreement</div>
                                         <div className='text-muted'>Allows Ticket Booth to store users API key on a thirdparty database for board view integrations.</div>
                                     </Form.Label>
-                                    <Form.Check type='checkbox' label='I Accept' onClick={(e) => this.setAcceptTerms(e.target.value)} value={this.state.acceptedTerms}/>
+                                    <Form.Check type='checkbox' label='I Accept' onClick={(e) => this.setAcceptTerms(e.target.value)} checked={this.state.acceptedTerms}/>
                                 </div>
                                 <div className='setting-padding'>
                                     <Form.Label>
@@ -153,9 +151,9 @@ export class Integration extends React.Component {
                                             Choose the column that contains your client's email.
                                         </div>
                                     </Form.Label>
-                                    <Form.Control as='select'>
+                                    <Form.Control as='select' onChange={(e) => this.setEmailColumn(e)} >
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id} onClick={() => this.setEmailColumn(i)} selected={this.state.emailColumn == column.id}>
+                                            <option id={column.id}  selected={this.state.emailColumn == column.id}>
                                                 {column.title}
                                             </option>
                                         )}

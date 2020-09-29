@@ -41,7 +41,8 @@ export class Fields extends React.Component {
             const storedIDColumn =  allPromises[0].data ? allPromises[0].data.value : '' ;
             const storedStatusColumn = allPromises[1].data ? allPromises[1].data.value : '';
             const storedSubtitleColumn = allPromises[2].data ? allPromises[2].data.value : '';
-            const storedDetails = allPromises[3].data ? (allPromises[3].data.value ?? []) : [];
+            const storedDetails = allPromises[3].data ? (allPromises[3].data.value.split(',') ?? []) : [];
+
             this.setState({
                 idColumn: storedIDColumn,
                 statusColumn: storedStatusColumn,
@@ -51,22 +52,22 @@ export class Fields extends React.Component {
         })
     }
 
-    setIDColumn(value) {
-        const newId = this.props.columns[value].id;
+    setIDColumn(e) {
+        const newId = this.props.columns.find(c => c.title == e.target.value)?.id;
         this.setState({
             idColumn: newId
         })
         monday.storage.instance.setItem(KeyChain.Columns.ID, newId);
     }
-    setSubtitleColumn(value) {
-        const newSubtitle = this.props.columns[value].id;
+    setSubtitleColumn(e) {
+        const newSubtitle = this.props.columns.find(c => c.title == e.target.value)?.id;
         this.setState({
             subtitleColumn: newSubtitle
         })
         monday.storage.instance.setItem(KeyChain.Columns.Subtitle, newSubtitle);
     }
-    setStatusColumn(value) {
-        const newStatus = this.props.columns[value].id;
+    setStatusColumn(e) {
+        const newStatus = this.props.columns.find(c => c.title == e.target.value)?.id;
         this.setState({
             statusColumn: newStatus
         })
@@ -83,8 +84,6 @@ export class Fields extends React.Component {
         } else {
             temp.push(targetId);
         }
-        console.log("__DEV detail toggle output");
-        console.log(temp);
 
         this.setState({details: temp});
         monday.storage.instance.setItem(KeyChain.Columns.Details, temp);
@@ -114,9 +113,9 @@ export class Fields extends React.Component {
                                             Choose a column that uniquely identifies each ticket.
                                         </div>
                                     </Form.Label>
-                                    <Form.Control as='select' placeholder='Select a Column' >
+                                    <Form.Control as='select' placeholder='Select a Column' onChange={(e) => this.setIDColumn(e)}>
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id} onClick={() => this.setIDColumn(i)} selected={this.state.idColumn == column.id}>{column.title}</option>
+                                            <option id={column.id}  selected={this.state.idColumn == column.id}>{column.title}</option>
                                         )}
                                     </Form.Control>
                                 </div>
@@ -133,9 +132,9 @@ export class Fields extends React.Component {
                                             Choose any column to display under each ticket name.
                                         </div>
                                     </Form.Label>
-                                    <Form.Control as='select'>
+                                    <Form.Control as='select' onChange={(e) => this.setSubtitleColumn(e)}>
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id} onClick={() => this.setSubtitleColumn(i)} selected={this.state.subtitleColumn == column.id}>{column.title}</option>
+                                            <option id={column.id}  selected={this.state.subtitleColumn == column.id}>{column.title}</option>
                                         )}
                                     </Form.Control>
                             </Form.Group>
@@ -149,9 +148,9 @@ export class Fields extends React.Component {
                                         Choose a status column to display on your tickets.
                                     </div>
                                 </Form.Label>
-                                <Form.Control as='select'>
+                                <Form.Control as='select' onChange={(e) => this.setStatusColumn(e)}>
                                     {this.props.columns.map((column, i) => 
-                                        <option id={column.id} onClick={() => this.setStatusColumn(i)} selected={this.state.statusColumn == column.id}>{column.title}</option>
+                                        <option id={column.id}  selected={this.state.statusColumn == column.id}>{column.title}</option>
                                     )}
                                 </Form.Control>
                             </Form.Group>
