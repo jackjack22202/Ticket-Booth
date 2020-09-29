@@ -86,14 +86,14 @@ a > img {
   color: grey;
 }
 .setting-wrapper {
-  margin: 1rem;
-  padding: 1rem;
   border: 2px solid lightgrey;
   border-radius: 1rem;
 
-  width:  100%;
 }
-
+.setting-padding {
+  margin: 1rem;
+  padding: 1rem;
+}
 
 // Utility classes
 .flex {

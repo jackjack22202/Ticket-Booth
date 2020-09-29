@@ -10,6 +10,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
+import { KeyChain } from './settings/KeyChain';
 import ticketBooth from "../images/TicketBooth.gif";
 
 const monday = mondaySdk();
@@ -23,6 +24,7 @@ class Tickets extends React.Component {
 
     // Default state
     this.state = {
+      primaryColor: '',
       loading: true,
       settings: {},
       name: "",
@@ -46,8 +48,14 @@ class Tickets extends React.Component {
       this.setState({
         context: res.data
       });
-      monday.get("settings").then(settings => {
+      Promise.all([
+        monday.storage.instance.getItem(KeyChain.Colors.Primary),
+        monday.get("settings")
+        ]).then(allResponses => {
+        const settings = allResponses[1];
+
         this.setState({
+          primaryColor: allResponses[0].data ? allResponses[0].data.value : '',
           id_column_key: (settings.data.id_column) ? (Object.keys(settings.data.id_column)[0]) : '',
           status_column_key: (settings.data.status_column) ? (Object.keys(settings.data.status_column)[0]) : '',
           subheading_column_key: (settings.data.subheading_column) ? (Object.keys(settings.data.subheading_column)[0]) : '',
@@ -136,7 +144,7 @@ class Tickets extends React.Component {
                           <Container>
                           <Row className="align-items-center">
                             <Link to={{pathname: `/details/${item.id}`, data: {ticket: item, settings: {subheading_column_key: subheading_column_key, client_email_column_key: client_email_column_key}}}}>
-                            <button className="btn btn-primary" style={{margin:"8px"}}>View</button>
+                            <button className="btn btn-primary" style={{margin:"8px", backgroundColor: this.state.primaryColor, borderColor: this.state.primaryColor}}>View</button>
                             </Link>
                           </Row>
                           <Row className="align-items-center">
