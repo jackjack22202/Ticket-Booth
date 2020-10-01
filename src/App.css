@@ -67,8 +67,8 @@ button:disabled {
 }
 
 .status-box {
-  height: 34px;
-  width: 75%;
+  height: 36px;
+  max-width: 140px;
   background-color: #c4c4c4;
   color: #fff;
   text-align: center;

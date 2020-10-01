@@ -102,8 +102,8 @@ class Tickets extends React.Component {
           <Container fluid>
             <Row className="text-muted align-items-center">
             <Col sm={1} md={1} lg={1}><p><small style={{textAlign:"center"}}><strong>Creator</strong></small></p></Col>
-            <Col sm={4} md={4} lg={4}><p><small style={{textAlign:"center"}}><strong></strong></small></p></Col>
-            <Col sm={3} md={3} lg={3}><p style={{textAlign:"center", width:"60%"}}><small><strong>Status</strong></small></p></Col>
+            <Col sm={3} md={3} lg={3}><p><small style={{textAlign:"center"}}><strong></strong></small></p></Col>
+            <Col sm={2} md={2} lg={2}><p style={{textAlign:"center", width:"60%"}}><small><strong>Status</strong></small></p></Col>
             <Col sm={2} md={2} lg={2}><p><small style={{textAlign:"center"}}><strong>Created at</strong></small></p></Col>
             <Col sm={2} md={2} lg={2}><p><small style={{textAlign:"center"}}><strong></strong></small></p></Col>
             </Row>
@@ -117,7 +117,7 @@ class Tickets extends React.Component {
                         <Col sm={1} md={1} lg={1}>
                           <Image src={item?.creator?.photo_thumb_small} roundedCircle fluid style={{marginRight:"8px"}}/>
                         </Col>
-                        <Col sm={4} md={4} lg={4}>
+                        <Col sm={3} md={3} lg={3}>
                         <Container>
                         <Row>
                             <Card.Title>
@@ -132,7 +132,7 @@ class Tickets extends React.Component {
                         </Container>
                           
                         </Col>
-                        <Col sm={3} md={3} lg={3}>
+                        <Col sm={2} md={2} lg={2}>
                           <div className="status-box" style={{backgroundColor: (JSON.parse(item.column_values.find(x => x.id === status_column_key)?.additional_info)?.color) || '' }}>
                             {(item.column_values.find(x => x.id === status_column_key)?.text) || 'Status N/A'}
                           </div>
@@ -141,19 +141,12 @@ class Tickets extends React.Component {
                           {this.dateHandler(item.created_at)}
                         </Col>
                         <Col sm={2} md={2} lg={2}>
-                          <Container>
-                          <Row className="align-items-center">
                             <Link to={{pathname: `/details/${item.id}`, data: {ticket: item, settings: {subheading_column_key: subheading_column_key, client_email_column_key: client_email_column_key}}}}>
                             <button className="btn btn-primary" style={{margin:"8px", backgroundColor: this.state.primaryColor, borderColor: this.state.primaryColor}}>View</button>
                             </Link>
-                          </Row>
-                          <Row className="align-items-center">
-                            <p style={{color:"lightgrey",}}>
-                              ID#: {(item.column_values.find(x => x.id === id_column_key)?.text) || ''}
-                            </p>
-                          </Row>
-
-                          </Container>
+                        </Col>
+                        <Col sm={2} md={2} lg={2} style={{color:"lightgray"}}>
+                          ID#: {(item.column_values.find(x => x.id === id_column_key)?.text) || ''}
                         </Col>
                       </Row>
                   </Container>
