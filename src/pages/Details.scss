@@ -54,7 +54,7 @@ body {
   @media (orientation: landscape) {
     &.open { width: calc(1% * var(--landscape-width)); }
   }
-  .icon { position: absolute; z-index: 10;
+  .icon { position: absolute; z-index: 10; margin-top: -16px;
     width: var(--header-height); height: var(--header-height);
     line-height: var(--header-height); font-size: var(--header-height);
     text-align: center; user-select: none; cursor: pointer;
@@ -74,13 +74,13 @@ body {
 }
 
 #rightbar {
-  height: 22rem;
-  border-radius: 12px;
-  margin: 12px;
-  box-shadow: 0px 0px 9px 3px rgba(200,200,200,0.5);
+  height: 100vh;
+  border: none;
+  border-left: 1px solid rgba(0,0,0,.125);
+  margin-left: 8px;
 }
 
-#rightcard {
+#rightcardheading {
   margin: 24px 12px 12px 12px;
   border: none;
   border-bottom: 1px solid lightgray; 

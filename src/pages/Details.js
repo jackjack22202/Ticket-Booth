@@ -269,7 +269,7 @@ class Details extends React.Component {
             <Card id="rightbar">
               <div className='header'>
                 <h5 className={` title ${'right-' + rightOpen}`}>
-                  <Card id="rightcard">
+                  <Card id="rightcardheading">
                       Ticket Details
                   </Card>
                 </h5>
