@@ -3,6 +3,7 @@ import React from "react";
 import { Link } from 'react-router-dom';
 import mondaySdk from "monday-sdk-js";
 
+import Nav from 'react-bootstrap/Nav';
 import Card from 'react-bootstrap/Card';
 import Image from 'react-bootstrap/Image';
 
@@ -29,6 +30,8 @@ class Tickets extends React.Component {
       settings: {},
       name: "",
       tickets: [],
+      selected_group: "",
+      groups: []
     };
   }
 
@@ -61,16 +64,18 @@ class Tickets extends React.Component {
           subheading_column_key: (settings.data.subheading_column) ? (Object.keys(settings.data.subheading_column)[0]) : '',
           client_email_column_key: (settings.data.client_email_column) ? (Object.keys(settings.data.client_email_column)[0]) : '',
         })
-        monday.api(`query ($boardIds: [Int]) { boards (ids:$boardIds) { name items() { id name created_at creator { photo_thumb_small } column_values { id title text additional_info } } } }`, {
+        monday.api(`{ boards(ids: [695892754]) { name groups { title id } items { id name group { id } created_at creator { photo_thumb_small } column_values { id title text additional_info } } } } `, {
             variables: {
                 boardIds: this.state.context.boardIds
             }
         }).then(res => {
             this.setState({
                 tickets: res.data.boards[0].items,
+                groups: res.data.boards[0].groups,
+                selected_group: res.data.boards[0].groups[0].id,
                 loading: false
             });
-        });
+        });;
       });
     })
   }
@@ -88,17 +93,28 @@ class Tickets extends React.Component {
     const status_column_key = this.state.status_column_key;
     const id_column_key = this.state.id_column_key;
     const client_email_column_key = this.state.client_email_column_key;
-    
-    if (tickets.length) {
-      console.log(JSON.parse(tickets[0].column_values.find(x => x.id === status_column_key)?.additional_info).color);
-    }
+    const selected_group = this.state.selected_group;
+    const groups = this.state.groups;
+
+    const handleSelect = (eventKey) => {
+      this.setState({selected_group: eventKey});
+    };
 
     return (
       <>
         <LoadingMask loading={this.state.loading} indicator={TicketBoothLogo} style={{height:"100vh", width:"100%", display:(this.state.loading ? "block" : "none")}}>
         </LoadingMask>
-        <div>
-        <Card style={{marginLeft: "24px", marginRight: "24px", marginBottom: "-24px", marginTop: "12px", border:"none", display: (this.state.loading ? "none" : "block")}}>
+        <div style={{display: (this.state.loading ? "none" : "block")}}>
+        <Nav variant="pills" activeKey="1" onSelect={handleSelect}>
+          {groups.map((group) => (
+          <Nav.Item>
+          <Nav.Link eventKey={group.id}>
+            {group.title}
+          </Nav.Link>
+          </Nav.Item>
+          ))}
+        </Nav>
+        <Card style={{marginLeft: "24px", marginRight: "24px", marginBottom: "-24px", marginTop: "12px", border:"none"}}>
           <Container fluid>
             <Row className="text-muted align-items-center">
             <Col sm={1} md={1} lg={1}><p><small style={{textAlign:"center"}}><strong>Creator</strong></small></p></Col>
@@ -109,7 +125,7 @@ class Tickets extends React.Component {
             </Row>
           </Container>
         </Card>
-          {tickets.map((item) => (
+          {tickets.filter(ticket => ticket.group.id === selected_group).map((item) => (
             <Card border="light" key={item.id} className="list-card">
               <Card.Body>
                   <Container fluid>
