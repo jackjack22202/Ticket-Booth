@@ -266,10 +266,10 @@ class Details extends React.Component {
           <div id='right' className={`${rightOpen}`}>
             <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>&equiv;</div>
             <div className={`sidebar ${rightOpen}`}>
-            <Card id="rightbar" style={{ borderRadius: "12px", margin: "12px", boxShadow:"0px 0px 9px 3px rgba(200,200,200,0.5)"}} >
+            <Card id="rightbar">
               <div className='header'>
                 <h5 className={` title ${'right-' + rightOpen}`}>
-                  <Card style={{marginLeft: "12px", marginRight: "12px", marginBottom: "12px", marginTop: "24px", border:"none", borderBottom: "1px solid lightgray", paddingBottom: "24px", textAlign: "center"}}>
+                  <Card id="rightcard">
                       Ticket Details
                   </Card>
                 </h5>
