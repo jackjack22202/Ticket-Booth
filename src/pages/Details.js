@@ -220,7 +220,7 @@ class Details extends React.Component {
               <div className='content'>
                 <LoadingMask loading={this.state.outerLoading} text={"loading..."}  style={{height:"100%", width:"100%", display:(this.state.outerLoading ? "block" : "none")}}/>
                 {updates?.map((update) => (
-                  <Card style={{marginBottom:"16px", marginRight: "0px", marginLeft: "8px", borderTopWidth:"2px", borderTopStyle:"solid", borderTopColor:((update?.body.includes("[Client]")? "#7854cc" : "red"))}} key={update.id}>
+                  <Card id="updatecard" style={{borderTopColor:((update?.body.includes("[Client]") ? "#7854cc" : (update?.body.includes("[Internal]")) ? "red" : "none" ))}} key={update.id}>
                   <Card.Body>
                       <Container fluid>
                           <Row className="align-items-center">
