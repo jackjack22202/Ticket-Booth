@@ -55,21 +55,21 @@ export class Fields extends React.Component {
     }
 
     setIDColumn(e) {
-        const newId = this.props.columns.find(c => c.title == e.target.value)?.id;
+        const newId = this.props.columns.find(c => c.title === e.target.value)?.id;
         this.setState({
             idColumn: newId
         })
         monday.storage.instance.setItem(KeyChain.Columns.ID, newId);
     }
     setSubtitleColumn(e) {
-        const newSubtitle = this.props.columns.find(c => c.title == e.target.value)?.id;
+        const newSubtitle = this.props.columns.find(c => c.title === e.target.value)?.id;
         this.setState({
             subtitleColumn: newSubtitle
         })
         monday.storage.instance.setItem(KeyChain.Columns.Subtitle, newSubtitle);
     }
     setStatusColumn(e) {
-        const newStatus = this.props.columns.find(c => c.title == e.target.value)?.id;
+        const newStatus = this.props.columns.find(c => c.title === e.target.value)?.id;
         this.setState({
             statusColumn: newStatus
         })
@@ -117,7 +117,7 @@ export class Fields extends React.Component {
                                     </Form.Label>
                                     <Form.Control as='select' placeholder='Select a Column' onChange={(e) => this.setIDColumn(e)}>
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id}  selected={this.state.idColumn == column.id}>{column.title}</option>
+                                            <option id={column.id}  selected={this.state.idColumn === column.id}>{column.title}</option>
                                         )}
                                     </Form.Control>
                                 </div>
@@ -136,7 +136,7 @@ export class Fields extends React.Component {
                                     </Form.Label>
                                     <Form.Control as='select' onChange={(e) => this.setSubtitleColumn(e)}>
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id}  selected={this.state.subtitleColumn == column.id}>{column.title}</option>
+                                            <option id={column.id}  selected={this.state.subtitleColumn === column.id}>{column.title}</option>
                                         )}
                                     </Form.Control>
                             </Form.Group>
@@ -152,7 +152,7 @@ export class Fields extends React.Component {
                                 </Form.Label>
                                 <Form.Control as='select' onChange={(e) => this.setStatusColumn(e)}>
                                     {this.props.columns.map((column, i) => 
-                                        <option id={column.id}  selected={this.state.statusColumn == column.id}>{column.title}</option>
+                                        <option id={column.id}  selected={this.state.statusColumn === column.id}>{column.title}</option>
                                     )}
                                 </Form.Control>
                             </Form.Group>

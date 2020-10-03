@@ -4,14 +4,6 @@ import underConstruction from "../images/underconstruction.png";
 
 class Announcements extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
-
-
-  componentDidMount() {
-  }
-
   render() {
     return (
       <>

@@ -80,13 +80,13 @@ class Details extends React.Component {
     if (settings?.details_fields == null) {
       parsedValues = ticketColumnValues;
     } else if ((settings?.details_fields).length > 0) {
-      var z = settings?.details_fields?.forEach(function(entry) {
-        const y = ticketColumnValues.find(z => z.id === entry) || null;
-        if (y) {
-          parsedValues.push(y);
+      let z = settings?.details_fields?.forEach(function(entry) {
+        const match = ticketColumnValues.find(column => column.id === entry) || null;
+        if (match) {
+          parsedValues.push(match);
         }
         return null;
-      })
+      });
       if(parsedValues.length > 0) {
         this.setState({field_values: parsedValues});
       }

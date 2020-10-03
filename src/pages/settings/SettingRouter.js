@@ -60,7 +60,7 @@ export default class SettingRouter extends React.Component {
                   <Nav.Link
                     eventKey={SettingViews.General}
                     onClick={() => this.setState({currentView: SettingViews.General})}
-                    className={this.state.currentView == SettingViews.General ? 'selected-view' : 'unselected-view'}
+                    className={this.state.currentView === SettingViews.General ? 'selected-view' : 'unselected-view'}
                   >
                     <img src={Settings2Icon} alt="General Settings" style={{height:"32px", width:"32px"}}/>
                     <span>General</span>
@@ -70,7 +70,7 @@ export default class SettingRouter extends React.Component {
                   <Nav.Link 
                     eventKey={SettingViews.Fields} 
                     onClick={() => this.setState({currentView: SettingViews.Fields})}
-                    className={this.state.currentView == SettingViews.Fields ? 'selected-view' : 'unselected-view'}
+                    className={this.state.currentView === SettingViews.Fields ? 'selected-view' : 'unselected-view'}
                   > 
                     <img src={ColumnIcon} alt="Field Settings" style={{height:"32px", width:"32px"}}/>
                     <span>Fields</span>
@@ -80,7 +80,7 @@ export default class SettingRouter extends React.Component {
                   <Nav.Link 
                     eventKey={SettingViews.Integration} 
                     onClick={() => this.setState({currentView: SettingViews.Integration})}
-                    className={this.state.currentView == SettingViews.Integration ? 'selected-view' : 'unselected-view'}
+                    className={this.state.currentView === SettingViews.Integration ? 'selected-view' : 'unselected-view'}
                   >
                     <img src={ItegrationIcon} alt="Integration Settings" style={{height:"32px", width:"32px"}}/>
                     <span>Integrations</span>

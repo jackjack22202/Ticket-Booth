@@ -1,6 +1,6 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Row, Form, Col, Container, Dropdown } from "react-bootstrap";
+import { Row, Form, Col, Container } from "react-bootstrap";
 //data
 import { KeyChain } from "./KeyChain";
 //styles
@@ -36,7 +36,7 @@ export class Integration extends React.Component {
             monday.storage.instance.getItem(KeyChain.AcceptedTerms),
             monday.storage.instance.getItem(KeyChain.Columns.Email)
         ]).then(allPromises => {
-            const storedAcceptedTerms = allPromises[0].data ? (allPromises[0].data.value == 'true') : false;
+            const storedAcceptedTerms = allPromises[0].data ? (allPromises[0].data.value === 'true') : false;
             const storedEmailColumn =  allPromises[1].data ? allPromises[1].data.value : '' ;
             
             this.setState({
@@ -55,7 +55,7 @@ export class Integration extends React.Component {
     }
 
     setEmailColumn(e) {
-        const newEmailColumn = this.props.columns.find(c => c.title == e.target.value)?.id;
+        const newEmailColumn = this.props.columns.find(c => c.title === e.target.value)?.id;
         this.setState({
             emailColumn: newEmailColumn
         });
@@ -155,7 +155,7 @@ export class Integration extends React.Component {
                                     </Form.Label>
                                     <Form.Control as='select' onChange={(e) => this.setEmailColumn(e)} >
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id}  selected={this.state.emailColumn == column.id}>
+                                            <option id={column.id}  selected={this.state.emailColumn === column.id}>
                                                 {column.title}
                                             </option>
                                         )}
