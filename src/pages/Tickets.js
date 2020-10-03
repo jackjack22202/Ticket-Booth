@@ -73,7 +73,7 @@ class Tickets extends React.Component {
             this.setState({
                 tickets: res.data.boards[0].items,
                 groups: res.data.boards[0].groups,
-                selected_group: res.data.boards[0].groups[0].id,
+                selected_group: res.data.boards[0].groups[0],
                 loading: false
             });
         });
@@ -95,7 +95,14 @@ class Tickets extends React.Component {
     const selected_group = this.state.selected_group;
     
     const handleSelect = (eventKey) => {
-      this.setState({selected_group: eventKey});
+      this.setState({selected_group: {
+        id: eventKey,
+        title: groups.find(
+          (x) =>
+            x.id ===
+            eventKey
+        )?.title
+      }});
     };
 
     return (
@@ -121,7 +128,7 @@ class Tickets extends React.Component {
                 <Col>
                   <Nav
                     variant='pills'
-                    activeKey={selected_group}
+                    activeKey={selected_group?.id}
                     onSelect={handleSelect}>
                     {groups.map((group) => (
                       <Nav.Item>
@@ -137,11 +144,11 @@ class Tickets extends React.Component {
                     {
                       tickets.filter(
                         (ticket) =>
-                          ticket.group.id === selected_group
+                          ticket.group.id === selected_group?.id
                       ).length
                     }
                   </strong>{' '}
-                  Tickets in <strong>{selected_group}</strong> Board Group
+                  Tickets in <strong>{selected_group?.title}</strong> Board Group
                 </Col>
               </Row>
             </Container>
@@ -196,7 +203,7 @@ class Tickets extends React.Component {
             </Container>
           </Card>
           {tickets
-            .filter((ticket) => ticket.group.id === selected_group)
+            .filter((ticket) => ticket.group.id === selected_group?.id)
             .map((item) => (
               <Card border='light' key={item.id} className='list-card'>
                 <Card.Body>

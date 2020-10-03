@@ -20,14 +20,12 @@ class Details extends React.Component {
     super(props);
     this.state = {
         ticket_data: this.props.location.data?.ticket,
-        subheading_column_key: this.props.location.data?.settings.subheading_column_key,
-        client_email_column_key: this.props.location.data?.settings.client_email_column_key,
+        settings: this.props.location.data?.settings,
         updates: [],
         client_emails: null,
         ticket_address: null,
         username: null,
         user_email: null,
-        settings: null,
         slug: null,
         field_values: [],
         fields_selected: [],
@@ -41,11 +39,6 @@ class Details extends React.Component {
   }
 
   componentDidMount() {
-    // TODO: set up event listeners
-    monday.listen("settings", data => {  
-      this.setState({settings: data});
-      this.parseSidebarSettings();
-    })
     monday.listen("context", res => {
       this.setState({context: res.data});
       monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
@@ -53,7 +46,7 @@ class Details extends React.Component {
         this.setState({
             ticket_data: res.data.items[0],
             updates: res.data.items[0].updates, 
-            client_emails: res.data.items[0].column_values.find(x => x.id === this.state.client_email_column_key)?.text, 
+            client_emails: res.data.items[0].column_values.find(x => x.id === this.state.settings.client_email_column_key)?.text, 
             ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
             username: res.data.me.name, 
             user_email: res.data.me.email,
@@ -71,49 +64,44 @@ class Details extends React.Component {
         this.setState({
             ticket_data: res.data.items[0],
             updates: res.data.items[0].updates, 
-            client_emails: res.data.items[0].column_values.find(x => x.id === this.state.client_email_column_key)?.text, 
+            client_emails: res.data.items[0].column_values.find(x => x.id === this.state.settings.client_email_column_key)?.text, 
             ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
             username: res.data.me.name, 
             user_email: res.data.me.email,
             outerLoading: false,
             slug: res.data.me.account?.slug,
-
           });
           this.setState({updates: this.state.updates?.reverse()})
-          this.parseSidebarSettings();
       });
     })
   }
 
   parseSidebarSettings = function() {
     const settings = this.state.settings;
-    this.setState({field_values: [], fields_selected: []});
-      if (settings?.data?.details == null) {
-        this.setState({field_values: this.state.ticket_data.column_values});
-      } else if (settings?.data?.details?.all === true) {
-        this.setState({field_values: this.state.ticket_data.column_values});
-      } else if (Object.keys(settings?.data?.details).length > 0) {
-        delete settings?.data?.details.all;
+    const ticketColumnValues = this.state.ticket_data.column_values;
+    var parsedValues = [];
 
-        var x = [];
-        Object.entries(settings?.data?.details).map((entry) => {
-          if (entry[1] === true) {
-            const y = this.state.ticket_data.column_values.find(z => z.id === entry[0]) || null;
-            if (y) {
-              x.push(y);
-            }
-          }
-          return null;
-        });
-        if(x.length > 0) {
-          this.setState({field_values: x});
+    this.setState({field_values: [], fields_selected: []});
+
+    if (settings?.details_fields == null) {
+      parsedValues = ticketColumnValues;
+    } else if ((settings?.details_fields).length > 0) {
+      var z = settings?.details_fields.forEach(function(entry) {
+        const y = ticketColumnValues.find(z => z.id === entry) || null;
+        if (y) {
+          parsedValues.push(y);
         }
-      } else {
-        this.setState({field_values: this.state.ticket_data.column_values});
+        return null;
+      })
+      if(parsedValues.length > 0) {
+        this.setState({field_values: parsedValues});
       }
-      if (this.state.field_values.length === 0) {
-        this.setState({field_values: this.state.ticket_data.column_values});
-      }
+    } else {
+      this.setState({field_values: ticketColumnValues.column_values});
+    }
+    if (this.state.field_values.length === 0) {
+      this.setState({field_values: ticketColumnValues.column_values});
+    }
   }
 
 
@@ -189,9 +177,10 @@ class Details extends React.Component {
 
   render() {
     const ticket = this.state.ticket_data;
-    const subheading_column_key = this.state.subheading_column_key;
+    const subheading_column_key = this.state.settings?.subheading_column_key;
     const updates = this.state.updates;
     let rightOpen = this.state.rightOpen ? 'open' : 'closed';
+    
     return (
       <>
         <div id='layout'>
