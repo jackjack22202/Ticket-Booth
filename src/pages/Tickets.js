@@ -131,8 +131,8 @@ class Tickets extends React.Component {
                     activeKey={selected_group?.id}
                     onSelect={handleSelect}>
                     {groups.map((group) => (
-                      <Nav.Item>
-                        <Nav.Link eventKey={group.id}>
+                      <Nav.Item key={group.id}>
+                        <Nav.Link eventKey={group.id} key={group.id}>
                           {group.title}
                         </Nav.Link>
                       </Nav.Item>

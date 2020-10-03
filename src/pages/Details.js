@@ -41,7 +41,7 @@ class Details extends React.Component {
   componentDidMount() {
     monday.listen("context", res => {
       this.setState({context: res.data});
-      monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
+      monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
       .then(res => {
         this.setState({
             ticket_data: res.data.items[0],
@@ -86,7 +86,7 @@ class Details extends React.Component {
     if (settings?.details_fields == null) {
       parsedValues = ticketColumnValues;
     } else if ((settings?.details_fields).length > 0) {
-      var z = settings?.details_fields.forEach(function(entry) {
+      var z = settings?.details_fields?.forEach(function(entry) {
         const y = ticketColumnValues.find(z => z.id === entry) || null;
         if (y) {
           parsedValues.push(y);
@@ -342,7 +342,7 @@ class Details extends React.Component {
                   <Card style={{ border: 'none' }}>
                     <Container fluid>
                       {this.state.field_values.map((item) => (
-                        <Row style={{ marginBottom: '8px' }}>
+                        <Row style={{ marginBottom: '8px' }} key={item.title}>
                           <Col>
                             <strong>{item.title}:</strong>
                           </Col>
