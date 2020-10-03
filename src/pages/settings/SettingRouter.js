@@ -21,7 +21,7 @@ export default class SettingRouter extends React.Component {
     this.state = { 
       columns: [],
       loading: true,
-      currentView: SettingViews.General
+      currentView: null
     };
   }
 
