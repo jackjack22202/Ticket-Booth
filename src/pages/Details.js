@@ -192,113 +192,200 @@ class Details extends React.Component {
     const subheading_column_key = this.state.subheading_column_key;
     const updates = this.state.updates;
     let rightOpen = this.state.rightOpen ? 'open' : 'closed';
-    return (<>
-      <div id='layout'>
+    return (
+      <>
+        <div id='layout'>
           <div id='main'>
-              <div className='header'>
-              <Card style={{marginLeft: "24px", marginRight: "24px", marginBottom: "12px", marginTop: "12px", border:"none", borderBottom: "1px solid lightgray", paddingBottom: "12px"}}>
+            <div className='header'>
+              <Card
+                style={{
+                  marginLeft: '24px',
+                  marginRight: '24px',
+                  marginBottom: '12px',
+                  marginTop: '12px',
+                  border: 'none',
+                  borderBottom: '1px solid lightgray',
+                  paddingBottom: '12px',
+                }}>
                 <Container fluid>
-                  <Row className="align-items-center">
-                  <Col sm={1} md={1} lg={1}>
-                  <Image src={ticket?.creator?.photo_thumb_small} roundedCircle fluid/>
-                  </Col>
-                  <Col sm={9} md={9} lg={9}>
-                    <Row>
-                    <h4>{ticket?.name}</h4>
-                    </Row>
-                    <Row className="text-muted">
-                    <small>{(ticket?.column_values.find(x => x.id === subheading_column_key)?.text) || ''}</small>
-                    </Row>
-                  </Col>
-                  <Col sm={2} md={2} lg={2}>
-                    <Link to="/tickets"><button className="btn btn-primary float-right" style={{margin:"36px"}}>Back</button>{' '}</Link>
-                  </Col>
+                  <Row className='align-items-center'>
+                    <Col sm={1} md={1} lg={1}>
+                      <Image
+                        src={ticket?.creator?.photo_thumb_small}
+                        roundedCircle
+                        fluid
+                      />
+                    </Col>
+                    <Col sm={9} md={9} lg={9}>
+                      <Row>
+                        <h4>{ticket?.name}</h4>
+                      </Row>
+                      <Row className='text-muted'>
+                        <small>
+                          {ticket?.column_values.find(
+                            (x) =>
+                              x.id === subheading_column_key
+                          )?.text || ''}
+                        </small>
+                      </Row>
+                    </Col>
+                    <Col sm={2} md={2} lg={2}>
+                      <Link to='/tickets'>
+                        <button
+                          className='btn btn-primary float-right'
+                          style={{ margin: '36px' }}>
+                          Back
+                        </button>{' '}
+                      </Link>
+                    </Col>
                   </Row>
                 </Container>
               </Card>
-              </div>
-              <div className='content'>
-                <LoadingMask loading={this.state.outerLoading} text={"loading..."}  style={{height:"100%", width:"100%", display:(this.state.outerLoading ? "block" : "none")}}/>
-                {updates?.map((update) => (
-                  <Card id="updatecard" style={{borderTopColor:((update?.body.includes("[Client]") ? "#7854cc" : (update?.body.includes("[Internal]")) ? "red" : "none" ))}} key={update.id}>
+            </div>
+            <div className='content'>
+              <LoadingMask
+                loading={this.state.outerLoading}
+                text={'loading...'}
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  display: this.state.outerLoading ? 'block' : 'none',
+                }}
+              />
+              {updates?.map((update) => (
+                <Card
+                  id='updatecard'
+                  style={{
+                    borderTopColor: update?.body.includes('[Client]')
+                      ? '#7854cc'
+                      : update?.body.includes('[Internal]')
+                      ? 'red'
+                      : 'none',
+                  }}
+                  key={update.id}>
                   <Card.Body>
-                      <Container fluid>
-                          <Row className="align-items-center">
-                            <Col sm={1} md={1} lg={1}>
-                            <Image src={update.creator.photo_thumb_small} roundedCircle fluid style={{marginRight:"8px"}}/>
-                            </Col>
-                            <Col>
-                            <Row>{update.creator.name}</Row>
-                            <Row className="text-muted">{this.dateHandler(update.created_at)}</Row>
-                            </Col>
+                    <Container fluid>
+                      <Row className='align-items-center'>
+                        <Col sm={1} md={1} lg={1}>
+                          <Image
+                            src={
+                              update.creator.photo_thumb_small
+                            }
+                            roundedCircle
+                            fluid
+                            style={{ marginRight: '8px' }}
+                          />
+                        </Col>
+                        <Col>
+                          <Row>{update.creator.name}</Row>
+                          <Row className='text-muted'>
+                            {this.dateHandler(
+                              update.created_at
+                            )}
                           </Row>
-                      </Container>
+                        </Col>
+                      </Row>
+                    </Container>
                   </Card.Body>
                   <Card.Body>
-                    <div dangerouslySetInnerHTML={{ __html: update.body }} />
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: update.body,
+                      }}
+                    />
                   </Card.Body>
-                </Card>        
-                ))}
-              </div>
-              <div className='footer'>
+                </Card>
+              ))}
+            </div>
+            <div className='footer'>
               <Container fluid>
                 <Row>
                   <Col>
-                    <Form style={{margin:"8px"}} key={ticket?.id} ref={this.form}>
-                      <Form.Group controlId="formBasicEmail">
-                        <Form.Control as="textarea" placeholder="Write an update..." ref={this.updateTextField}/>
+                    <Form
+                      style={{ margin: '8px' }}
+                      key={ticket?.id}
+                      ref={this.form}>
+                      <Form.Group controlId='formBasicEmail'>
+                        <Form.Control
+                          as='textarea'
+                          placeholder='Write an update...'
+                          ref={this.updateTextField}
+                        />
                       </Form.Group>
                     </Form>
                   </Col>
-                  </Row>
-                  <Row>
-                    <Col></Col>
-                  <Col sm="auto" md="auto" lg="auto">
-                  <button className="btn btn-primary" style={{margin:"8px"}} onClick={() => this.postUpdate("client")} disabled={this.state.updateLoading}>Email</button>
-                  <button className="btn btn-secondary" style={{margin:"8px"}} onClick={() => this.postUpdate("internal")} disabled={this.state.updateLoading}>Note</button>
+                </Row>
+                <Row>
+                  <Col></Col>
+                  <Col sm='auto' md='auto' lg='auto'>
+                    <button
+                      className='btn btn-primary'
+                      style={{ margin: '8px' }}
+                      onClick={() => this.postUpdate('client')}
+                      disabled={this.state.updateLoading}>
+                      Email
+                    </button>
+                    <button
+                      className='btn btn-secondary'
+                      style={{ margin: '8px' }}
+                      onClick={() => this.postUpdate('internal')}
+                      disabled={this.state.updateLoading}>
+                      Note
+                    </button>
                   </Col>
                 </Row>
               </Container>
-              </div>
-
+            </div>
           </div>
-
+      
           <div id='right' className={`${rightOpen}`}>
-            <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>&equiv;</div>
+            <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>
+              &equiv;
+            </div>
             <div className={`sidebar ${rightOpen}`}>
-            <Card id="rightbar">
-              <div className='header'>
-                <h5 className={` title ${'right-' + rightOpen}`}>
-                  <Card id="rightcardheading">
-                      Ticket Details
+              <Card id='rightbar'>
+                <div className='header'>
+                  <h5 className={` title ${'right-' + rightOpen}`}>
+                    <Card id='rightcardheading'>Ticket Details</Card>
+                  </h5>
+                </div>
+                <div className='sidebar-content'>
+                  <Card style={{ border: 'none' }}>
+                    <Container fluid>
+                      {this.state.field_values.map((item) => (
+                        <Row style={{ marginBottom: '8px' }}>
+                          <Col>
+                            <strong>{item.title}:</strong>
+                          </Col>
+                          <Col>{item.text}</Col>
+                        </Row>
+                      ))}
+                    </Container>
                   </Card>
-                </h5>
-              </div>
-              <div className='sidebar-content'>
-              <Card style={{border:"none"}}>
-                <Container fluid>
-                  {this.state.field_values.map((item) => (
-                    <Row style={{marginBottom:"8px"}}>
-                      <Col>
-                        <strong>{item.title}:</strong>
-                      </Col>
-                      <Col>
-                        {item.text}
-                      </Col>
+      
+                  <Card.Body>
+                    <Card
+                      style={{
+                        marginLeft: '-10px',
+                        marginRight: '-10px',
+                        paddingTop: '12px',
+                        border: 'none',
+                      }}>
+                      <p>
+                        <strong>Created At:</strong>{' '}
+                        {this.dateHandler(ticket?.created_at)}
+                      </p>
+                    </Card>
+                    <Row style={{ justifyContent: 'center' }}>
+                      <button
+                        className='btn btn-primary'
+                        style={{ margin: '16px' }}
+                        onClick={() => this.editDetails()}>
+                        Edit
+                      </button>
                     </Row>
-                  ))}
-                </Container>
-              </Card>
-
-              <Card.Body>
-                <Card style={{marginLeft: "-10px", marginRight: "-10px", paddingTop: "12px", border:"none"}}>
-                      <p><strong>Created At:</strong> {this.dateHandler(ticket?.created_at)}</p>
-                </Card>
-                <Row style={{justifyContent: 'center'}}>
-                  <button className="btn btn-primary" style={{margin:"16px"}} onClick={() => this.editDetails()}>Edit</button>
-                </Row>
-              </Card.Body>  
-              </div>
+                  </Card.Body>
+                </div>
               </Card>
             </div>
           </div>
