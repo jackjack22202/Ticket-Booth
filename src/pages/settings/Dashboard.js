@@ -1,5 +1,7 @@
-import React from "../../../node_modules/react";
+import React from "react";
 import { Row, Form, Col, Container, Dropdown } from "react-bootstrap";
+//styles
+import './Settings.scss';
 
 export class Dashboard extends React.Component {
     render() {

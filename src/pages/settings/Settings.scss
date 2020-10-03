@@ -1,0 +1,48 @@
+// Settings Styles
+.subtext {
+    color: grey;
+  }
+  .setting-wrapper {
+    border: 2px solid lightgrey;
+    border-radius: 1rem;
+  
+  }
+  .setting-padding {
+    margin: 1rem;
+    padding: 1rem;
+  }
+
+  .setting-area {
+      border: #007bff 2px solid;
+      border-radius: 5px;
+  }
+  
+  // Utility classes
+  .flex {
+    display: flex;
+  }
+  .bold {
+   font-weight: bold;
+   margin-bottom: 1rem;
+  }
+
+  .selected-view {
+    color: #007bff;
+    background-color: #C2DFFF;
+    border-radius: 1em;
+    &:focus{
+        outline: none;
+    }
+  }
+
+  .unselected-view {
+    color: black;
+    &:focus{
+        outline: none;
+    }
+  }
+
+ .nav-link {
+      margin-left: 1em;
+  }
+

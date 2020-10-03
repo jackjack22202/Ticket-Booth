@@ -1,8 +1,10 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Container, Dropdown, Row, Col, Form } from 'react-bootstrap';
+import { Container, Row, Col, Form } from 'react-bootstrap';
 //data
 import { KeyChain } from "./KeyChain";
+//styles
+import './Settings.scss';
 
 const monday = mondaySdk();
 

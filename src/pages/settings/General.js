@@ -1,10 +1,10 @@
 //basics
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-//controls
 import { Container, Row, Col, Form, ButtonToolbar, Button, ButtonGroup } from 'react-bootstrap';
-import { CirclePicker} from "react-color";
-
+import { CirclePicker } from "react-color";
+//styles
+import './Settings.scss';
 //data
 import { KeyChain } from "./KeyChain";
 
