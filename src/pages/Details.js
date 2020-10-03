@@ -1,16 +1,10 @@
-import LoadingMask from "react-loadingmask";
 import React from "react";
-import { Link } from 'react-router-dom';
 import mondaySdk from "monday-sdk-js";
-
-import Card from 'react-bootstrap/Card'
-import Form from 'react-bootstrap/Form'
-import Image from 'react-bootstrap/Image'
-
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
-
+//controls
+import LoadingMask from "react-loadingmask";
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Card, Form, Image } from 'react-bootstrap';
+//styles
 import './Details.scss';
 
 const monday = mondaySdk();
