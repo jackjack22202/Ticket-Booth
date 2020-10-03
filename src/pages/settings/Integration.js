@@ -113,7 +113,7 @@ export class Integration extends React.Component {
                         <Col md>
                             <Form.Group className='setting-padding'>
                                 <Form.Label>
-                                    <h3>Integration settings</h3>
+                                    <h3>Integration Settings</h3>
                                 </Form.Label>
                             </Form.Group>
                             <Form.Group className='setting-wrapper'>

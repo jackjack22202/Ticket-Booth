@@ -51,6 +51,7 @@ export default class SettingRouter extends React.Component {
   render() {
     return (
       <>
+        <h3 style={{padding: '0.5em', fontWeight: 'bold'}}>Settings</h3>
         <Tab.Container id="left-setting-tabs" default="general">
           <Row>
             <Col sm={3}>
