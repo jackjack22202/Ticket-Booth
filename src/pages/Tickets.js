@@ -25,42 +25,45 @@ class Tickets extends React.Component {
 
     // Default state
     this.state = {
-      primaryColor: null,
-      loading: true,
       settings: {},
-      name: null,
       tickets: [],
       groups: [],
-      selected_group: null
+      selected_group: null,
+      loading: true,
     };
   }
 
 
   componentDidMount() {
-    monday.listen("settings", settings => {
-      this.setState({
-        id_column_key: (settings.data.id_column) ? (Object.keys(settings.data.id_column)[0]) : '',
-        status_column_key: (settings.data.status_column) ? (Object.keys(settings.data.status_column)[0]) : '',
-        subheading_column_key: (settings.data.subheading_column) ? (Object.keys(settings.data.subheading_column)[0]) : '',
-        client_email_column_key: (settings.data.client_email_column) ? (Object.keys(settings.data.client_email_column)[0]) : '',
-      })
-    })
-
     monday.listen("context", res => {
       this.setState({
         context: res.data
       });
       Promise.all([
+        monday.storage.instance.getItem(KeyChain.Columns.ID), //0
+        monday.storage.instance.getItem(KeyChain.Columns.Status), //1
+        monday.storage.instance.getItem(KeyChain.Columns.Subtitle),  //2
+        monday.storage.instance.getItem(KeyChain.Columns.Details),
+        monday.storage.instance.getItem(KeyChain.Columns.Email),
         monday.storage.instance.getItem(KeyChain.Colors.Primary),
-        monday.get("settings")
+
         ]).then(allResponses => {
-        const settings = allResponses[1];
-        this.setState({
-          primaryColor: allResponses[0].data ? allResponses[0].data.value : '',
-          id_column_key: (settings.data.id_column) ? (Object.keys(settings.data.id_column)[0]) : '',
-          status_column_key: (settings.data.status_column) ? (Object.keys(settings.data.status_column)[0]) : '',
-          subheading_column_key: (settings.data.subheading_column) ? (Object.keys(settings.data.subheading_column)[0]) : '',
-          client_email_column_key: (settings.data.client_email_column) ? (Object.keys(settings.data.client_email_column)[0]) : '',
+        const storedIDColumn =  allResponses[0].data ? allResponses[0].data.value : '' ;
+        const storedStatusColumn = allResponses[1].data ? allResponses[1].data.value : '';
+        const storedSubtitleColumn = allResponses[2].data ? allResponses[2].data.value : '';
+        const storedDetails = allResponses[3].data ? (allResponses[3].data.value.split(',') ?? []) : [];
+        const storedEmail = allResponses[4].data ? allResponses[4].data.value : '';
+        const storedColor = allResponses[5].data ? allResponses[5].data.value : '';
+
+        this.setState({ 
+          settings : {
+            primaryColor: storedColor,
+            id_column_key: storedIDColumn,
+            status_column_key: storedStatusColumn,
+            subheading_column_key: storedSubtitleColumn,
+            client_email_column_key: storedEmail,
+            details_fields: storedDetails,
+          }
         })
         monday.api(`query ($boardIds: [Int]) { boards (ids:$boardIds) { name groups { title id } items { id name group { id } created_at creator { photo_thumb_small } column_values { id title text additional_info } } } }`, {
             variables: {
@@ -86,14 +89,11 @@ class Tickets extends React.Component {
   }
 
   render() {
+    const settings = this.state.settings
     const tickets = this.state.tickets;
-    const subheading_column_key = this.state.subheading_column_key;
-    const status_column_key = this.state.status_column_key;
-    const id_column_key = this.state.id_column_key;
-    const client_email_column_key = this.state.client_email_column_key;
-    const selected_group = this.state.selected_group;
     const groups = this.state.groups;
-
+    const selected_group = this.state.selected_group;
+    
     const handleSelect = (eventKey) => {
       this.setState({selected_group: eventKey});
     };
@@ -220,7 +220,7 @@ class Tickets extends React.Component {
                               {item.column_values.find(
                                 (x) =>
                                   x.id ===
-                                  subheading_column_key
+                                  settings.subheading_column_key
                               )?.text || ''}
                             </Card.Subtitle>
                           </Row>
@@ -235,12 +235,12 @@ class Tickets extends React.Component {
                                 item.column_values.find(
                                   (x) =>
                                     x.id ===
-                                    status_column_key
+                                    settings.status_column_key
                                 )?.additional_info
                               )?.color || '',
                           }}>
                           {item.column_values.find(
-                            (x) => x.id === status_column_key
+                            (x) => x.id === settings.status_column_key
                           )?.text || 'Status N/A'}
                         </div>
                       </Col>
@@ -253,19 +253,16 @@ class Tickets extends React.Component {
                             pathname: `/details/${item.id}`,
                             data: {
                               ticket: item,
-                              settings: {
-                                subheading_column_key: subheading_column_key,
-                                client_email_column_key: client_email_column_key,
-                              },
+                              settings: settings
                             },
                           }}>
                           <button
                             className='btn btn-primary'
                             style={{
                               margin: '8px',
-                              backgroundColor: this.state
+                              backgroundColor: settings
                                 .primaryColor,
-                              borderColor: this.state
+                              borderColor: settings
                                 .primaryColor,
                             }}>
                             View
@@ -279,7 +276,7 @@ class Tickets extends React.Component {
                         style={{ color: 'lightgray' }}>
                         ID#:{' '}
                         {item.column_values.find(
-                          (x) => x.id === id_column_key
+                          (x) => x.id === settings.id_column_key
                         )?.text || ''}
                       </Col>
                     </Row>
