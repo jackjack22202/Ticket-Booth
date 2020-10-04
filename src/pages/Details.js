@@ -153,6 +153,18 @@ class Details extends React.Component {
         };
 
         fetch("https://api.carbonweb.co/send", requestOptions)
+        .then(response => response.json())
+        .then(json => {
+          if (!json.tokenCheck.data.token) {
+            monday.execute("confirm", {
+              message: "Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.", 
+              confirmButton: "Understood!", 
+              excludeCancelButton: true
+            }).then((res) => {
+              // {"confirm": true}
+            });
+          }
+        })
       } else {
         monday.execute("confirm", {
           message: "Client Emails not found. Make sure you have selected a column in this app's settings.", 
