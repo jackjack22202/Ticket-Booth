@@ -7,6 +7,7 @@
   z-index: 1006;
   min-width: 64px;
   background: #fff;
+  border-right: 1px solid #afafaf;
   -webkit-transition: min-width 0.2s;
   -moz-transition: min-width 0.2s;
   -o-transition: min-width 0.2s;
@@ -174,6 +175,7 @@
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T {
   cursor: default;
+  
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-:hover > .sidenav---navitem---9uL5T::after {
   background: #fff;
@@ -183,21 +185,23 @@
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T::after,
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u > .sidenav---navitem---9uL5T::after {
-  background: #000;
-  opacity: 0.2;
+  background: #fff;
+  opacity: 1;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
-  filter: alpha(opacity=20);
+  border-right: 2px solid #0085ff;
+  top: 25%;
+  bottom: 25%;
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u.sidenav---expanded---1KdUL > .sidenav---navitem---9uL5T::after,
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u.sidenav---expanded---1KdUL > .sidenav---navitem---9uL5T::after {
-  background: #000;
+  background: #fff;
   opacity: 0.25;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=25)";
   filter: alpha(opacity=25);
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u.sidenav---selected---1EK3y.sidenav---expanded---1KdUL > .sidenav---navitem---9uL5T::after,
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ-:hover.sidenav---highlighted---oUx9u.sidenav---selected---1EK3y.sidenav---expanded---1KdUL > .sidenav---navitem---9uL5T::after {
-  background: #000;
+  background: #fff;
   opacity: 0.2;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=20)";
   filter: alpha(opacity=20);
@@ -227,7 +231,7 @@
   height: 75px;
   white-space: nowrap;
   text-decoration: none;
-  color: #6d757d;
+  color: #fff;
   font-size: 14px;
   cursor: pointer;
 }

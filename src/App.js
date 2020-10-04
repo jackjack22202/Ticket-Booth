@@ -4,8 +4,8 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 
 // Import Stylesheets
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
-import "react-loadingmask/dist/react-loadingmask.css";
+import './custom_styles/react-sidenav.css';
+import './custom_styles/react-loadingmask.css';
 import "./App.css";
 
 // Import Pages
