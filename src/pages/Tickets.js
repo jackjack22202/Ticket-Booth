@@ -52,7 +52,7 @@ class Tickets extends React.Component {
         const storedIDColumn =  allResponses[0].data ? allResponses[0].data.value : '' ;
         const storedStatusColumn = allResponses[1].data ? allResponses[1].data.value : '';
         const storedSubtitleColumn = allResponses[2].data ? allResponses[2].data.value : '';
-        const storedDetails = allResponses[3].data ? (allResponses[3].data.value.split(',') ?? []) : [];
+        const storedDetails = allResponses[3].data ? (allResponses[3].data.value?.split(',') ?? []) : [];
         const storedEmail = allResponses[4].data ? allResponses[4].data.value : '';
         const storedColor = allResponses[5].data ? allResponses[5].data.value : '';
 
@@ -325,7 +325,7 @@ class Tickets extends React.Component {
                                                             (x) =>
                                                                 x.id ===
                                                                 settings.status_column_key
-                                                        )?.additional_info
+                                                        )?.additional_info || '""'
                                                     )?.color || '',
                                             }}>
                                             {item.column_values.find(

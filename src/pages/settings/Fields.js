@@ -43,7 +43,7 @@ export class Fields extends React.Component {
             const storedIDColumn =  allPromises[0].data ? allPromises[0].data.value : '' ;
             const storedStatusColumn = allPromises[1].data ? allPromises[1].data.value : '';
             const storedSubtitleColumn = allPromises[2].data ? allPromises[2].data.value : '';
-            const storedDetails = allPromises[3].data ? (allPromises[3].data.value.split(',') ?? []) : [];
+            const storedDetails = allPromises[3].data ? (allPromises[3].data.value?.split(',') ?? []) : [];
 
             this.setState({
                 idColumn: storedIDColumn,
