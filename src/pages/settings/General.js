@@ -41,8 +41,8 @@ export class General extends React.Component {
       //const perPage = res[2];
 
       this.setState({
-        primary: primary.data ? primary.data.value : 'grey',
-        secondary: secondary.data ? secondary.data.value : 'grey',
+        primary: primary.data.value ? primary.data.value : 'grey',
+        secondary: secondary.data.value ? secondary.data.value : 'grey',
         //ticketsPerPage: res.data ? res.data.value : 20,
       })
     })
