@@ -6,9 +6,9 @@ import { General as GeneralSettings } from './General';
 import { Fields as FieldsSettings } from './Fields';
 import { Integration as IntegrationSettings } from './Integration';
 
-import Settings2Icon from '../../images/nav-icons/Icons_Misc_Settings2.svg';
-import ColumnIcon from '../../images/nav-icons/Icons_Misc_column.svg';
-import ItegrationIcon from '../../images/nav-icons/Icons_Misc_Integrations.svg';
+import Settings2Icon from '../../library/images/nav-icons/Icons_Misc_Settings2.svg';
+import ColumnIcon from '../../library/images/nav-icons/Icons_Misc_column.svg';
+import ItegrationIcon from '../../library/images/nav-icons/Icons_Misc_Integrations.svg';
 //styles
 import './Settings.scss';
 

@@ -2,10 +2,13 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import mondaySdk from "monday-sdk-js";
+import { KeyChain } from './pages/settings/KeyChain';
+import { Messages } from './library/Messages';
 
 // Import Stylesheets
-import './custom_styles/react-sidenav.css';
-import './custom_styles/react-loadingmask.css';
+import './library/custom_styles/react-sidenav.css';
+import './library/custom_styles/react-loadingmask.css';
 import "./App.css";
 
 // Import Pages
@@ -16,12 +19,53 @@ import SettingRouter from './pages/settings/SettingRouter';
 import Announcements from './pages/Announcements';
 
 // Import Icon Images for Side Nav
-import DashboardIcon from "./images/nav-icons/Icons_Misc_activity.svg";
-import TicketsIcon from "./images/nav-icons/Icons_Misc_item.svg";
-import SettingsIcon from "./images/nav-icons/Icons_Misc_Settings.svg";
-import AnnouncementsIcon from "./images/nav-icons/Icons_Misc_Megaphone.svg";
+import DashboardIcon from "./library/images/nav-icons/Icons_Misc_activity.svg";
+import TicketsIcon from "./library/images/nav-icons/Icons_Misc_item.svg";
+import SettingsIcon from "./library/images/nav-icons/Icons_Misc_Settings.svg";
+import AnnouncementsIcon from "./library/images/nav-icons/Icons_Misc_Megaphone.svg";
 
-function App() {
+const monday = mondaySdk();
+
+export default class App extends React.Component {
+
+    constructor() {
+      super();
+      this.state = { 
+        first_launch: "true" // String type to comply with monday.storage()
+      };
+    }
+  
+    componentDidMount() {
+        Promise.all([
+            monday.storage.instance.getItem(KeyChain.FirstLaunch), //0
+
+        ]).then(allResponses => {
+            console.log(allResponses);
+            const firstLaunch =  allResponses[0].data?.value ? allResponses[0].data.value : "true" ;
+
+            this.setState({ 
+                first_launch: firstLaunch
+            }, () => {
+                if (this.state.first_launch === "true") {
+                    monday.execute("confirm", {
+                        message: Messages.firstLaunch, 
+                        confirmButton: "Acknowledge!", 
+                        cancelButton: "Remind Me Later"
+                      }).then((res) => {
+                          if (res.data.confirm) {
+                            // Acknowledged welcome
+                            monday.storage.instance.setItem(KeyChain.FirstLaunch, "false");
+                          } else {
+                            // Remind Me Later
+                            monday.storage.instance.setItem(KeyChain.FirstLaunch, "true");
+                          }
+                    })
+                }
+            })
+        })
+    }
+
+render() {
   return (
     <>
       <Router>
@@ -89,5 +133,4 @@ function App() {
     </>
   )
 }
-
-export default App;
+}

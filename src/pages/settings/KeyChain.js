@@ -14,5 +14,5 @@ export const KeyChain = {
     },
     PerPage: 'per_page',
     AcceptedTerms: 'accepted_terms',
-    
+    FirstLaunch: 'first_launch'
 }

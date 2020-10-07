@@ -1,7 +1,7 @@
 import LoadingMask from "react-loadingmask";
 import React from "react";
 
-import ticketBooth from "../images/TicketBooth.gif";
+import ticketBooth from "../library/images/TicketBooth.gif";
 
 const TicketBoothLogo = <img src={ticketBooth} alt="Ticket Booth Logo"/>
 

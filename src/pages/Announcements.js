@@ -1,5 +1,5 @@
 import React from "react";
-import underConstruction from "../images/underconstruction.png";
+import underConstruction from "../library/images/underconstruction.png";
 
 
 class Announcements extends React.Component {

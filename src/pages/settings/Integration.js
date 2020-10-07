@@ -73,7 +73,7 @@ export class Integration extends React.Component {
         this.setState({updateLoading: true});
         var token = this.tokenField?.current?.value;
         if (token) {
-            this.form.current.reset();
+            // this.form.current.reset();
             
             var raw = JSON.stringify({
               slug: this.state.slug, 

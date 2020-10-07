@@ -7,7 +7,7 @@ import { Nav, Card, Image, Container, Row, Col } from 'react-bootstrap';
 import Pagination from "react-js-pagination";
 
 import { KeyChain } from './settings/KeyChain';
-import ticketBooth from "../images/TicketBooth.gif";
+import ticketBooth from "../library/images/TicketBooth.gif";
 
 const monday = mondaySdk();
 const TicketBoothLogo = <img src={ticketBooth} alt="Ticket Booth Logo"/>
