@@ -347,7 +347,7 @@ class Details extends React.Component {
                 <div className='sidebar-content'>
                   <Card style={{ border: 'none' }}>
                     <Container fluid>
-                      {this.state.field_values.map((item) => (
+                      {this.state.field_values?.map((item) => (
                         <Row style={{ marginBottom: '8px' }} key={item.title}>
                           <Col>
                             <strong>{item.title}:</strong>
