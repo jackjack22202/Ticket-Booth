@@ -14,5 +14,6 @@ export const KeyChain = {
     },
     PerPage: 'per_page',
     AcceptedTerms: 'accepted_terms',
+    EmailFooter: 'email_footer',
     FirstLaunch: 'first_launch'
 }

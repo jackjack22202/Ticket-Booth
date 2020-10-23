@@ -1,12 +1,52 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
 import { Row, Form, Col, Container } from "react-bootstrap";
+import CKEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+import { GrAttachment, GrEmoji } from "react-icons/gr";
+
 //data
 import { KeyChain } from "./KeyChain";
 //styles
 import './Settings.scss';
 
 const monday = mondaySdk();
+
+const editorConfiguration = {
+    toolbar: {
+      items: [
+        'underline',
+        'bold',
+        'italic',
+        'link',
+        'bulletedList',
+        'numberedList',
+        'blockQuote',
+        'insertTable',
+        'undo',
+        'redo',
+        'alignment'
+      ]
+    },
+    language: 'en',
+    image: {
+      toolbar: [
+        'imageTextAlternative',
+        'imageStyle:full',
+        'imageStyle:side'
+      ]
+    },
+    table: {
+      contentToolbar: [
+        'tableColumn',
+        'tableRow',
+        'mergeTableCells'
+      ]
+    },
+    licenseKey: '',
+    
+  };
+  
 
 export class Integration extends React.Component {
 
@@ -19,29 +59,31 @@ export class Integration extends React.Component {
         this.setAcceptTerms.bind(this);
         this.setEmailColumn.bind(this);
         this.storeToken.bind(this);
-
-        //this.setFooter.bind(this);  //@TODO Unfinished as it is not yet implemented
+        this.setFooter.bind(this);
 
         this.state = {
             emailColumn: null,
             acceptedTerms: false,
-            //emailFooter: '',  //@TODO Unfinished as it is not yet implemented
+            emailFooter: '',
         }
-
+        this.textEditor = React.createRef();
         this.getSettings();
     }
 
     getSettings() {
         Promise.all([
             monday.storage.instance.getItem(KeyChain.AcceptedTerms),
-            monday.storage.instance.getItem(KeyChain.Columns.Email)
+            monday.storage.instance.getItem(KeyChain.Columns.Email),
+            monday.storage.instance.getItem(KeyChain.EmailFooter),
         ]).then(allPromises => {
             const storedAcceptedTerms = allPromises[0].data ? (allPromises[0].data.value === 'true') : false;
             const storedEmailColumn =  allPromises[1].data ? allPromises[1].data.value : '' ;
-            
+            const storedEmailFooter =  allPromises[2].data.value ? allPromises[2].data.value : '' ;
+
             this.setState({
                 emailColumn: storedEmailColumn,
-                acceptedTerms: storedAcceptedTerms
+                acceptedTerms: storedAcceptedTerms,
+                emailFooter: storedEmailFooter
             })
         })
     }
@@ -62,11 +104,9 @@ export class Integration extends React.Component {
         monday.storage.instance.setItem(KeyChain.Columns.Email, newEmailColumn);
     }
 
-    setFooter(value) {
-        /**
-         * Unfinished for now, please look at set EmailColumn for how to formulate this field
-         * @TODO
-         */
+    setFooter() {
+        const footerString = this.textEditor.getData();
+        monday.storage.instance.setItem(KeyChain.EmailFooter, footerString);
     }
 
     storeToken() {
@@ -162,20 +202,47 @@ export class Integration extends React.Component {
                                     </Form.Control>
                                 </div>
                             </Form.Group>
-                            {/** @TODO Unimplemented
-                            <Form.Group>
-                                <Form.Label>
-                                    <div>Client Email</div>
-                                    <div className='text-muted'>
-                                        Provide the footer template that will be insterted into outgoing support emails.
-                                    </div>
-                                </Form.Label>
-                                <Form.Control as='textarea' onBlur={(event) => this.setFooter()}>
+                            <div tag="texteditor" style={{ paddingTop: "30px" }}>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data={this.state.emailFooter}
+                        config={editorConfiguration}
 
-                                </Form.Control>
-                            </Form.Group>
-                            */}
-                            
+                        onInit={(editor) => {
+                          // Attaching React.ref to editor
+                          this.textEditor = editor;
+                        }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between"
+                          }}
+                        >
+                          <p style={{ padding: 5, color: "#2b99ff" }}><GrAttachment/> Add File</p>
+                          <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
+                          <p style={{ padding: 5, color: "#2b99ff" }}><GrEmoji/> Emoji</p>
+                          <p style={{ padding: 5, color: "#2b99ff" }}>@Mention</p>
+                        </div>
+                        <div>
+                          <button
+                            className='btn btn-primary'
+                            style={{ margin: '8px' }}
+                            onClick={() => this.setFooter()}>
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  
                         </Col>
                     </Row>
                 </Col>

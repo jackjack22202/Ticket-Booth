@@ -4,32 +4,72 @@ import mondaySdk from "monday-sdk-js";
 import LoadingMask from "react-loadingmask";
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Image } from 'react-bootstrap';
+import CKEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+import { GrAttachment, GrEmoji } from "react-icons/gr";
 //styles
 import './Details.scss';
+//data
+import { KeyChain } from "./settings/KeyChain";
 
 const monday = mondaySdk();
+
+const editorConfiguration = {
+  toolbar: {
+    items: [
+      'underline',
+      'bold',
+      'italic',
+      'link',
+      'bulletedList',
+      'numberedList',
+      'blockQuote',
+      'insertTable',
+      'undo',
+      'redo',
+      'alignment'
+    ]
+  },
+  language: 'en',
+  image: {
+    toolbar: [
+      'imageTextAlternative',
+      'imageStyle:full',
+      'imageStyle:side'
+    ]
+  },
+  table: {
+    contentToolbar: [
+      'tableColumn',
+      'tableRow',
+      'mergeTableCells'
+    ]
+  },
+  licenseKey: '',
+  
+};
 
 class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
         ticket_data: this.props.location.data?.ticket,
-        settings: this.props.location.data?.settings,
-        updates: [],
-        client_emails: null,
-        ticket_address: null,
-        username: null,
-        user_email: null,
-        slug: null,
         field_values: [],
         fields_selected: [],
+        client_emails: null,
+        ticket_address: null,
+        user_email: null,
+        username: null,
+        slug: null,
+        settings: this.props.location.data?.settings,
+        updates: [],
         outerLoading: true,
         updateLoading:false,
         rightOpen: true,
+        emailFooter: ''
     }
 
-    this.form = React.createRef();
-    this.updateTextField = React.createRef();
+    this.textEditor = React.createRef();
   }
 
   componentDidMount() {
@@ -67,6 +107,14 @@ class Details extends React.Component {
           });
           this.setState({updates: this.state.updates?.reverse()})
       });
+    })
+    Promise.all([
+      monday.storage.instance.getItem(KeyChain.EmailFooter),
+    ]).then(allPromises => {
+        const storedEmailFooter =  allPromises[0].data.value ? allPromises[0].data.value : '' ;
+        this.setState({
+            emailFooter: storedEmailFooter
+        })
     })
   }
 
@@ -113,12 +161,13 @@ class Details extends React.Component {
 
   postUpdate = function (audience) {
     this.setState({updateLoading: true});
-    var update_string = this.updateTextField?.current?.value;
-    this.form.current.reset();
+    var update_string = this.textEditor.getData();
+    this.textEditor.setData('');
 
     if(audience==="internal") {
       update_string = update_string.concat("<br><br>[Internal]");
     } else if (audience==="client") {
+      update_string = update_string.concat(this.state.emailFooter);
       update_string = update_string.concat("<br><br>[Client]");
     }
     update_string = update_string.replace(/\n/g, "<br>")
@@ -296,37 +345,55 @@ class Details extends React.Component {
               <Container fluid>
                 <Row>
                   <Col>
-                    <Form
-                      style={{ margin: '8px' }}
-                      key={ticket?.id}
-                      ref={this.form}>
-                      <Form.Group controlId='formBasicEmail'>
-                        <Form.Control
-                          as='textarea'
-                          placeholder='Write an update...'
-                          ref={this.updateTextField}
-                        />
-                      </Form.Group>
-                    </Form>
-                  </Col>
-                </Row>
-                <Row>
-                  <Col></Col>
-                  <Col sm='auto' md='auto' lg='auto'>
-                    <button
-                      className='btn btn-primary'
-                      style={{ margin: '8px' }}
-                      onClick={() => this.postUpdate('client')}
-                      disabled={this.state.updateLoading}>
-                      Email
-                    </button>
-                    <button
-                      className='btn btn-secondary'
-                      style={{ margin: '8px' }}
-                      onClick={() => this.postUpdate('internal')}
-                      disabled={this.state.updateLoading}>
-                      Note
-                    </button>
+
+                    <div tag="texteditor" style={{ paddingTop: "30px" }} key={ticket?.id}>
+                      <CKEditor
+                        editor={ClassicEditor}
+                        data=""
+                        config={editorConfiguration}
+
+                        onInit={(editor) => {
+                          // Attaching React.ref to editor
+                          this.textEditor = editor;
+                        }}
+                      />
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          justifyContent: "space-between"
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "space-between"
+                          }}
+                        >
+                          <p style={{ padding: 5, color: "#2b99ff" }}><GrAttachment/> Add File</p>
+                          <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
+                          <p style={{ padding: 5, color: "#2b99ff" }}><GrEmoji/> Emoji</p>
+                          <p style={{ padding: 5, color: "#2b99ff" }}>@Mention</p>
+                        </div>
+                        <div>
+                          <button
+                            className='btn btn-primary'
+                            style={{ margin: '8px' }}
+                            onClick={() => this.postUpdate('client')}
+                            disabled={this.state.updateLoading}>
+                            Email
+                          </button>
+                          <button
+                            className='btn btn-secondary'
+                            style={{ margin: '8px' }}
+                            onClick={() => this.postUpdate('internal')}
+                            disabled={this.state.updateLoading}>
+                            Note
+                          </button>
+                        </div>
+                      </div>
+                    </div>
                   </Col>
                 </Row>
               </Container>
