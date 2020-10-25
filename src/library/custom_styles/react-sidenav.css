@@ -22,7 +22,6 @@
 }
 .sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL {
   min-width: 240px;
-  padding-right: 4px;
 }
 .sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- .sidenav---navicon---3gCRo + .sidenav---navtext---1AE_f {
   visibility: visible;
@@ -169,6 +168,7 @@
   clear: both;
   list-style: none;
   width: 100%;
+  padding-right: 4px;
 }
 .sidenav---sidenav-nav---3tvij > .sidenav---sidenav-navitem---uwIJ- {
   clear: both;
