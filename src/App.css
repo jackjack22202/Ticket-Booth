@@ -67,7 +67,7 @@ button:disabled {
 }
 
 .status-box {
-  height: 36px;
+  height: 40px;
   max-width: 140px;
   background-color: #c4c4c4;
   color: #fff;
@@ -166,4 +166,72 @@ main .ck-editor[role='application'] .ck.ck-content,
 .ck.ck-editor__editable {
 	position: relative;
 	z-index: 10;
+}
+
+.mondayTab.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  color: #676879;
+  background-color: transparent;
+  border-bottom: 2px solid #0084ff;
+  border-radius: 0;
+}
+
+.mondayTab.nav-pills .nav-link {
+  border-radius: 0px;
+  border-bottom: 1px solid #dfdfdf;
+  margin-left: 0px;
+  color: #676879;
+}
+
+.mondayTab.nav-pills , .ticketCount{
+  flex:1;
+}
+
+.tktBoothCV {
+  border: 1px solid #e7e9ee;
+  padding: 32px 16px 16px;
+  margin-bottom: 16px;
+  border-radius: 8px;
+}
+
+.tktBoothTitle {
+  padding: 16px;
+  border-radius: 8px;
+  margin-top: 16px;
+}
+
+.viewBtn {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10.5px 16px;
+  height: 40px;
+  background-color: #0085ff;
+  border-radius: 4px;
+  color: #fff;
+  border: 0;
+  display: block;
+  width: fit-content;
+  margin-bottom: 8px;
+}
+
+.viewBtn:hover {
+  text-decoration: none;
+  color: #fff;
+}
+
+.viewWrapper {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+
+.viewBtnId {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: fit-content;
+}
+
+.blackTxt {
+  color: #000;
 }
