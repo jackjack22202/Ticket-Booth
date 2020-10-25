@@ -13,6 +13,7 @@ import './Details.scss';
 import { KeyChain } from "./settings/KeyChain";
 
 const monday = mondaySdk();
+const Handlebars = require('handlebars');
 
 const editorConfiguration = {
   toolbar: {
@@ -58,8 +59,7 @@ class Details extends React.Component {
         fields_selected: [],
         client_emails: null,
         ticket_address: null,
-        user_email: null,
-        username: null,
+        user: null,
         slug: null,
         settings: this.props.location.data?.settings,
         updates: [],
@@ -75,46 +75,63 @@ class Details extends React.Component {
   componentDidMount() {
     monday.listen("context", res => {
       this.setState({context: res.data});
-      monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
+      monday.api(`query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } } `)
       .then(res => {
         this.setState({
             ticket_data: res.data.items[0],
             updates: res.data.items[0].updates, 
             client_emails: res.data.items[0].column_values.find(x => x.id === this.state.settings.client_email_column_key)?.text, 
             ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
-            username: res.data.me.name, 
-            user_email: res.data.me.email,
+            user: res.data.me,
             outerLoading: false,
             slug: res.data.me.account?.slug,
+          }, function() {
+            Promise.all([
+              monday.storage.instance.getItem(KeyChain.EmailFooter),
+            ]).then(allPromises => {
+                const storedEmailFooter =  allPromises[0].data.value ? allPromises[0].data.value : '' ;
+                const templateFooter = Handlebars.compile(storedEmailFooter);
+                console.log(storedEmailFooter);
+                const compiledFooter = templateFooter(this.state.user);
+                console.log(compiledFooter);
+                this.setState({
+                    emailFooter: compiledFooter
+                }, function() {
+                  this.setState({updates: this.state.updates?.reverse()})
+                  this.parseSidebarSettings();
+                })
+            })
           });
-        this.setState({updates: this.state.updates?.reverse()})
-        this.parseSidebarSettings();
       });
     })
     monday.listen("events", res => {
       this.setState({context: res.data});
-      monday.api(`query { me { name email account { slug } } items(ids: ${this.state.ticket_data.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } }`)
+      monday.api(`query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } } `)
       .then(res => {
         this.setState({
             ticket_data: res.data.items[0],
             updates: res.data.items[0].updates, 
             client_emails: res.data.items[0].column_values.find(x => x.id === this.state.settings.client_email_column_key)?.text, 
             ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
-            username: res.data.me.name, 
-            user_email: res.data.me.email,
+            user: res.data.me,
             outerLoading: false,
             slug: res.data.me.account?.slug,
+          }, function() {
+            Promise.all([
+              monday.storage.instance.getItem(KeyChain.EmailFooter),
+            ]).then(allPromises => {
+                const storedEmailFooter =  allPromises[0].data.value ? allPromises[0].data.value : '' ;
+                const templateFooter = Handlebars.compile(storedEmailFooter);
+                const compiledFooter = templateFooter(this.state.user);
+                this.setState({
+                    emailFooter: compiledFooter
+                }, function() {
+                  this.setState({updates: this.state.updates?.reverse()})
+                  this.parseSidebarSettings();
+                })
+            })
           });
-          this.setState({updates: this.state.updates?.reverse()})
       });
-    })
-    Promise.all([
-      monday.storage.instance.getItem(KeyChain.EmailFooter),
-    ]).then(allPromises => {
-        const storedEmailFooter =  allPromises[0].data.value ? allPromises[0].data.value : '' ;
-        this.setState({
-            emailFooter: storedEmailFooter
-        })
     })
   }
 
@@ -167,10 +184,9 @@ class Details extends React.Component {
     if(audience==="internal") {
       update_string = update_string.concat("<br><br>[Internal]");
     } else if (audience==="client") {
-      update_string = update_string.concat(this.state.emailFooter);
       update_string = update_string.concat("<br><br>[Client]");
+      update_string = update_string.concat(this.state.emailFooter);
     }
-    update_string = update_string.replace(/\n/g, "<br>")
     monday.api(`mutation { create_update (item_id: ${this.state.ticket_data.id}, body: "${update_string}") { id } }`)
     .then(res => {
       monday.api(`query { items(ids: ${this.state.ticket_data.id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `
@@ -184,13 +200,13 @@ class Details extends React.Component {
       if (this.state.client_emails) {
         var raw = JSON.stringify({
           recipient: this.state.client_emails, 
-          creator: this.state.username, 
+          creator: this.state.user.name, 
           update_body: update_string, 
           ticket_address: this.state.ticket_address,
           ticket_slug: this.state.slug,
           ticket_id: this.state.ticket_data.id,
           ticket_name: this.state.ticket_data.name,
-          creator_address: this.state.user_email
+          creator_address: this.state.user.email
         });
 
         var requestOptions = {

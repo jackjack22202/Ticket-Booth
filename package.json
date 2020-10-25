@@ -20,6 +20,7 @@
     "@trendmicro/react-sidenav": "^0.5.0",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.2",
+    "handlebars": "^4.7.6",
     "monday-sdk-js": "0.0.16",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
