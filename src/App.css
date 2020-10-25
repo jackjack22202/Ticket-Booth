@@ -14,7 +14,7 @@ body {
 }
 
 .sidebar-component {
-  padding-left: 64px;
+  padding-left: 240px;
 }
 
 .sidenav-custom {
@@ -188,7 +188,7 @@ main .ck-editor[role='application'] .ck.ck-content,
 
 .tktBoothCV {
   border: 1px solid #e7e9ee;
-  padding: 32px 16px 16px;
+  padding: 32px 16px;
   margin-bottom: 16px;
   border-radius: 8px;
 }
@@ -211,7 +211,6 @@ main .ck-editor[role='application'] .ck.ck-content,
   border: 0;
   display: block;
   width: fit-content;
-  margin-bottom: 8px;
 }
 
 .viewBtn:hover {
@@ -223,15 +222,15 @@ main .ck-editor[role='application'] .ck.ck-content,
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
-}
-
-.viewBtnId {
-  display: flex;
   flex-direction: column;
-  align-items: center;
-  width: fit-content;
 }
 
 .blackTxt {
   color: #000;
+}
+
+.viewId {
+color: lightgray;
+position: absolute;
+top: 46px;
 }

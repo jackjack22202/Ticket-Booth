@@ -82,7 +82,7 @@ render() {
                     <SideNav.Nav defaultSelected="dashboard">
                         <NavItem eventKey="dashboard">
                             <NavIcon>
-                                <img src={DashboardIcon} alt="Dashboard Icon" style={{height:"32px", width:"32px"}}/>
+                                <img src={DashboardIcon} alt="Dashboard Icon" style={{height:"18px"}}/>
                             </NavIcon>
                             <NavText>
                                 Dashboard
@@ -90,7 +90,7 @@ render() {
                         </NavItem>
                         <NavItem eventKey="tickets">
                             <NavIcon>
-                                <img src={TicketsIcon} alt="Tickets Icon" style={{height:"32px", width:"32px"}}/>
+                                <img src={TicketsIcon} alt="Tickets Icon" style={{height:"18px"}}/>
                             </NavIcon>
                             <NavText>
                                 Tickets
@@ -98,7 +98,7 @@ render() {
                         </NavItem>
                         <NavItem eventKey="announcements">
                             <NavIcon>
-                                <img src={AnnouncementsIcon} alt="Announcements Icon" style={{height:"32px", width:"32px"}}/>
+                                <img src={AnnouncementsIcon} alt="Announcements Icon" style={{height:"18px"}}/>
                             </NavIcon>
                             <NavText>
                                 Announcements
@@ -106,7 +106,7 @@ render() {
                         </NavItem>
                         <NavItem eventKey="settings">
                             <NavIcon>
-                                <img src={SettingsIcon} alt="Settings Icon" style={{height:"32px", width:"32px"}}/>
+                                <img src={SettingsIcon} alt="Settings Icon" style={{height:"18px"}}/>
                             </NavIcon>
                             <NavText>
                                 Settings

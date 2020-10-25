@@ -212,7 +212,7 @@ class Tickets extends React.Component {
             display: this.state.viewLoading ? "block" : "none",
           }}
         ></LoadingMask>
-        <div style={{ display: this.state.viewLoading ? "none" : "block" }}>
+        <div style={{ display: this.state.viewLoading ? "none" : "block",marginLeft: this.state.viewLoading ? "-174px" : "-174px",}}>
           <Container fluid style={{ display: "flex", alignItems: "center" }}>
             <Nav
               variant="pills"
@@ -335,11 +335,10 @@ class Tickets extends React.Component {
                         )?.text || "Status N/A"}
                       </div>
                     </Col>
-                    <Col sm={2} md={2} lg={2}>
+                    <Col sm={2} md={2} lg={2} className="text-muted">
                       {this.dateHandler(item.created_at)}
                     </Col>
-                    <Col sm={2} md={2} lg={4} className="viewWrapper">
-                        <div className="viewBtnId">
+                    <Col sm={2} md={2} lg={4} className="viewWrapper">  
                       <Link
                         to={{
                           pathname: `/details/${item.id}`,
@@ -352,12 +351,11 @@ class Tickets extends React.Component {
                       >
                         View
                       </Link>
-                      <div style={{ color: "lightgray" }}>
+                      <div className="viewId">
                       ID#:{" "}
                       {item.column_values.find(
                         (x) => x.id === settings.id_column_key
                       )?.text || ""}
-                      </div>
                       </div>
                     </Col>
                   </Row>
