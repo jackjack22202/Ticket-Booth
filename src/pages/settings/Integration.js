@@ -105,7 +105,13 @@ export class Integration extends React.Component {
     }
 
     setFooter() {
-        const footerString = this.textEditor.getData();
+        const footerString = this.textEditor.getData()
+        .replace(/&amp;/g, "&")
+        .replace(/&lt;/g, "<")
+        .replace(/&gt;/g, ">")
+        .replace(/&quot;/g, "\"")
+        .replace(/&#039;/g, "'");
+        
         monday.storage.instance.setItem(KeyChain.EmailFooter, footerString);
     }
 

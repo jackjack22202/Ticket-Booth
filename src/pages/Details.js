@@ -1,16 +1,16 @@
-import React from "react";
-import mondaySdk from "monday-sdk-js";
+import React from 'react';
+import mondaySdk from 'monday-sdk-js';
 //controls
-import LoadingMask from "react-loadingmask";
+import LoadingMask from 'react-loadingmask';
 import { Link } from 'react-router-dom';
 import { Container, Row, Col, Card, Form, Image } from 'react-bootstrap';
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
-import { GrAttachment, GrEmoji } from "react-icons/gr";
+import CKEditor from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor';
+import { GrAttachment, GrEmoji } from 'react-icons/gr';
 //styles
 import './Details.scss';
 //data
-import { KeyChain } from "./settings/KeyChain";
+import { KeyChain } from './settings/KeyChain';
 
 const monday = mondaySdk();
 const Handlebars = require('handlebars');
@@ -18,240 +18,235 @@ const Handlebars = require('handlebars');
 const editorConfiguration = {
   toolbar: {
     items: [
-      'underline',
-      'bold',
-      'italic',
-      'link',
-      'bulletedList',
-      'numberedList',
-      'blockQuote',
-      'insertTable',
-      'undo',
-      'redo',
-      'alignment'
-    ]
+        'underline',
+        'bold',
+        'italic',
+        'link', 
+        'bulletedList',
+        'numberedList',
+        'blockQuote',
+        'insertTable',
+        'undo',
+        'redo',
+        'alignment'
+    ],
   },
   language: 'en',
   image: {
     toolbar: [
-      'imageTextAlternative',
-      'imageStyle:full',
-      'imageStyle:side'
-    ]
+        'imageTextAlternative',
+        'imageStyle:full',
+        'imageStyle:side'
+    ],
   },
   table: {
     contentToolbar: [
-      'tableColumn',
-      'tableRow',
-      'mergeTableCells'
-    ]
+        'tableColumn',
+        'tableRow',
+        'mergeTableCells'
+    ],
   },
   licenseKey: '',
-  
 };
 
 class Details extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        ticket_data: this.props.location.data?.ticket,
-        field_values: [],
-        fields_selected: [],
-        client_emails: null,
-        ticket_address: null,
-        user: null,
-        slug: null,
-        settings: this.props.location.data?.settings,
-        updates: [],
-        outerLoading: true,
-        updateLoading:false,
-        rightOpen: true,
-        emailFooter: ''
-    }
+      ticket_id: this.props.match.params.id,
+      ticket_data: this.props.location.data?.ticket,
+      field_values: [],
+      fields_selected: [],
+      client_emails: null,
+      ticket_address: null,
+      user: null,
+      slug: null,
+      settings: this.props.location.data?.settings,
+      updates: [],
+      outerLoading: true,
+      updateLoading: false,
+      rightOpen: true,
+      emailFooter: '',
+    };
 
     this.textEditor = React.createRef();
   }
 
   componentDidMount() {
-    monday.listen("context", res => {
-      this.setState({context: res.data});
-      monday.api(`query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } } `)
-      .then(res => {
-        this.setState({
-            ticket_data: res.data.items[0],
-            updates: res.data.items[0].updates, 
-            client_emails: res.data.items[0].column_values.find(x => x.id === this.state.settings.client_email_column_key)?.text, 
-            ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
-            user: res.data.me,
-            outerLoading: false,
-            slug: res.data.me.account?.slug,
-          }, function() {
-            Promise.all([
-              monday.storage.instance.getItem(KeyChain.EmailFooter),
-            ]).then(allPromises => {
-                const storedEmailFooter =  allPromises[0].data.value ? allPromises[0].data.value : '' ;
-                const templateFooter = Handlebars.compile(storedEmailFooter);
-                console.log(storedEmailFooter);
-                const compiledFooter = templateFooter(this.state.user);
-                console.log(compiledFooter);
-                this.setState({
-                    emailFooter: compiledFooter
-                }, function() {
-                  this.setState({updates: this.state.updates?.reverse()})
-                  this.parseSidebarSettings();
-                })
-            })
-          });
-      });
-    })
-    monday.listen("events", res => {
-      this.setState({context: res.data});
-      monday.api(`query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } } `)
-      .then(res => {
-        this.setState({
-            ticket_data: res.data.items[0],
-            updates: res.data.items[0].updates, 
-            client_emails: res.data.items[0].column_values.find(x => x.id === this.state.settings.client_email_column_key)?.text, 
-            ticket_address: `pulse-${this.state.ticket_data.id}@${res.data.me.account?.slug}.monday.com`, 
-            user: res.data.me,
-            outerLoading: false,
-            slug: res.data.me.account?.slug,
-          }, function() {
-            Promise.all([
-              monday.storage.instance.getItem(KeyChain.EmailFooter),
-            ]).then(allPromises => {
-                const storedEmailFooter =  allPromises[0].data.value ? allPromises[0].data.value : '' ;
+    monday.listen('context', (res) => {
+      this.setState({ context: res.data });
+      monday
+        .api(
+          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } } `
+        )
+        .then((res) => {
+          new Promise((resolve, _) => {
+            this.setState(
+              {
+                ticket_data: res.data.items[0],
+                updates: res.data.items[0].updates,
+                client_emails: res.data.items[0].column_values.find((x) => x.id === this.state.settings.client_email_column_key)?.text,
+                ticket_address: `pulse-${this.state.ticket_id}@${res.data.me.account?.slug}.monday.com`,
+                user: res.data.me,
+                outerLoading: false,
+                slug: res.data.me.account?.slug,
+              },
+              function () {
+                // call back after set state is complete
+                resolve();
+              }
+            );
+          }).then(() => {
+            Promise.all([monday.storage.instance.getItem(KeyChain.EmailFooter)]).then((allPromises) => {
+              new Promise((resolve, _) => {
+                const storedEmailFooter = allPromises[0].data.value ? allPromises[0].data.value : '';
                 const templateFooter = Handlebars.compile(storedEmailFooter);
                 const compiledFooter = templateFooter(this.state.user);
-                this.setState({
-                    emailFooter: compiledFooter
-                }, function() {
-                  this.setState({updates: this.state.updates?.reverse()})
-                  this.parseSidebarSettings();
-                })
-            })
+                this.setState({ emailFooter: compiledFooter }, function () {
+                  // call back after set state is complete
+                  this.setState({ updates: this.state.updates?.reverse() });
+                  resolve();
+                });
+              }).then(() => {
+                this.parseSidebarSettings();
+              });
+            });
           });
-      });
-    })
+        });
+    });
   }
 
-  parseSidebarSettings = function() {
+  parseSidebarSettings = function () {
     const settings = this.state.settings;
     const ticketColumnValues = this.state.ticket_data.column_values;
     var parsedValues = [];
 
-    this.setState({field_values: [], fields_selected: []});
+    this.setState({ field_values: [], fields_selected: [] });
 
     if (settings?.details_fields == null) {
       parsedValues = ticketColumnValues;
     } else if ((settings?.details_fields).length > 0) {
-      let z = settings?.details_fields?.forEach(function(entry) {
-        const match = ticketColumnValues.find(column => column.id === entry) || null;
+      let z = settings?.details_fields?.forEach(function (entry) {
+        const match = ticketColumnValues.find((column) => column.id === entry) || null;
         if (match) {
           parsedValues.push(match);
         }
         return null;
       });
-      if(parsedValues.length > 0) {
-        this.setState({field_values: parsedValues});
+      if (parsedValues.length > 0) {
+        this.setState({ field_values: parsedValues });
       }
     } else {
-      this.setState({field_values: ticketColumnValues.column_values});
+      this.setState({ field_values: ticketColumnValues.column_values });
     }
     if (this.state.field_values.length === 0) {
-      this.setState({field_values: ticketColumnValues.column_values});
+      this.setState({ field_values: ticketColumnValues.column_values });
     }
-  }
-
+  };
 
   toggleSidebar = (event) => {
     let key = `${event.currentTarget.parentNode.id}Open`;
     this.setState({ [key]: !this.state[key] });
-  }
+  };
 
   dateHandler(dateString) {
     const dateObject = new Date(dateString);
-    var options = { weekday: 'short', year: '2-digit', month: 'short', day: 'numeric', hour: "2-digit", minute: "2-digit"};
-    const formattedString = dateObject.toLocaleString("en-US", options);
+    var options = {
+      weekday: 'short',
+      year: '2-digit',
+      month: 'short',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+    };
+    const formattedString = dateObject.toLocaleString('en-US', options);
     return formattedString;
   }
 
   postUpdate = function (audience) {
-    this.setState({updateLoading: true});
-    var update_string = this.textEditor.getData();
+    this.setState({ updateLoading: true });
+    var update_string = this.textEditor.getData()
+      .replace(/&amp;/g, '&')
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>')
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g, "'");
     this.textEditor.setData('');
 
-    if(audience==="internal") {
-      update_string = update_string.concat("<br><br>[Internal]");
-    } else if (audience==="client") {
-      update_string = update_string.concat("<br><br>[Client]");
+    if (audience === 'internal') {
+      update_string = update_string.concat('<br><br>[Internal]');
+    } else if (audience === 'client') {
+      update_string = update_string.concat('<br><br>[Client]');
       update_string = update_string.concat(this.state.emailFooter);
     }
-    monday.api(`mutation { create_update (item_id: ${this.state.ticket_data.id}, body: "${update_string}") { id } }`)
-    .then(res => {
-      monday.api(`query { items(ids: ${this.state.ticket_data.id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `
-      )
-      .then(res => {
-        this.setState({updates: res.data.items[0].updates.reverse(), updateLoading: false});
+    monday.api(`mutation { create_update (item_id: ${this.state.ticket_id}, body: '${update_string}') { id } }`).then((res) => {
+      monday.api(`query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `).then((res) => {
+        this.setState({
+          updates: res.data.items[0].updates.reverse(),
+          updateLoading: false,
+        });
       });
     });
-    
-    if (audience==="client") {
+
+    if (audience === 'client') {
       if (this.state.client_emails) {
         var raw = JSON.stringify({
-          recipient: this.state.client_emails, 
-          creator: this.state.user.name, 
-          update_body: update_string, 
+          recipient: this.state.client_emails,
+          creator: this.state.user.name,
+          update_body: update_string,
           ticket_address: this.state.ticket_address,
           ticket_slug: this.state.slug,
-          ticket_id: this.state.ticket_data.id,
+          ticket_id: this.state.ticket_id,
           ticket_name: this.state.ticket_data.name,
-          creator_address: this.state.user.email
+          creator_address: this.state.user.email,
         });
 
         var requestOptions = {
           method: 'POST',
-          headers: {"Content-Type": "application/json"},
+          headers: { 'Content-Type': 'application/json' },
           body: raw,
           redirect: 'follow',
-          mode: 'cors'
+          mode: 'cors',
         };
 
-        fetch("https://api.carbonweb.co/send", requestOptions)
-        .then(response => response.json())
-        .then(json => {
-          if (!json.tokenCheck.data.token) {
-            monday.execute("confirm", {
-              message: "Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.", 
-              confirmButton: "Understood!", 
-              excludeCancelButton: true
-            }).then((res) => {
-              // {"confirm": true}
-            });
-          }
-        })
+        fetch('https://api.carbonweb.co/send', requestOptions)
+          .then((response) => response.json())
+          .then((json) => {
+            if (!json.tokenCheck.data.token) {
+              monday
+                .execute('confirm', {
+                  message: 'Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.',
+                  confirmButton: 'Understood!',
+                  excludeCancelButton: true,
+                })
+                .then((res) => {
+                  // {'confirm': true}
+                });
+            }
+          });
       } else {
-        monday.execute("confirm", {
-          message: "Client Emails not found. Make sure you have selected a column in this app's settings.", 
-          confirmButton: "Understood!", 
-          excludeCancelButton: true
-        }).then((res) => {
-          // {"confirm": true}
-        });
+        monday.execute('confirm', {
+            message: `Client Emails not found. Make sure you have selected a column in this app's settings.`,
+            confirmButton: 'Understood!',
+            excludeCancelButton: true,
+          })
+          .then((res) => {
+            // {'confirm': true}
+          });
       }
     }
-  }
+  };
 
-  editDetails = function() {
-    monday.execute('openItemCard', { itemId: this.state.ticket_data.id });
-  }
+  editDetails = function () {
+    monday.execute('openItemCard', { itemId: this.state.ticket_id });
+  };
 
   render() {
     const ticket = this.state.ticket_data;
     const subheading_column_key = this.state.settings?.subheading_column_key;
     const updates = this.state.updates;
     let rightOpen = this.state.rightOpen ? 'open' : 'closed';
-    
+
     return (
       <>
         <div id='layout'>
@@ -270,30 +265,19 @@ class Details extends React.Component {
                 <Container fluid>
                   <Row className='align-items-center'>
                     <Col sm={1} md={1} lg={1}>
-                      <Image
-                        src={ticket?.creator?.photo_thumb_small}
-                        roundedCircle
-                        fluid
-                      />
+                      <Image src={ticket?.creator?.photo_thumb_small} roundedCircle fluid />
                     </Col>
                     <Col sm={9} md={9} lg={9}>
                       <Row>
                         <h4>{ticket?.name}</h4>
                       </Row>
                       <Row className='text-muted'>
-                        <small>
-                          {ticket?.column_values.find(
-                            (x) =>
-                              x.id === subheading_column_key
-                          )?.text || ''}
-                        </small>
+                        <small>{ticket?.column_values.find((x) => x.id === subheading_column_key)?.text || ''}</small>
                       </Row>
                     </Col>
                     <Col sm={2} md={2} lg={2}>
                       <Link to='/tickets'>
-                        <button
-                          className='btn btn-primary float-right'
-                          style={{ margin: '36px' }}>
+                        <button className='btn btn-primary float-right' style={{ margin: '36px' }}>
                           Back
                         </button>{' '}
                       </Link>
@@ -316,11 +300,7 @@ class Details extends React.Component {
                 <Card
                   id='updatecard'
                   style={{
-                    borderTopColor: update?.body.includes('[Client]')
-                      ? '#7854cc'
-                      : update?.body.includes('[Internal]')
-                      ? 'red'
-                      : 'none',
+                    borderTopColor: update?.body.includes('[Client]') ? '#7854cc' : update?.body.includes('[Internal]') ? 'red' : 'none',
                   }}
                   key={update.id}>
                   <Card.Body>
@@ -328,9 +308,7 @@ class Details extends React.Component {
                       <Row className='align-items-center'>
                         <Col sm={1} md={1} lg={1}>
                           <Image
-                            src={
-                              update.creator.photo_thumb_small
-                            }
+                            src={update.creator.photo_thumb_small}
                             roundedCircle
                             fluid
                             style={{ marginRight: '8px' }}
@@ -338,11 +316,7 @@ class Details extends React.Component {
                         </Col>
                         <Col>
                           <Row>{update.creator.name}</Row>
-                          <Row className='text-muted'>
-                            {this.dateHandler(
-                              update.created_at
-                            )}
-                          </Row>
+                          <Row className='text-muted'>{this.dateHandler(update.created_at)}</Row>
                         </Col>
                       </Row>
                     </Container>
@@ -361,13 +335,10 @@ class Details extends React.Component {
               <Container fluid>
                 <Row>
                   <Col>
-
-                    <div tag="texteditor" style={{ paddingTop: "30px" }} key={ticket?.id}>
+                    <div tag='texteditor' style={{ paddingTop: '30px' }} key={ticket?.id}>
                       <CKEditor
                         editor={ClassicEditor}
-                        data=""
                         config={editorConfiguration}
-
                         onInit={(editor) => {
                           // Attaching React.ref to editor
                           this.textEditor = editor;
@@ -375,22 +346,21 @@ class Details extends React.Component {
                       />
                       <div
                         style={{
-                          display: "flex",
-                          flexDirection: "row",
-                          justifyContent: "space-between"
-                        }}
-                      >
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                        }}>
                         <div
                           style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            justifyContent: "space-between"
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
                           }}
                         >
-                          <p style={{ padding: 5, color: "#2b99ff" }}><GrAttachment/> Add File</p>
-                          <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
-                          <p style={{ padding: 5, color: "#2b99ff" }}><GrEmoji/> Emoji</p>
-                          <p style={{ padding: 5, color: "#2b99ff" }}>@Mention</p>
+                          <p style={{ padding: 5, color: '#2b99ff' }}><GrAttachment/> Add File</p>
+                          <p style={{ padding: 5, color: '#2b99ff' }}>GIF</p>
+                          <p style={{ padding: 5, color: '#2b99ff' }}><GrEmoji/> Emoji</p>
+                          <p style={{ padding: 5, color: '#2b99ff' }}>@Mention</p>
                         </div>
                         <div>
                           <button
@@ -415,7 +385,7 @@ class Details extends React.Component {
               </Container>
             </div>
           </div>
-      
+
           <div id='right' className={`${rightOpen}`}>
             <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>
               &equiv;
@@ -440,7 +410,7 @@ class Details extends React.Component {
                       ))}
                     </Container>
                   </Card>
-      
+
                   <Card.Body>
                     <Card
                       style={{
