@@ -125,7 +125,7 @@ class Details extends React.Component {
 
     if (settings?.details_fields == null) {
       parsedValues = ticketColumnValues;
-    } else if ((settings?.details_fields).length > 0) {
+    } else if ((settings?.details_fields)?.length > 0) {
       let z = settings?.details_fields?.forEach(function (entry) {
         const match = ticketColumnValues.find((column) => column.id === entry) || null;
         if (match) {
@@ -133,14 +133,14 @@ class Details extends React.Component {
         }
         return null;
       });
-      if (parsedValues.length > 0) {
+      if (parsedValues?.length) {
         this.setState({ field_values: parsedValues });
       }
     } else {
-      this.setState({ field_values: ticketColumnValues.column_values });
+      this.setState({ field_values: ticketColumnValues });
     }
-    if (this.state.field_values.length === 0) {
-      this.setState({ field_values: ticketColumnValues.column_values });
+    if (!this.state.field_values?.length || this.state.field_values?.length === undefined) {
+      this.setState({ field_values: ticketColumnValues });
     }
   };
 
