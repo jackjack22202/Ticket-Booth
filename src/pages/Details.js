@@ -1,52 +1,44 @@
-import React from 'react';
-import mondaySdk from 'monday-sdk-js';
+import React from "react";
+import mondaySdk from "monday-sdk-js";
 //controls
-import LoadingMask from 'react-loadingmask';
-import { Link } from 'react-router-dom';
-import { Container, Row, Col, Card, Form, Image } from 'react-bootstrap';
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic/build/ckeditor';
-import { GrAttachment, GrEmoji } from 'react-icons/gr';
+import LoadingMask from "react-loadingmask";
+import { Link } from "react-router-dom";
+import { Container, Row, Col, Card, Form, Image } from "react-bootstrap";
+import CKEditor from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+import { GrAttachment, GrEmoji } from "react-icons/gr";
 //styles
-import './Details.scss';
+import "./Details.scss";
 //data
-import { KeyChain } from './settings/KeyChain';
+import { KeyChain } from "./settings/KeyChain";
 
 const monday = mondaySdk();
-const Handlebars = require('handlebars');
+const Handlebars = require("handlebars");
 
 const editorConfiguration = {
   toolbar: {
     items: [
-        'underline',
-        'bold',
-        'italic',
-        'link', 
-        'bulletedList',
-        'numberedList',
-        'blockQuote',
-        'insertTable',
-        'undo',
-        'redo',
-        'alignment'
+      "underline",
+      "bold",
+      "italic",
+      "link",
+      "bulletedList",
+      "numberedList",
+      "blockQuote",
+      "insertTable",
+      "undo",
+      "redo",
+      "alignment",
     ],
   },
-  language: 'en',
+  language: "en",
   image: {
-    toolbar: [
-        'imageTextAlternative',
-        'imageStyle:full',
-        'imageStyle:side'
-    ],
+    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
   },
   table: {
-    contentToolbar: [
-        'tableColumn',
-        'tableRow',
-        'mergeTableCells'
-    ],
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
   },
-  licenseKey: '',
+  licenseKey: "",
 };
 
 class Details extends React.Component {
@@ -66,14 +58,14 @@ class Details extends React.Component {
       outerLoading: true,
       updateLoading: false,
       rightOpen: true,
-      emailFooter: '',
+      emailFooter: "",
     };
 
     this.textEditor = React.createRef();
   }
 
   componentDidMount() {
-    monday.listen('context', (res) => {
+    monday.listen("context", (res) => {
       this.setState({ context: res.data });
       monday
         .api(
@@ -85,7 +77,9 @@ class Details extends React.Component {
               {
                 ticket_data: res.data.items[0],
                 updates: res.data.items[0].updates,
-                client_emails: res.data.items[0].column_values.find((x) => x.id === this.state.settings.client_email_column_key)?.text,
+                client_emails: res.data.items[0].column_values.find(
+                  (x) => x.id === this.state.settings.client_email_column_key
+                )?.text,
                 ticket_address: `pulse-${this.state.ticket_id}@${res.data.me.account?.slug}.monday.com`,
                 user: res.data.me,
                 outerLoading: false,
@@ -97,9 +91,13 @@ class Details extends React.Component {
               }
             );
           }).then(() => {
-            Promise.all([monday.storage.instance.getItem(KeyChain.EmailFooter)]).then((allPromises) => {
+            Promise.all([
+              monday.storage.instance.getItem(KeyChain.EmailFooter),
+            ]).then((allPromises) => {
               new Promise((resolve, _) => {
-                const storedEmailFooter = allPromises[0].data.value ? allPromises[0].data.value : '';
+                const storedEmailFooter = allPromises[0].data.value
+                  ? allPromises[0].data.value
+                  : "";
                 const templateFooter = Handlebars.compile(storedEmailFooter);
                 const compiledFooter = templateFooter(this.state.user);
                 this.setState({ emailFooter: compiledFooter }, function () {
@@ -125,9 +123,10 @@ class Details extends React.Component {
 
     if (settings?.details_fields == null) {
       parsedValues = ticketColumnValues;
-    } else if ((settings?.details_fields)?.length > 0) {
+    } else if (settings?.details_fields?.length > 0) {
       let z = settings?.details_fields?.forEach(function (entry) {
-        const match = ticketColumnValues.find((column) => column.id === entry) || null;
+        const match =
+          ticketColumnValues.find((column) => column.id === entry) || null;
         if (match) {
           parsedValues.push(match);
         }
@@ -139,7 +138,10 @@ class Details extends React.Component {
     } else {
       this.setState({ field_values: ticketColumnValues });
     }
-    if (!this.state.field_values?.length || this.state.field_values?.length === undefined) {
+    if (
+      !this.state.field_values?.length ||
+      this.state.field_values?.length === undefined
+    ) {
       this.setState({ field_values: ticketColumnValues });
     }
   };
@@ -152,43 +154,52 @@ class Details extends React.Component {
   dateHandler(dateString) {
     const dateObject = new Date(dateString);
     var options = {
-      weekday: 'short',
-      year: '2-digit',
-      month: 'short',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+      weekday: "short",
+      year: "2-digit",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     };
-    const formattedString = dateObject.toLocaleString('en-US', options);
+    const formattedString = dateObject.toLocaleString("en-US", options);
     return formattedString;
   }
 
   postUpdate = function (audience) {
     this.setState({ updateLoading: true });
-    var update_string = this.textEditor.getData()
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
+    var update_string = this.textEditor
+      .getData()
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
       .replace(/&quot;/g, '"')
       .replace(/&#039;/g, "'");
-    this.textEditor.setData('');
+    this.textEditor.setData("");
 
-    if (audience === 'internal') {
-      update_string = update_string.concat('<br><br>[Internal]');
-    } else if (audience === 'client') {
-      update_string = update_string.concat('<br><br>[Client]');
+    if (audience === "internal") {
+      update_string = update_string.concat("<br><br>[Internal]");
+    } else if (audience === "client") {
+      update_string = update_string.concat("<br><br>[Client]");
       update_string = update_string.concat(this.state.emailFooter);
     }
-    monday.api(`mutation { create_update (item_id: ${this.state.ticket_id}, body: '${update_string}') { id } }`).then((res) => {
-      monday.api(`query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `).then((res) => {
-        this.setState({
-          updates: res.data.items[0].updates.reverse(),
-          updateLoading: false,
-        });
+    monday
+      .api(
+        `mutation { create_update (item_id: ${this.state.ticket_id}, body: '${update_string}') { id } }`
+      )
+      .then((res) => {
+        monday
+          .api(
+            `query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `
+          )
+          .then((res) => {
+            this.setState({
+              updates: res.data.items[0].updates.reverse(),
+              updateLoading: false,
+            });
+          });
       });
-    });
 
-    if (audience === 'client') {
+    if (audience === "client") {
       if (this.state.client_emails) {
         var raw = JSON.stringify({
           recipient: this.state.client_emails,
@@ -202,21 +213,22 @@ class Details extends React.Component {
         });
 
         var requestOptions = {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: raw,
-          redirect: 'follow',
-          mode: 'cors',
+          redirect: "follow",
+          mode: "cors",
         };
 
-        fetch('https://api.carbonweb.co/send', requestOptions)
+        fetch("https://api.carbonweb.co/send", requestOptions)
           .then((response) => response.json())
           .then((json) => {
             if (!json.tokenCheck.data.token) {
               monday
-                .execute('confirm', {
-                  message: 'Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.',
-                  confirmButton: 'Understood!',
+                .execute("confirm", {
+                  message:
+                    "Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.",
+                  confirmButton: "Understood!",
                   excludeCancelButton: true,
                 })
                 .then((res) => {
@@ -225,9 +237,10 @@ class Details extends React.Component {
             }
           });
       } else {
-        monday.execute('confirm', {
+        monday
+          .execute("confirm", {
             message: `Client Emails not found. Make sure you have selected a column in this app's settings.`,
-            confirmButton: 'Understood!',
+            confirmButton: "Understood!",
             excludeCancelButton: true,
           })
           .then((res) => {
@@ -238,204 +251,183 @@ class Details extends React.Component {
   };
 
   editDetails = function () {
-    monday.execute('openItemCard', { itemId: this.state.ticket_id });
+    monday.execute("openItemCard", { itemId: this.state.ticket_id });
   };
 
   render() {
     const ticket = this.state.ticket_data;
     const subheading_column_key = this.state.settings?.subheading_column_key;
     const updates = this.state.updates;
-    let rightOpen = this.state.rightOpen ? 'open' : 'closed';
+    let rightOpen = this.state.rightOpen ? "open" : "closed";
 
     return (
       <>
-        <div id='layout'>
-          <div id='main'>
-            <div className='header'>
-              <Card
-                style={{
-                  marginLeft: '24px',
-                  marginRight: '24px',
-                  marginBottom: '12px',
-                  marginTop: '12px',
-                  border: 'none',
-                  borderBottom: '1px solid lightgray',
-                  paddingBottom: '12px',
-                }}>
-                <Container fluid>
-                  <Row className='align-items-center'>
-                    <Col sm={1} md={1} lg={1}>
-                      <Image src={ticket?.creator?.photo_thumb_small} roundedCircle fluid />
-                    </Col>
-                    <Col sm={9} md={9} lg={9}>
-                      <Row>
-                        <h4>{ticket?.name}</h4>
-                      </Row>
-                      <Row className='text-muted'>
-                        <small>{ticket?.column_values.find((x) => x.id === subheading_column_key)?.text || ''}</small>
-                      </Row>
-                    </Col>
-                    <Col sm={2} md={2} lg={2}>
-                      <Link to='/tickets'>
-                        <button className='btn btn-primary float-right' style={{ margin: '36px' }}>
-                          Back
-                        </button>{' '}
-                      </Link>
-                    </Col>
-                  </Row>
-                </Container>
-              </Card>
-            </div>
-            <div className='content'>
-              <LoadingMask
-                loading={this.state.outerLoading}
-                text={'loading...'}
-                style={{
-                  height: '100%',
-                  width: '100%',
-                  display: this.state.outerLoading ? 'block' : 'none',
-                }}
+        <div id="layout">
+          <div id="main">
+            <div className="ticketDetailsTitleView">
+              <Image
+                src={ticket?.creator?.photo_thumb_small}
+                roundedCircle
+                fluid
               />
-              {updates?.map((update) => (
-                <Card
-                  id='updatecard'
-                  style={{
-                    borderTopColor: update?.body.includes('[Client]') ? '#7854cc' : update?.body.includes('[Internal]') ? 'red' : 'none',
-                  }}
-                  key={update.id}>
-                  <Card.Body>
-                    <Container fluid>
-                      <Row className='align-items-center'>
-                        <Col sm={1} md={1} lg={1}>
-                          <Image
-                            src={update.creator.photo_thumb_small}
-                            roundedCircle
-                            fluid
-                            style={{ marginRight: '8px' }}
-                          />
-                        </Col>
-                        <Col>
-                          <Row>{update.creator.name}</Row>
-                          <Row className='text-muted'>{this.dateHandler(update.created_at)}</Row>
-                        </Col>
-                      </Row>
-                    </Container>
-                  </Card.Body>
-                  <Card.Body>
-                    <div
-                      dangerouslySetInnerHTML={{
-                        __html: update.body,
-                      }}
-                    />
-                  </Card.Body>
-                </Card>
-              ))}
+              <div className="nameSubheading">
+                <h4>{ticket?.name}</h4>
+                <small className="text-muted">
+                  {ticket?.column_values.find(
+                    (x) => x.id === subheading_column_key
+                  )?.text || ""}
+                </small>
+              </div>
+              <Link to="/tickets" className="viewBtn float-right">
+                Back
+              </Link>
             </div>
-            <div className='footer'>
-              <Container fluid>
-                <Row>
-                  <Col>
-                    <div tag='texteditor' style={{ paddingTop: '30px' }} key={ticket?.id}>
-                      <CKEditor
-                        editor={ClassicEditor}
-                        config={editorConfiguration}
-                        onInit={(editor) => {
-                          // Attaching React.ref to editor
-                          this.textEditor = editor;
-                        }}
-                      />
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                        }}>
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
-                          }}
-                        >
-                          <p style={{ padding: 5, color: '#2b99ff' }}><GrAttachment/> Add File</p>
-                          <p style={{ padding: 5, color: '#2b99ff' }}>GIF</p>
-                          <p style={{ padding: 5, color: '#2b99ff' }}><GrEmoji/> Emoji</p>
-                          <p style={{ padding: 5, color: '#2b99ff' }}>@Mention</p>
-                        </div>
-                        <div>
-                          <button
-                            className='btn btn-primary'
-                            style={{ margin: '8px' }}
-                            onClick={() => this.postUpdate('client')}
-                            disabled={this.state.updateLoading}>
-                            Email
-                          </button>
-                          <button
-                            className='btn btn-secondary'
-                            style={{ margin: '8px' }}
-                            onClick={() => this.postUpdate('internal')}
-                            disabled={this.state.updateLoading}>
-                            Note
-                          </button>
-                        </div>
+            <LoadingMask
+              loading={this.state.outerLoading}
+              text={"loading..."}
+              style={{
+                height: "100%",
+                width: "100%",
+                display: this.state.outerLoading ? "block" : "none",
+              }}
+            />
+            <div className="updateCardScroll">
+            {updates?.map((update) => (
+              <div id="updatecard">
+                <div
+                  key={update.id}
+                  style={{
+                    padding: 16,
+                    borderTop: update?.body.includes("[Client]")
+                      ? "1px solid #7854cc"
+                      : update?.body.includes("[Internal]")
+                      ? "1px solid red"
+                      : "none",
+                  }}
+                >
+                  <div className="creatorImgInfo">
+                    <Image
+                      src={update.creator.photo_thumb_small}
+                      roundedCircle
+                      fluid
+                      style={{ marginRight: "8px" }}
+                    />
+                    <div className="createNameDate">
+                      <div className="creatorName">{update.creator.name}</div>
+                      <div className="text-muted">
+                        {this.dateHandler(update.created_at)}
                       </div>
                     </div>
-                  </Col>
-                </Row>
-              </Container>
+                  </div>
+                  <div
+                    className="detailsNType"
+                    dangerouslySetInnerHTML={{
+                      __html: update.body,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+            </div>
+            <div
+              tag="texteditor"
+              style={{ paddingTop: "30px" }}
+              key={ticket?.id}
+            >
+              <CKEditor
+                editor={ClassicEditor}
+                config={editorConfiguration}
+                onInit={(editor) => {
+                  // Attaching React.ref to editor
+                  this.textEditor = editor;
+                }}
+              />
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <p style={{ padding: 5, color: "#2b99ff" }}>
+                    <GrAttachment className="attachFile" /> Add File
+                  </p>
+                  <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
+                  <p style={{ padding: 5, color: "#2b99ff" }}>
+                    <GrEmoji /> Emoji
+                  </p>
+                  <p style={{ padding: 5, color: "#2b99ff" }}>@Mention</p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    marginTop: 16,
+                  }}
+                >
+                  <button
+                    className="blackBtn"
+                    style={{ marginRight: "16px" }}
+                    onClick={() => this.postUpdate("internal")}
+                    disabled={this.state.updateLoading}
+                  >
+                    Note
+                  </button>
+                  <button
+                    className="viewBtn"
+                    style={{ marginLeft: "16px" }}
+                    onClick={() => this.postUpdate("client")}
+                    disabled={this.state.updateLoading}
+                  >
+                    Email
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div id='right' className={`${rightOpen}`}>
+          <div id="right" className={`${rightOpen}`}>
             <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>
               &equiv;
             </div>
-            <div className={`sidebar ${rightOpen}`}>
-              <Card id='rightbar'>
-                <div className='header'>
-                  <h5 className={` title ${'right-' + rightOpen}`}>
-                    <Card id='rightcardheading'>Ticket Details</Card>
-                  </h5>
+            <div id="rightbar">
+              <div className="header">
+                <div className="drawerIcon" onClick={this.toggleSidebar}>
+                  &equiv;
                 </div>
-                <div className='sidebar-content'>
-                  <Card style={{ border: 'none' }}>
-                    <Container fluid>
-                      {this.state.field_values?.map((item) => (
-                        <Row style={{ marginBottom: '8px' }} key={item.title}>
-                          <Col>
-                            <strong>{item.title}:</strong>
-                          </Col>
-                          <Col>{item.text}</Col>
-                        </Row>
-                      ))}
-                    </Container>
-                  </Card>
+                <h5 className={` title ${"right-" + rightOpen}`}>
+                  Ticket Details
+                </h5>
+              </div>
+              {this.state.field_values?.map((item) => (
+                <div className="stats" key={item.title}>
+                  <div>{item.title}:</div>
 
-                  <Card.Body>
-                    <Card
-                      style={{
-                        marginLeft: '-10px',
-                        marginRight: '-10px',
-                        paddingTop: '12px',
-                        border: 'none',
-                      }}>
-                      <p>
-                        <strong>Created At:</strong>{' '}
-                        {this.dateHandler(ticket?.created_at)}
-                      </p>
-                    </Card>
-                    <Row style={{ justifyContent: 'center' }}>
-                      <button
-                        className='btn btn-primary'
-                        style={{ margin: '16px' }}
-                        onClick={() => this.editDetails()}>
-                        Edit
-                      </button>
-                    </Row>
-                  </Card.Body>
+                  <div className="statsInfo">{item.text}</div>
                 </div>
-              </Card>
+              ))}
+              <div className="stats">
+                <div>Created At:</div>
+                <div className="statsInfo">
+                  {this.dateHandler(ticket?.created_at)}
+                </div>
+              </div>
             </div>
+            <button
+              className="blackBtn"
+              style={{ margin: "16px auto 0px" }}
+              onClick={() => this.editDetails()}
+            >
+              Edit
+            </button>
           </div>
         </div>
       </>

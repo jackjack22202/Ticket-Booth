@@ -234,3 +234,23 @@ color: lightgray;
 position: absolute;
 top: 46px;
 }
+
+.blackBtn {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10.5px 16px;
+  height: 40px;
+  background-color: transparent;
+  border: 1px solid #C5C7D0 !important;
+  border-radius: 4px;
+  color: #323338;
+  border: 0;
+  display: block;
+  width: fit-content;
+}
+
+.blackBtn:hover {
+  text-decoration: none;
+  color: #323338;
+}
