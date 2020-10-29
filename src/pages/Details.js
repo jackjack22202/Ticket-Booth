@@ -166,11 +166,13 @@ class Details extends React.Component {
   postUpdate = function (audience) {
     this.setState({ updateLoading: true });
     var update_string = this.textEditor.getData()
-      .replace(/&amp;/g, '&')
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .replace(/&quot;/g, '"')
-      .replace(/&#039;/g, "'");
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      .replace(/&quot;/g, "\"")
+      .replace(/&#039;/g, "'")
+      .replace(/&equals;/g, "=")
+      .replace(/&nbsp;/g, "");
     this.textEditor.setData('');
 
     if (audience === 'internal') {
@@ -179,7 +181,7 @@ class Details extends React.Component {
       update_string = update_string.concat('<br><br>[Client]');
       update_string = update_string.concat(this.state.emailFooter);
     }
-    monday.api(`mutation { create_update (item_id: ${this.state.ticket_id}, body: '${update_string}') { id } }`).then((res) => {
+    monday.api(`mutation { create_update (item_id: ${this.state.ticket_id}, body: """${update_string}""") { id } }`).then((res) => {
       monday.api(`query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `).then((res) => {
         this.setState({
           updates: res.data.items[0].updates.reverse(),

@@ -110,7 +110,9 @@ export class Integration extends React.Component {
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">")
         .replace(/&quot;/g, "\"")
-        .replace(/&#039;/g, "'");
+        .replace(/&#039;/g, "'")
+        .replace(/&equals;/g, "=")
+        .replace(/&nbsp;/g, "");
         
         monday.storage.instance.setItem(KeyChain.EmailFooter, footerString);
     }
