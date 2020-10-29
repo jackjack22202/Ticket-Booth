@@ -16,13 +16,14 @@ body {
 #layout {
   display: flex; // Flexbox definition
   overflow: hidden; // Disable scrolling on layout
+  margin-left: -174px;
 
   // Style in common for sidebars and main area:
-  .header {
-    position: relative;
-    height: var(--header-height);
-    .title { position: absolute; left: 0; right: 0; }
-  }
+  // .header {
+  //   position: relative;
+  //   height: var(--header-height);
+  //   .title { position: absolute; left: 0; right: 0; }
+  // }
   .content {
     overflow: auto;
     box-sizing: border-box;
@@ -31,16 +32,19 @@ body {
     padding-left: 1rem;
     padding-right: 1rem;
   }
-  .sidebar-content {
-    overflow: auto;
-    box-sizing: border-box;
-    height: 100%;
-    padding: 1rem;
-  }
+  // .sidebar-content {
+  //   overflow: auto;
+  //   box-sizing: border-box;
+  //   height: 100%;
+  //   padding: 1rem;
+  // }
 }
 
 // Main area specific style:
-#main { background: var(--bg-main); flex-grow: 1;
+#main { 
+  // background: var(--bg-main); 
+  // flex-grow: 1;
+  margin: 0 16px;
   .header { background: linear-gradient(to right, var(--bg-left), var(--bg-right));
     @media (orientation: landscape) {
       .title { transition: left var(--secs), right var(--secs);
@@ -50,51 +54,132 @@ body {
   }
 }
 
-#right { transition: width var(--secs); width: 0;
+#right { transition: width var(--secs); width: 46px;
   @media (orientation: landscape) {
-    &.open { width: calc(1% * var(--landscape-width)); }
+    &.open { width: calc(1% * var(--landscape-width));    display: flex;
+      flex-direction: column; }
   }
-  .icon { position: absolute; z-index: 10; margin-top: -16px;
-    width: var(--header-height); height: var(--header-height);
-    line-height: var(--header-height); font-size: var(--header-height);
+  .icon { position: absolute;  margin-top: 30px;
+    font-size: 48px;
+    height: 24px;
+    line-height: 17px;
     text-align: center; user-select: none; cursor: pointer;
   }
-  .sidebar { transition: transform var(--secs);
-    @media (orientation: portrait) { width: var(--portrait-width); }
-    @media (orientation: landscape) { width: calc(1vw * var(--landscape-width)); }
-  }
+  // .sidebar { transition: transform var(--secs);
+  //   @media (orientation: portrait) { width: var(--portrait-width); }
+  //   @media (orientation: landscape) { width: calc(1vw * var(--landscape-width)); }
+  // }
 }
 
-#right { .icon { right: 0; }
-  .sidebar { background: var(--bg-right);
+#right { .icon { }
+  .sidebar { 
     @media (orientation: portrait) {
       &.open { transform: translateX(-100%); }
     }
   }
 }
 
+// #rightbar {
+//   height: 100vh;
+//   border: none;
+//   border-left: 1px solid rgba(0,0,0,.125);
+//   margin-left: 8px;
+// }
+
 #rightbar {
-  height: 100vh;
-  border: none;
-  border-left: 1px solid rgba(0,0,0,.125);
-  margin-left: 8px;
+  padding: 16px;
+  flex:1;
+  .stats {
+box-shadow: 0 15px 50px 0 rgba(0,0,0,0.05);
+border-radius: 8px;
+padding:16px 16px 16px 16px;
+margin-bottom: 16px;
+.statsInfo {
+  color:#565865;
+  font-size: 14px;
+  margin-top: 8px;
+}
+}
+.header {
+  display: flex;
+  justify-content: center;
+    align-items: center;
+    margin: 14px 0px 28px;
+  .drawerIcon {
+    font-size: 48px;
+    height: 24px;
+    line-height: 17px;
+  }
+  .title {
+    margin-bottom: 0px;
+  }
+}
 }
 
-#rightcardheading {
-  margin: 24px 12px 12px 12px;
-  border: none;
-  border-bottom: 1px solid lightgray; 
-  padding-bottom: 24px; 
-  text-align: center;
-}
+// #rightcardheading {
+//   margin: 24px 12px 12px 12px;
+//   border: none;
+//   border-bottom: 1px solid lightgray; 
+//   padding-bottom: 24px; 
+//   text-align: center;
+// }
 
 #updatecard {
-  margin: 0px 0px 16px 8px;
-  border-top-width: 2px; 
-  border-top-style: solid;
+  margin: 16px 0px;
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 8px;
+  padding-top:1px;
+  .creatorImgInfo{
+    display: flex;
+    margin-bottom: 16px;
+    .img {
+      margin-right: 16px;
+    }
+    .creatorName{
+      color: #6a6b73;
+      font-weight: 600;
+    }
+  }
+  .detailsNType {
+    color: #9495a4 !important;
+  }
 }
 
 a > img {
   margin-right: 1em;
 }
+ 
+/*Css by Pritam */
+.ticketDetailsTitleView {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid lightgray;
+  display:flex;
+  align-items: center;
+ .nameSubheading{
+   flex:1;
+   margin:0px 16px;
+   h4 {
+     margin-bottom: 0px;
+   }
+  }
+}
 
+
+.text-muted {
+  color: #9495a4 !important;
+}
+
+.ck-editor {
+  border: 1px solid rgba(0,0,0,.125) !important;
+  border-radius: 8px !important;
+}
+svg.attachFile path {
+stroke: rgb(43, 153, 255);
+}
+
+.updateCardScroll {
+  height: 100vh;
+  overflow-y: scroll;
+}
