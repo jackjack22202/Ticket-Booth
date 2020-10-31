@@ -295,7 +295,7 @@ class Tickets extends React.Component {
                   </Col>
                 </Row>
                 {tickets.map((item) => (
-                  <Row className="align-items-center tktBoothCV">
+                  <Row className="align-items-center tktBoothCV" key={item.id}>
                     <Col sm={1} md={1} lg={1}>
                       <Image
                         src={item?.creator?.photo_thumb_small}

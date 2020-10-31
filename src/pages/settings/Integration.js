@@ -178,8 +178,8 @@ export class Integration extends React.Component {
                                     </Form.Label>
                                     <Form.Control as='select' onChange={(e) => this.setEmailColumn(e)} >
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id}  selected={this.state.emailColumn === column.id}>
-                                                {column.title}
+                                            <option id={column.id}  selected={this.state.emailColumn === column.id} key={column.id}>
+                                                {column.title} 
                                             </option>
                                         )}
                                     </Form.Control>

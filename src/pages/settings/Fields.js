@@ -117,7 +117,9 @@ export class Fields extends React.Component {
                                     </Form.Label>
                                     <Form.Control as='select' placeholder='Select a Column' onChange={(e) => this.setIDColumn(e)}>
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id}  selected={this.state.idColumn === column.id}>{column.title}</option>
+                                            <option id={column.id}  selected={this.state.idColumn === column.id} key={column.id}>
+                                                {column.title}
+                                            </option>
                                         )}
                                     </Form.Control>
                                 </div>
@@ -136,7 +138,7 @@ export class Fields extends React.Component {
                                     </Form.Label>
                                     <Form.Control as='select' onChange={(e) => this.setSubtitleColumn(e)}>
                                         {this.props.columns.map((column, i) => 
-                                            <option id={column.id}  selected={this.state.subtitleColumn === column.id}>{column.title}</option>
+                                            <option id={column.id} selected={this.state.subtitleColumn === column.id} key={column.id}>{column.title}</option>
                                         )}
                                     </Form.Control>
                             </Form.Group>
@@ -152,7 +154,9 @@ export class Fields extends React.Component {
                                 </Form.Label>
                                 <Form.Control as='select' onChange={(e) => this.setStatusColumn(e)}>
                                     {this.props.columns.map((column, i) => 
-                                        <option id={column.id}  selected={this.state.statusColumn === column.id}>{column.title}</option>
+                                        <option id={column.id}  selected={this.state.statusColumn === column.id} key={column.id}>
+                                            {column.title}
+                                        </option>
                                     )}
                                 </Form.Control>
                             </Form.Group>
@@ -172,7 +176,7 @@ export class Fields extends React.Component {
                                 <div>
                                     {this.props.columns.map((column, i) => {
                                         let contains = this.state.details ? (this.state.details.indexOf(column.id) !== -1) : false;
-                                        return <Form.Check type="checkbox" label={column.title} value={column.id}  onChange={() => this.toggleDetail(i)} checked={contains}/>
+                                        return <Form.Check type="checkbox" label={column.title} value={column.id}  onChange={() => this.toggleDetail(i)} checked={contains} key={column.id}/>
                                         }
                                     )}
                                 </div>
