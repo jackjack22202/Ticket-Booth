@@ -1,8 +1,7 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
 import { Row, Form, Col, Container } from "react-bootstrap";
-import CKEditor from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
+import CKEditor from 'ckeditor4-react';
 import { GrAttachment, GrEmoji } from "react-icons/gr";
 
 //data
@@ -13,40 +12,21 @@ import './Settings.scss';
 const monday = mondaySdk();
 
 const editorConfiguration = {
-    toolbar: {
-      items: [
-        'underline',
-        'bold',
-        'italic',
-        'link',
-        'bulletedList',
-        'numberedList',
-        'blockQuote',
-        'insertTable',
-        'undo',
-        'redo',
-        'alignment'
-      ]
-    },
-    language: 'en',
-    image: {
-      toolbar: [
-        'imageTextAlternative',
-        'imageStyle:full',
-        'imageStyle:side'
-      ]
-    },
-    table: {
-      contentToolbar: [
-        'tableColumn',
-        'tableRow',
-        'mergeTableCells'
-      ]
-    },
-    licenseKey: '',
-    
-  };
-  
+toolbar: [[
+    'Bold',
+    'Italic',
+    'Link',
+    'BulletedList',
+    'NumberedList',
+    'BlockQuote',
+    'Table',
+    'Undo',
+    'Redo',
+    'Source'
+    ]
+],
+allowedContent: true,
+};
 
 export class Integration extends React.Component {
 
@@ -64,10 +44,10 @@ export class Integration extends React.Component {
         this.state = {
             emailColumn: null,
             acceptedTerms: false,
-            emailFooter: '',
+            editorData: '',
         }
-        this.textEditor = React.createRef();
         this.getSettings();
+        this.editorEvent = this.editorEvent.bind( this );
     }
 
     getSettings() {
@@ -79,11 +59,10 @@ export class Integration extends React.Component {
             const storedAcceptedTerms = allPromises[0].data ? (allPromises[0].data.value === 'true') : false;
             const storedEmailColumn =  allPromises[1].data ? allPromises[1].data.value : '' ;
             const storedEmailFooter =  allPromises[2].data.value ? allPromises[2].data.value : '' ;
-
             this.setState({
                 emailColumn: storedEmailColumn,
                 acceptedTerms: storedAcceptedTerms,
-                emailFooter: storedEmailFooter
+                editorData: storedEmailFooter,
             })
         })
     }
@@ -105,16 +84,12 @@ export class Integration extends React.Component {
     }
 
     setFooter() {
-        const footerString = this.textEditor.getData()
-        .replace(/&amp;/g, "&")
-        .replace(/&lt;/g, "<")
-        .replace(/&gt;/g, ">")
-        .replace(/&quot;/g, "\"")
-        .replace(/&#039;/g, "'")
-        .replace(/&equals;/g, "=")
-        .replace(/&nbsp;/g, "");
-        
+        const footerString = this.state.editorData.replace(/\n/g, '');
         monday.storage.instance.setItem(KeyChain.EmailFooter, footerString);
+    }
+
+    editorEvent(event) {
+        this.setState({editorData: event.editor.getData()});
     }
 
     storeToken() {
@@ -212,14 +187,10 @@ export class Integration extends React.Component {
                             </Form.Group>
                             <div tag="texteditor" style={{ paddingTop: "30px" }}>
                       <CKEditor
-                        editor={ClassicEditor}
-                        data={this.state.emailFooter}
+                        data={this.state.editorData}
                         config={editorConfiguration}
 
-                        onInit={(editor) => {
-                          // Attaching React.ref to editor
-                          this.textEditor = editor;
-                        }}
+                        onChange={this.editorEvent}
                       />
                       <div
                         style={{

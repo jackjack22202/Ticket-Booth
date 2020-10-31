@@ -4,7 +4,7 @@ import mondaySdk from "monday-sdk-js";
 import LoadingMask from "react-loadingmask";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Image } from "react-bootstrap";
-import CKEditor from "@ckeditor/ckeditor5-react";
+import CKEditor from 'ckeditor4-react';
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
 //styles
@@ -16,30 +16,21 @@ const monday = mondaySdk();
 const Handlebars = require("handlebars");
 
 const editorConfiguration = {
-  toolbar: {
-    items: [
-      "underline",
-      "bold",
-      "italic",
-      "link",
-      "bulletedList",
-      "numberedList",
-      "blockQuote",
-      "insertTable",
-      "undo",
-      "redo",
-      "alignment",
-    ],
-  },
-  language: "en",
-  image: {
-    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
-  },
-  table: {
-    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
-  },
-  licenseKey: "",
-};
+  toolbar: [[
+      'Bold',
+      'Italic',
+      'Link',
+      'BulletedList',
+      'NumberedList',
+      'BlockQuote',
+      'Table',
+      'Undo',
+      'Redo',
+      'Source'
+      ]
+  ],
+  allowedContent: true,
+  };
 
 class Details extends React.Component {
   constructor(props) {
@@ -61,7 +52,8 @@ class Details extends React.Component {
       emailFooter: "",
     };
 
-    this.textEditor = React.createRef();
+    this.editorEvent = this.editorEvent.bind( this );
+
   }
 
   componentDidMount() {
@@ -165,17 +157,14 @@ class Details extends React.Component {
     return formattedString;
   }
 
+  editorEvent(event) {
+    this.setState({editorData: event.editor.getData()});
+  }
+
   postUpdate = function (audience) {
     this.setState({ updateLoading: true });
-    var update_string = this.textEditor.getData()
-      .replace(/&amp;/g, "&")
-      .replace(/&lt;/g, "<")
-      .replace(/&gt;/g, ">")
-      .replace(/&quot;/g, "\"")
-      .replace(/&#039;/g, "'")
-      .replace(/&equals;/g, "=")
-      .replace(/&nbsp;/g, "");
-    this.textEditor.setData('');
+    var update_string = this.state.editorData;
+    this.setState({editorData: ''});
 
     if (audience === "internal") {
       update_string = update_string.concat("<br><br>[Internal]");
@@ -328,12 +317,10 @@ class Details extends React.Component {
               key={ticket?.id}
             >
               <CKEditor
-                editor={ClassicEditor}
+                data={this.state.editorData}
                 config={editorConfiguration}
-                onInit={(editor) => {
-                  // Attaching React.ref to editor
-                  this.textEditor = editor;
-                }}
+
+                onChange={this.editorEvent}
               />
               <div
                 style={{

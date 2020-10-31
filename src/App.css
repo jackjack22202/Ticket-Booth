@@ -112,6 +112,26 @@ button:disabled {
   border-radius: unset
 }
 
+/* --------- CKEDITOR4 STYLES BEGIN  ----------------------------------------------------------------- */
+
+.cke_chrome{
+  border-radius: 10px !important;
+  border: 1px solid #bb89e5 !important;
+  min-height: 150px !important;
+}
+
+.cke_reset_all, .cke_reset, .cke_inner, .cke_contents {
+  background: transparent !important;
+  height: auto !important;
+}
+
+.cke_bottom {
+  display: none !important;
+}
+
+/* --------- CKEDITOR4 STYLES END -------------------------------------------------------------------- */
+
+
 /* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
 .ck-toolbar_grouping {
 	border-top-left-radius: 10px !important;
