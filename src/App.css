@@ -14,14 +14,14 @@ body {
 }
 
 .sidebar-component {
-  padding-left: 240px;
+  flex:1
 }
 
-.sidenav-custom {
+/* .sidenav-custom {
   height: 100%;
   position: fixed; 
   z-index: 1
-}
+} */
 
 .btn {
   display: inline-block;
@@ -273,4 +273,8 @@ top: 46px;
 .blackBtn:hover {
   text-decoration: none;
   color: #323338;
+}
+
+.blackBtn:focus {
+  outline: none;
 }

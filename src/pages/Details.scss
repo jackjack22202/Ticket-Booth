@@ -1,98 +1,40 @@
-:root {
-  --landscape-width: 33;
-  --portrait-width: 80vw;
-  --header-height: 6rem;
-  --footer-height: 9.5rem;
-  --secs: 0.4s;
-}
-
-body {
-    min-height: calc(100vh - 20px);
-    max-width: calc(100vw - 20px);
-    margin: 4px;
-    // overflow: hidden;
-}
-
 #layout {
   display: flex; // Flexbox definition
   overflow: hidden; // Disable scrolling on layout
-  margin-left: -174px;
-
-  // Style in common for sidebars and main area:
-  // .header {
-  //   position: relative;
-  //   height: var(--header-height);
-  //   .title { position: absolute; left: 0; right: 0; }
-  // }
-  .content {
-    overflow: auto;
-    box-sizing: border-box;
-    height: calc(100vh - var(--header-height) - var(--footer-height));
-    padding-bottom: 1rem;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  // .sidebar-content {
-  //   overflow: auto;
-  //   box-sizing: border-box;
-  //   height: 100%;
-  //   padding: 1rem;
-  // }
 }
 
-// Main area specific style:
-#main { 
-  // background: var(--bg-main); 
-  // flex-grow: 1;
-  margin: 0 16px;
-  .header { background: linear-gradient(to right, var(--bg-left), var(--bg-right));
-    @media (orientation: landscape) {
-      .title { transition: left var(--secs), right var(--secs);
-        &.right-closed { right: var(--header-height); }
-      }
-    }
-  }
-}
 
-#right { transition: width var(--secs); width: 46px;
+
+#right { transition: width var(--secs); width: 142px;
   @media (orientation: landscape) {
-    &.open { width: calc(1% * var(--landscape-width));    display: flex;
+    &.open { width: auto;    display: flex;
       flex-direction: column; }
   }
-  .icon { position: absolute;  margin-top: 30px;
+  .icon {  
+    margin-top: 30px;
+    display: flex;
+    align-self: center;
+    justify-content: center;
     font-size: 48px;
     height: 24px;
     line-height: 17px;
-    text-align: center; user-select: none; cursor: pointer;
-  }
-  // .sidebar { transition: transform var(--secs);
-  //   @media (orientation: portrait) { width: var(--portrait-width); }
-  //   @media (orientation: landscape) { width: calc(1vw * var(--landscape-width)); }
-  // }
-}
-
-#right { .icon { }
-  .sidebar { 
-    @media (orientation: portrait) {
-      &.open { transform: translateX(-100%); }
+    text-align: center; 
+    user-select: none; 
+    cursor: pointer;
+    h5 {
+    font-size: 16px;
+    margin-bottom: 0px;
+    line-height: 1.5;
     }
   }
 }
 
-// #rightbar {
-//   height: 100vh;
-//   border: none;
-//   border-left: 1px solid rgba(0,0,0,.125);
-//   margin-left: 8px;
-// }
-
 #rightbar {
-  padding: 16px;
   flex:1;
   .stats {
 box-shadow: 0 15px 50px 0 rgba(0,0,0,0.05);
 border-radius: 8px;
-padding:16px 16px 16px 16px;
+padding:8px;
 margin-bottom: 16px;
 .statsInfo {
   color:#565865;
@@ -116,13 +58,13 @@ margin-bottom: 16px;
 }
 }
 
-// #rightcardheading {
-//   margin: 24px 12px 12px 12px;
-//   border: none;
-//   border-bottom: 1px solid lightgray; 
-//   padding-bottom: 24px; 
-//   text-align: center;
-// }
+#rightcardheading {
+  margin: 24px 12px 12px 12px;
+  border: none;
+  border-bottom: 1px solid lightgray; 
+  padding-bottom: 24px; 
+  text-align: center;
+}
 
 #updatecard {
   margin: 16px 0px;
@@ -143,10 +85,6 @@ margin-bottom: 16px;
   .detailsNType {
     color: #9495a4 !important;
   }
-}
-
-a > img {
-  margin-right: 1em;
 }
  
 /*Css by Pritam */
@@ -180,6 +118,17 @@ stroke: rgb(43, 153, 255);
 }
 
 .updateCardScroll {
-  height: 100vh;
+  height: 50vh;
   overflow-y: scroll;
+}
+
+
+.updateCardStatusScroll {
+  height: 95vh;
+  overflow-y: scroll;
+  padding: 16px;
+}
+
+#right.closed #rightbar,#right.closed .icon.closed h5 {
+  display: none;
 }

@@ -50,20 +50,17 @@ export default class SettingRouter extends React.Component {
 
   render() {
     return (
-      <>
-        <h3 style={{padding: '0.5em', fontWeight: 'bold'}}>Settings</h3>
+      <div>
         <Tab.Container id="left-setting-tabs" default="general">
           <Row>
-            <Col sm={3}>
-              <Nav className="flex-column">
+            <Col xs={12}>
+              <Nav className="mondayTab" variant="pills">
                 <Nav.Item>
                   <Nav.Link
                     eventKey={SettingViews.General}
                     onClick={() => this.setState({currentView: SettingViews.General})}
                     className={this.state.currentView === SettingViews.General ? 'selected-view' : 'unselected-view'}
-                  >
-                    <img src={Settings2Icon} alt="General Settings" style={{height:"32px", width:"32px"}}/>
-                    <span>General</span>
+                  >General
                     </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -72,8 +69,7 @@ export default class SettingRouter extends React.Component {
                     onClick={() => this.setState({currentView: SettingViews.Fields})}
                     className={this.state.currentView === SettingViews.Fields ? 'selected-view' : 'unselected-view'}
                   > 
-                    <img src={ColumnIcon} alt="Field Settings" style={{height:"32px", width:"32px"}}/>
-                    <span>Fields</span>
+                    Fields
                   </Nav.Link>
                 </Nav.Item>
                 <Nav.Item>
@@ -82,8 +78,7 @@ export default class SettingRouter extends React.Component {
                     onClick={() => this.setState({currentView: SettingViews.Integration})}
                     className={this.state.currentView === SettingViews.Integration ? 'selected-view' : 'unselected-view'}
                   >
-                    <img src={ItegrationIcon} alt="Integration Settings" style={{height:"32px", width:"32px"}}/>
-                    <span>Integrations</span>
+                    Integrations
                   </Nav.Link>
                 </Nav.Item>
                 {/* 
@@ -96,7 +91,7 @@ export default class SettingRouter extends React.Component {
                 */}
               </Nav>
             </Col>
-            <Col sm={9}>
+            <Col xs={12}>
               <Tab.Content>
                 <Tab.Pane eventKey={SettingViews.General}>
                   <GeneralSettings/>
@@ -116,7 +111,7 @@ export default class SettingRouter extends React.Component {
             </Col>
           </Row>
         </Tab.Container>
-      </>
+      </div>
     );
   }
 }

@@ -212,7 +212,7 @@ class Tickets extends React.Component {
             display: this.state.viewLoading ? "block" : "none",
           }}
         ></LoadingMask>
-        <div style={{ display: this.state.viewLoading ? "none" : "block",marginLeft: this.state.viewLoading ? "-174px" : "-174px",}}>
+        <div style={{ display: this.state.viewLoading ? "none" : "block",}}>
           <Container fluid style={{ display: "flex", alignItems: "center" }}>
             <Nav
               variant="pills"

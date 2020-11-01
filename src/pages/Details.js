@@ -4,7 +4,7 @@ import mondaySdk from "monday-sdk-js";
 import LoadingMask from "react-loadingmask";
 import { Link } from "react-router-dom";
 import { Container, Row, Col, Card, Form, Image } from "react-bootstrap";
-import CKEditor from 'ckeditor4-react';
+import CKEditor from "ckeditor4-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
 //styles
@@ -16,21 +16,22 @@ const monday = mondaySdk();
 const Handlebars = require("handlebars");
 
 const editorConfiguration = {
-  toolbar: [[
-      'Bold',
-      'Italic',
-      'Link',
-      'BulletedList',
-      'NumberedList',
-      'BlockQuote',
-      'Table',
-      'Undo',
-      'Redo',
-      'Source'
-      ]
+  toolbar: [
+    [
+      "Bold",
+      "Italic",
+      "Link",
+      "BulletedList",
+      "NumberedList",
+      "BlockQuote",
+      "Table",
+      "Undo",
+      "Redo",
+      "Source",
+    ],
   ],
   allowedContent: true,
-  };
+};
 
 class Details extends React.Component {
   constructor(props) {
@@ -52,8 +53,7 @@ class Details extends React.Component {
       emailFooter: "",
     };
 
-    this.editorEvent = this.editorEvent.bind( this );
-
+    this.editorEvent = this.editorEvent.bind(this);
   }
 
   componentDidMount() {
@@ -158,13 +158,13 @@ class Details extends React.Component {
   }
 
   editorEvent(event) {
-    this.setState({editorData: event.editor.getData()});
+    this.setState({ editorData: event.editor.getData() });
   }
 
   postUpdate = function (audience) {
     this.setState({ updateLoading: true });
     var update_string = this.state.editorData;
-    this.setState({editorData: ''});
+    this.setState({ editorData: "" });
 
     if (audience === "internal") {
       update_string = update_string.concat("<br><br>[Internal]");
@@ -172,14 +172,22 @@ class Details extends React.Component {
       update_string = update_string.concat("<br><br>[Client]");
       update_string = update_string.concat(this.state.emailFooter);
     }
-    monday.api(`mutation { create_update (item_id: ${this.state.ticket_id}, body: """${update_string}""") { id } }`).then((res) => {
-      monday.api(`query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `).then((res) => {
-        this.setState({
-          updates: res.data.items[0].updates.reverse(),
-          updateLoading: false,
-        });
+    monday
+      .api(
+        `mutation { create_update (item_id: ${this.state.ticket_id}, body: """${update_string}""") { id } }`
+      )
+      .then((res) => {
+        monday
+          .api(
+            `query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `
+          )
+          .then((res) => {
+            this.setState({
+              updates: res.data.items[0].updates.reverse(),
+              updateLoading: false,
+            });
+          });
       });
-    });
 
     if (audience === "client") {
       if (this.state.client_emails) {
@@ -274,42 +282,42 @@ class Details extends React.Component {
               }}
             />
             <div className="updateCardScroll">
-            {updates?.map((update) => (
-              <div id="updatecard">
-                <div
-                  key={update.id}
-                  style={{
-                    padding: 16,
-                    borderTop: update?.body.includes("[Client]")
-                      ? "1px solid #7854cc"
-                      : update?.body.includes("[Internal]")
-                      ? "1px solid red"
-                      : "none",
-                  }}
-                >
-                  <div className="creatorImgInfo">
-                    <Image
-                      src={update.creator.photo_thumb_small}
-                      roundedCircle
-                      fluid
-                      style={{ marginRight: "8px" }}
-                    />
-                    <div className="createNameDate">
-                      <div className="creatorName">{update.creator.name}</div>
-                      <div className="text-muted">
-                        {this.dateHandler(update.created_at)}
+              {updates?.map((update) => (
+                <div id="updatecard">
+                  <div
+                    key={update.id}
+                    style={{
+                      padding: 16,
+                      borderTop: update?.body.includes("[Client]")
+                        ? "1px solid #7854cc"
+                        : update?.body.includes("[Internal]")
+                        ? "1px solid red"
+                        : "none",
+                    }}
+                  >
+                    <div className="creatorImgInfo">
+                      <Image
+                        src={update.creator.photo_thumb_small}
+                        roundedCircle
+                        fluid
+                        style={{ marginRight: "8px" }}
+                      />
+                      <div className="createNameDate">
+                        <div className="creatorName">{update.creator.name}</div>
+                        <div className="text-muted">
+                          {this.dateHandler(update.created_at)}
+                        </div>
                       </div>
                     </div>
+                    <div
+                      className="detailsNType"
+                      dangerouslySetInnerHTML={{
+                        __html: update.body,
+                      }}
+                    />
                   </div>
-                  <div
-                    className="detailsNType"
-                    dangerouslySetInnerHTML={{
-                      __html: update.body,
-                    }}
-                  />
                 </div>
-              </div>
-            ))}
+              ))}
             </div>
             <div
               tag="texteditor"
@@ -319,7 +327,6 @@ class Details extends React.Component {
               <CKEditor
                 data={this.state.editorData}
                 config={editorConfiguration}
-
                 onChange={this.editorEvent}
               />
               <div
@@ -377,37 +384,40 @@ class Details extends React.Component {
           <div id="right" className={`${rightOpen}`}>
             <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>
               &equiv;
+              <h5 className={` title ${"right-" + rightOpen}`}>
+                Ticket Details
+              </h5>
             </div>
             <div id="rightbar">
-              <div className="header">
+              {/* <div className="header">
                 <div className="drawerIcon" onClick={this.toggleSidebar}>
                   &equiv;
                 </div>
-                <h5 className={` title ${"right-" + rightOpen}`}>
-                  Ticket Details
-                </h5>
-              </div>
-              {this.state.field_values?.map((item) => (
-                <div className="stats" key={item.title}>
-                  <div>{item.title}:</div>
+               
+              </div> */}
+              <div className="updateCardStatusScroll">
+                {this.state.field_values?.map((item) => (
+                  <div className="stats" key={item.title}>
+                    <div>{item.title}:</div>
 
-                  <div className="statsInfo">{item.text}</div>
-                </div>
-              ))}
-              <div className="stats">
-                <div>Created At:</div>
-                <div className="statsInfo">
-                  {this.dateHandler(ticket?.created_at)}
+                    <div className="statsInfo">{item.text}</div>
+                  </div>
+                ))}
+                <div className="stats">
+                  <div>Created At:</div>
+                  <div className="statsInfo">
+                    {this.dateHandler(ticket?.created_at)}
+                  </div>
                 </div>
               </div>
+              <button
+                className="blackBtn"
+                style={{ margin: "16px auto 0px" }}
+                onClick={() => this.editDetails()}
+              >
+                Edit
+              </button>
             </div>
-            <button
-              className="blackBtn"
-              style={{ margin: "16px auto 0px" }}
-              onClick={() => this.editDetails()}
-            >
-              Edit
-            </button>
           </div>
         </div>
       </>
