@@ -117,7 +117,7 @@ button:disabled {
 .cke_chrome{
   border-radius: 10px !important;
   border: 1px solid #bb89e5 !important;
-  min-height: 150px !important;
+  min-height: 200px !important;
 }
 
 .cke_reset_all, .cke_reset, .cke_inner, .cke_contents {
