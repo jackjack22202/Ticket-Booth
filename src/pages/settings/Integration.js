@@ -138,33 +138,24 @@ export class Integration extends React.Component {
   render() {
     return (
       <div>
-        <Form.Group className="setting-padding">
-          <Form.Label>
-            <h3>Integration Settings</h3>
-          </Form.Label>
-        </Form.Group>
-        <Form.Group className="setting-wrapper">
-          <div className="setting-padding">
-            <Form.Label>
-              <div className="bold">API</div>
-              <div>API Agreement</div>
-              <div className="text-muted">
-                Allows Ticket Booth to store users API key on a thirdparty
-                database for board view integrations.
-              </div>
-            </Form.Label>
+        <h3 className="setting-padding">Integration Settings</h3>
+
+        <Row className="setting-wrapper">
+          <Col md={6}>
+            <div className="settingTitle">API</div>
+            <div className="preTitle">API Agreement</div>
+            <div className="settingSubTitle">
+              Allows Ticket Booth to store users API key on a thirdparty
+              database for board view integrations.
+            </div>
             <Form.Check
               type="checkbox"
               label="I Accept"
               onClick={(e) => this.setAcceptTerms(e.target.value)}
               checked={this.state.acceptedTerms}
             />
-          </div>
-          <div className="setting-padding">
-            <Form.Label>
-              <div>API Key</div>
-              <div className="text-muted">Admins Personal API v2 Token</div>
-            </Form.Label>
+            <div className="preTitle">API Key</div>
+            <div className="settingSubTitle">Admins Personal API v2 Token</div>
             <Form.Control
               type="password"
               placeholder="Paste your token here"
@@ -173,18 +164,16 @@ export class Integration extends React.Component {
               title={"Accept the agreement above to input a token."}
               disabled={!this.state.acceptedTerms}
             />
-          </div>
-        </Form.Group>
+          </Col>
+        </Row>
 
-        <Form.Group className="setting-wrapper">
-          <div className="setting-padding">
-            <Form.Label>
-              <div className="bold">Client Support System</div>
-              <div>Client Email</div>
-              <div className="text-muted">
-                Choose the column that contains your client's email.
-              </div>
-            </Form.Label>
+        <Row className="setting-wrapper">
+          <Col>
+            <div className="settingTitle">Client Support System</div>
+            <div className="preTitle">Client Email</div>
+            <div className="settingSubTitle">
+              Choose the column that contains your client's email.
+            </div>
             <Form.Control as="select" onChange={(e) => this.setEmailColumn(e)}>
               {this.props.columns.map((column, i) => (
                 <option
@@ -196,46 +185,29 @@ export class Integration extends React.Component {
                 </option>
               ))}
             </Form.Control>
-          </div>
-        </Form.Group>
-        <div tag="texteditor" style={{ paddingTop: "30px" }}>
+          </Col>
+        </Row>
+        <div tag="texteditor">
           <CKEditor
             data={this.state.editorData}
             config={editorConfiguration}
             onChange={this.editorEvent}
           />
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <p style={{ padding: 5, color: "#2b99ff" }}>
+          <div className="textEditorConfig">
+            <div className="flexOne">
+              <p>
                 <GrAttachment /> Add File
               </p>
-              <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
-              <p style={{ padding: 5, color: "#2b99ff" }}>
+              <p>GIF</p>
+              <p>
                 <GrEmoji /> Emoji
               </p>
-              <p style={{ padding: 5, color: "#2b99ff" }}>@Mention</p>
+              <p>@Mention</p>
             </div>
-            <div>
-              <button
-                className="btn btn-primary"
-                style={{ margin: "8px" }}
-                onClick={() => this.setFooter()}
-              >
-                Save
-              </button>
-            </div>
+            <button className="saveBtn" onClick={() => this.setFooter()}>
+              Save
+            </button>
+            <div></div>
           </div>
         </div>
       </div>

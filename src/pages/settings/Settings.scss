@@ -1,52 +1,106 @@
 // Settings Styles
-.subtext {
-    color: grey;
-  }
+.settingsContent {
+  width: 70%;
+}
+.setting-padding {
+  padding: 32px 0px;
+}
   .setting-wrapper {
     border: 2px solid lightgrey;
     border-radius: 1rem;
-  
-  }
-  .setting-padding {
-    margin: 1rem;
-    padding: 1rem;
+    padding: 24px 8px;
+    margin: 0px 0px 32px;
+    select {
+      max-width: 250px;
+    }
   }
 
-  .setting-area {
-      border: #007bff 2px solid;
-      border-radius: 5px;
+  .settingTitle {
+    font-weight: 900;
+    color: #212529;
+    margin-bottom: 4px;
+    height: 24px;
   }
+ 
+  .settingSubTitle {
+    color: grey;
+    font-size: 16px;
+    margin: 0px 0px 8px;
+  }
+
+  .preTitle {
+    font-weight: 500;
+    color: #212529;
+    margin-top: 8px;
+  }
+
+  .cke_chrome {
+    border: 2px solid lightgrey !important;
+}
+
+.saveBtn {
+  font-weight: 400;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 10.5px 16px;
+    margin: 8px 0;
+    height: 40px;
+    background-color: #0085ff;
+    border-radius: 4px;
+    color: #fff;
+    border: 0;
+    display: block;
+    width: -moz-fit-content;
+    width: fit-content;
+}
+
+.textEditorConfig {
+  display: flex;
+  flex-direction: row;
+  .flexOne {
+    flex:1;
+    display: flex;
+    p {
+      padding: 8px 8px 8px 0px;
+      color: #2b99ff;
+    }
+  }
+}
+  // .setting-area {
+  //     border: #007bff 2px solid;
+  //     border-radius: 5px;
+  // }
   
   // Utility classes
-  .flex {
-    display: flex;
-  }
-  .bold {
-   font-weight: bold;
-   margin-bottom: 1rem;
-  }
+  // .flex {
+  //   display: flex;
+  // }
+  // .bold {
+  //  font-weight: bold;
+  //  margin-bottom: 1rem;
+  // }
 
-  .selected-view {
-    color: #007bff;
-    background-color: #C2DFFF;
-    border-radius: 1em;
-    &:focus{
-        outline: none;
-    }
-  }
+//   .selected-view {
+//     color: #007bff;
+//     background-color: #C2DFFF;
+//     border-radius: 1em;
+//     &:focus{
+//         outline: none;
+//     }
+//   }
 
-  .unselected-view {
-    color: black;
-    &:focus{
-        outline: none;
-    }
-  }
+//   .unselected-view {
+//     color: black;
+//     &:focus{
+//         outline: none;
+//     }
+//   }
 
- .nav-link {
-      margin-left: 1em;
-  }
-  .row {
-     margin-right: 0px;
-     margin-left: 0px;
-  }
+//  .nav-link {
+//       margin-left: 1em;
+//   }
+//   .row {
+//      margin-right: 0px;
+//      margin-left: 0px;
+//   }
 
