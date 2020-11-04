@@ -3,11 +3,13 @@
   overflow: hidden; // Disable scrolling on layout
 }
 
-
+#main {
+  flex:1;
+}
 
 #right { transition: width var(--secs); width: 142px;
   @media (orientation: landscape) {
-    &.open { width: auto;    display: flex;
+    &.open { width: 350px;    display: flex;
       flex-direction: column; }
   }
   .icon {  
