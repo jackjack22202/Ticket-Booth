@@ -288,10 +288,12 @@ class Details extends React.Component {
                     key={update.id}
                     style={{
                       padding: 16,
+                      borderTopLeftRadius: 4,
+                      borderTopRightRadius: 4,
                       borderTop: update?.body.includes("[Client]")
-                        ? "1px solid #7854cc"
+                        ? "2px solid #7854cc"
                         : update?.body.includes("[Internal]")
-                        ? "1px solid red"
+                        ? "2px solid red"
                         : "none",
                     }}
                   >
