@@ -177,6 +177,7 @@ class Details extends React.Component {
   postUpdate = function (audience) {
     this.setState({ updateLoading: true });
     var update_string = this.state.editorData;
+    var email_string = this.state.editorData;
     this.setState({ editorData: "" });
 
     if (audience === "internal") {
@@ -184,6 +185,7 @@ class Details extends React.Component {
     } else if (audience === "client") {
       update_string = update_string.concat("<br><br>[Client]");
       update_string = update_string.concat(this.state.emailFooter);
+      email_string = email_string.concat(this.state.emailFooter);
     }
     monday
       .api(
@@ -210,7 +212,7 @@ class Details extends React.Component {
         var raw = JSON.stringify({
           recipient: this.state.client_emails,
           creator: this.state.user.name,
-          update_body: update_string,
+          update_body: email_string,
           ticket_address: this.state.ticket_address,
           ticket_slug: this.state.slug,
           ticket_id: this.state.ticket_id,
