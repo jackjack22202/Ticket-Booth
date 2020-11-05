@@ -3,9 +3,8 @@ import mondaySdk from "monday-sdk-js";
 //controls
 import LoadingMask from "react-loadingmask";
 import { Link } from "react-router-dom";
-import { Container, Row, Col, Card, Form, Image } from "react-bootstrap";
+import { Image } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic/build/ckeditor";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
 //styles
 import "./Details.scss";
@@ -51,6 +50,7 @@ class Details extends React.Component {
       updateLoading: false,
       rightOpen: true,
       emailFooter: "",
+      up_page: 1,
     };
 
     this.editorEvent = this.editorEvent.bind(this);
@@ -61,14 +61,16 @@ class Details extends React.Component {
       this.setState({ context: res.data });
       monday
         .api(
-          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates { id created_at text_body body creator { id name photo_thumb_small } } } } `
+          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
         )
         .then((res) => {
           new Promise((resolve, _) => {
+            var updates_list = res.data.items[0].updates;
+            updates_list = updates_list.reverse();
             this.setState(
               {
                 ticket_data: res.data.items[0],
-                updates: res.data.items[0].updates,
+                updates: updates_list,
                 client_emails: res.data.items[0].column_values.find(
                   (x) => x.id === this.state.settings.client_email_column_key
                 )?.text,
@@ -92,11 +94,6 @@ class Details extends React.Component {
                   : "";
                 const templateFooter = Handlebars.compile(storedEmailFooter);
                 const compiledFooter = templateFooter(this.state.user);
-                this.setState({ emailFooter: compiledFooter }, function () {
-                  // call back after set state is complete
-                  this.setState({ updates: this.state.updates?.reverse() });
-                  resolve();
-                });
               }).then(() => {
                 this.parseSidebarSettings();
               });
@@ -104,6 +101,22 @@ class Details extends React.Component {
           });
         });
     });
+  }
+
+  fetchUpdates = function() {
+    this.setState({ updateLoading: true });
+    monday
+        .api(
+          `query { items(ids: ${this.state.ticket_data?.id}) { id name updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
+        )
+      .then((response) => {
+        const current_updates = this.state.updates;
+        var new_updates = response.data.items[0].updates;
+        new_updates = new_updates.reverse();
+        const updates_list = new_updates.concat(current_updates);
+
+        this.setState({ updates: updates_list, updateLoading: false });
+      });
   }
 
   parseSidebarSettings = function () {
@@ -179,11 +192,14 @@ class Details extends React.Component {
       .then((res) => {
         monday
           .api(
-            `query { items(ids: ${this.state.ticket_id}) { name updates { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `
+            `query { items(ids: ${this.state.ticket_id}) { name updates(limit:1, page: 1) { id created_at text_body body creator { id name photo_thumb_small } replies { creator { name } created_at } } } } `
           )
           .then((res) => {
+            const current_updates = this.state.updates;
+            const new_updates = res.data.items[0].updates;
+            const updates_list = current_updates.concat(new_updates);
             this.setState({
-              updates: res.data.items[0].updates.reverse(),
+              updates: updates_list,
               updateLoading: false,
             });
           });
@@ -274,7 +290,6 @@ class Details extends React.Component {
             </div>
             <LoadingMask
               loading={this.state.outerLoading}
-              text={"loading..."}
               style={{
                 height: "100%",
                 width: "100%",
@@ -282,6 +297,18 @@ class Details extends React.Component {
               }}
             />
             <div className="updateCardScroll">
+            <button
+                className="viewBtn"
+                style={{ marginLeft: "16px" }}
+                onClick={() => {
+                  const current_up_page = this.state.up_page + 1;
+                  this.setState({ up_page: current_up_page})
+                  this.fetchUpdates();
+                }}
+                disabled={this.state.updateLoading}
+              >
+                Load More Updates
+              </button>
               {updates?.map((update) => (
                 <div id="updatecard">
                   <div
