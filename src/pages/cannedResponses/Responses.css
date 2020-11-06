@@ -5,11 +5,6 @@
   margin-top: 20px;
 }
 
-.card-columns {
-  display: flex;
-  justify-content: space-around;
-}
-
 .card-link {
   padding:10px;
   color:#565353;

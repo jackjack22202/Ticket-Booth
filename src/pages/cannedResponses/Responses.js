@@ -2,16 +2,15 @@ import React, { useState, useEffect } from "react";
 import { Container, Card, Button, CardColumns } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
+import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import Avatar from "react-avatar";
 import mondaySdk from "monday-sdk-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Responses.css";
 import moment from "moment";
 
-
 const monday = mondaySdk();
- let date=moment().format("MMM Do YYYY")
+let date = moment().format("MMM Do YYYY");
 
 const Responses = () => {
   const history = useHistory();
@@ -82,7 +81,6 @@ const Responses = () => {
       <CardColumns>
         {textResponses.map((textResponse, index) => (
           <div
-              style={{padding: "10px"}}
             onClick={() => {
               history.push({
                 pathname: "/textresponse",
@@ -94,7 +92,6 @@ const Responses = () => {
           >
             <Card style={{ width: "15rem" }}>
               <Card.Body>
-
                 <Card.Title>{textResponse.title}</Card.Title>
                 <Card.Text
                   dangerouslySetInnerHTML={{ __html: textResponse.text }}
@@ -131,7 +128,7 @@ const Responses = () => {
       <CardColumns>
         {formResponses.map((textResponse, index) => (
           <div
-              style={{padding: "20px"}}
+            style={{ padding: "20px" }}
             onClick={() => {
               history.push({
                 pathname: "/formresponse",
@@ -140,10 +137,8 @@ const Responses = () => {
                 index: index
               });
             }}
-
-
           >
-            <Card    className="main-card">
+            <Card className="main-card">
               <Card.Body>
                 <span
                   className="icon-btn"
@@ -168,20 +163,12 @@ const Responses = () => {
 
   return (
     <>
-      <Container className="container" >
+      <Container className="container">
         <header className="head">
-          <span
-            variant="primary"
-            className="btn-response"
-            onClick={handleText}
-          >
+          <span variant="primary" className="btn-response" onClick={handleText}>
             Text
           </span>
-          <span
-            variant="primary"
-            className="btn-response"
-            onClick={handleForm}
-          >
+          <span variant="primary" className="btn-response" onClick={handleForm}>
             Form
           </span>
           <Link to="/newform">
@@ -193,9 +180,10 @@ const Responses = () => {
           {createFormButton}
           {createTextButton}
         </header>
-
-        {cardList}
-        {formList}
+        <div style={{padding: "10px"}}>
+          {cardList}
+          {formList}
+        </div>
       </Container>
     </>
   );
