@@ -304,8 +304,9 @@ class Details extends React.Component {
                 style={{ marginLeft: "16px" }}
                 onClick={() => {
                   const current_up_page = this.state.up_page + 1;
-                  this.setState({ up_page: current_up_page})
-                  this.fetchUpdates();
+                  this.setState({ up_page: current_up_page}, () => {
+                    this.fetchUpdates();
+                  })
                 }}
                 disabled={this.state.updateLoading}
               >
