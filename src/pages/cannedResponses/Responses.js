@@ -2,14 +2,16 @@ import React, { useState, useEffect } from "react";
 import { Container, Card, Button, CardColumns } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import {faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import Avatar from "react-avatar";
 import mondaySdk from "monday-sdk-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Responses.css";
+import moment from "moment";
+
 
 const monday = mondaySdk();
-let date = new Date(Date.now());
+ let date=moment().format("MMM Do YYYY")
 
 const Responses = () => {
   const history = useHistory();
@@ -80,6 +82,7 @@ const Responses = () => {
       <CardColumns>
         {textResponses.map((textResponse, index) => (
           <div
+              style={{padding: "10px"}}
             onClick={() => {
               history.push({
                 pathname: "/textresponse",
@@ -91,6 +94,13 @@ const Responses = () => {
           >
             <Card style={{ width: "15rem" }}>
               <Card.Body>
+
+                <Card.Title>{textResponse.title}</Card.Title>
+                <Card.Text
+                  dangerouslySetInnerHTML={{ __html: textResponse.text }}
+                ></Card.Text>
+                <Avatar name="Foo Bar" size={24} round="12px" />
+                <Card.Link href="#">{date}</Card.Link>
                 <span
                   className="icon-btn"
                   onClick={(e) => {
@@ -98,14 +108,8 @@ const Responses = () => {
                     deleteTextResponse(index);
                   }}
                 >
-                  <FontAwesomeIcon icon={faTrash} color="red" />
+                  <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
                 </span>
-                <Card.Title>{textResponse.title}</Card.Title>
-                <Card.Text
-                  dangerouslySetInnerHTML={{ __html: textResponse.text }}
-                ></Card.Text>
-                <Avatar name="Foo Bar" size={40} round="20px" />
-                <Card.Link href="#">{textResponse.date}</Card.Link>
               </Card.Body>
             </Card>
           </div>
@@ -127,6 +131,7 @@ const Responses = () => {
       <CardColumns>
         {formResponses.map((textResponse, index) => (
           <div
+              style={{padding: "20px"}}
             onClick={() => {
               history.push({
                 pathname: "/formresponse",
@@ -135,8 +140,10 @@ const Responses = () => {
                 index: index
               });
             }}
+
+
           >
-            <Card style={{ width: "15rem" }}>
+            <Card    className="main-card">
               <Card.Body>
                 <span
                   className="icon-btn"
@@ -145,7 +152,7 @@ const Responses = () => {
                     deleteFormResponse(index);
                   }}
                 >
-                  <FontAwesomeIcon icon={faTrash} color="red" />
+                  <FontAwesomeIcon icon={faTrashAlt} color="black" />
                 </span>
                 <Card.Title>{textResponse.title}</Card.Title>
                 <Card.Text>{textResponse.url}</Card.Text>
@@ -160,23 +167,23 @@ const Responses = () => {
   }
 
   return (
-    <div>
-      <Container>
+    <>
+      <Container className="container" >
         <header className="head">
-          <Button
+          <span
             variant="primary"
             className="btn-response"
             onClick={handleText}
           >
             Text
-          </Button>
-          <Button
+          </span>
+          <span
             variant="primary"
             className="btn-response"
             onClick={handleForm}
           >
             Form
-          </Button>
+          </span>
           <Link to="/newform">
             <Button className="create-btn" variant="primary">
               New Button
@@ -190,7 +197,7 @@ const Responses = () => {
         {cardList}
         {formList}
       </Container>
-    </div>
+    </>
   );
 };
 

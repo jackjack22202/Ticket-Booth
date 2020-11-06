@@ -49,7 +49,7 @@ const AddCannedResponse = () => {
     const data = {
       title: titleValue,
       text: textValue,
-      date: moment().format("MMM Do YY")
+      date: moment().format("MMM Do YYYY")
     };
     let textResponses = await monday.storage.instance.getItem("textResponses");
     let textResponsesData = JSON.parse(textResponses.data.value);
@@ -72,12 +72,13 @@ const AddCannedResponse = () => {
 
   return (
     <>
-      <Modal show={true}>
+      <Modal show={true} className="model">
         <Modal.Body>
           <div className="body-area">
-            <h5>Title</h5>
-            <input type="text" value={titleValue} onChange={handleTitle} />
-
+            <p>New Canned Text Response</p>
+            <p className="res-title"> Response Title</p>
+            <input type="text" value={titleValue} placeholder="Insert Title" onChange={handleTitle} />
+            <p className="res-title"> Description</p>
             <CKEditor
               editor={ClassicEditor}
               data={textValue}
@@ -97,16 +98,17 @@ const AddCannedResponse = () => {
               }}
             />
           </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Link to="/cannedResponses">
-            <Button className="btn btn-primary btn-sm">Cancel</Button>
+          <div className="save-btn">
+               <Link to="/cannedResponses">
+            <p className="btn-cancel">Cancel</p>
           </Link>
 
-          <Button className="btn btn-success btn-sm" onClick={saveClick}>
+          <Button className="btn-save btn-sm" onClick={saveClick}>
             Save
           </Button>
-        </Modal.Footer>
+          </div>
+        </Modal.Body>
+
       </Modal>
     </>
   );
