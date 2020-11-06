@@ -1,0 +1,26 @@
+.show-grid {
+  margin-top: 20px;
+}
+
+.card-body {
+  margin: 0;
+}
+
+.head {
+  margin-bottom: 20px;
+}
+
+.btn-primary {
+  margin-top: 10px;
+}
+.btn-response {
+  margin-right: 10px;
+}
+.create-btn {
+  margin-right: 40px;
+  float: right;
+}
+
+.icon-btn {
+  float: right;
+}

@@ -17,13 +17,18 @@ import Tickets from "./pages/Tickets";
 import Details from "./pages/Details";
 import SettingRouter from "./pages/settings/SettingRouter";
 import Announcements from "./pages/Announcements";
+import AddCannedResponse from "./pages/cannedResponses/AddCannedResponse";
+import AddFormResponse from "./pages/cannedResponses/AddFormResponse";
+import Responses from "./pages/cannedResponses/Responses";
+import NewForm from "./pages/cannedResponses/NewForm";
 
 // Import Icon Images for Side Nav
 import DashboardIcon from "./library/images/nav-icons/Icons_Misc_activity.svg";
 import TicketsIcon from "./library/images/nav-icons/Icons_Misc_item.svg";
 import SettingsIcon from "./library/images/nav-icons/Icons_Misc_Settings.svg";
+import CannedResponsesIcon from "./library/images/nav-icons/Icons_Misc_Settings2.svg";
 import AnnouncementsIcon from "./library/images/nav-icons/Icons_Misc_Megaphone.svg";
-import Hamburder from "./library/images/hamburder.svg";
+import Hamburger from "./library/images/hamburger.svg";
 import MessageIcon from "./library/images/messageicon.svg"
 
 const monday = mondaySdk();
@@ -92,7 +97,7 @@ export default class App extends React.Component {
                     }}
                   >
                     <SideNav.Toggle className="toggleBtn">
-                      <img src={Hamburder} alt="Tickets Icon" />
+                      <img src={Hamburger} alt="Tickets Icon" />
                       <div className="toggleTitle">Booth</div>
                       <div className="toggleSupport">Support</div>
                     </SideNav.Toggle>
@@ -116,6 +121,13 @@ export default class App extends React.Component {
                             alt="Announcements Icon"
                           />
                           <div className="navTitle">Announcements</div>
+                        </div>
+                      </NavItem>
+                      <NavItem eventKey="cannedResponses">
+                        <div className="custNavItem">
+                          <img src={CannedResponsesIcon} alt="Canned Responses Icon" />
+
+                          <div className="navTitle">Canned Responses</div>
                         </div>
                       </NavItem>
                       <NavItem eventKey="settings">
@@ -152,6 +164,22 @@ export default class App extends React.Component {
                         <Route
                           path="/settings"
                           component={(props) => <SettingRouter />}
+                        />
+                        <Route
+                          path="/cannedResponses"
+                          component={(props) => <Responses />}
+                        />
+                        <Route
+                          path="/textresponse"
+                          component={(props) => <AddCannedResponse />}
+                        />
+                        <Route
+                          path="/formresponse"
+                          component={(props) => <AddFormResponse />}
+                        />
+                        <Route
+                          path="/newform"
+                          component={(props) => <NewForm />}
                         />
                         <Route path="/" component={(props) => <Dashboard />} />
                       </Switch>

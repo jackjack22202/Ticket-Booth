@@ -1,0 +1,29 @@
+.main {
+  width: 70%;
+  margin: auto;
+}
+input {
+  height: 35px;
+  margin-bottom: 5px;
+  width: 450px;
+}
+
+.message {
+  width: 450px;
+  margin-top: 10px;
+}
+
+.body-area {
+  margin-left: 50px;
+}
+
+.body-area input {
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+@media screen and (min-width: 676px) {
+  .modal-dialog {
+    max-width: 800px; /* New width for default modal */
+  }
+}
