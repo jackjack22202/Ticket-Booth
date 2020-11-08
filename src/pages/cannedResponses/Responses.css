@@ -1,9 +1,34 @@
+.container {
+  margin-top: 40px;
+}
 .show-grid {
   margin-top: 20px;
 }
 
+.card-link {
+  padding:10px;
+  color:#565353;
+  font-size: 14px;
+}
+
+.card-title {
+   color:gray;
+  font-size: 18px;
+}
+.card-text {
+  font-size: 12px;
+
+
+}
+
+.column-div {
+  padding-left:20px;
+}
+
 .card-body {
   margin: 0;
+  padding:14px;
+
 }
 
 .head {
@@ -15,10 +40,19 @@
 }
 .btn-response {
   margin-right: 10px;
+  color:#676879;
+  font-size: 20px;
+  font-weight: 40;
+border-bottom: 2px solid #0085FF;
+
 }
+
 .create-btn {
   margin-right: 40px;
   float: right;
+  font-weight: 500;
+  font-size: 16px;
+
 }
 
 .icon-btn {

@@ -25,7 +25,7 @@ const AddFormResponse = () => {
     const data = {
       title: titleValue,
       url: urlValue,
-      date: moment().format("MMM Do YY")
+      date: moment().format("MMM Do YYYY")
     };
     let formResponses = await monday.storage.instance.getItem("formResponses");
     let formResponsesData = JSON.parse(formResponses.data.value);
