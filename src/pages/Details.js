@@ -6,8 +6,10 @@ import { Link } from "react-router-dom";
 import { Image } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
+import { toast, ToastContainer } from 'react-toastify';
 //styles
 import "./Details.scss";
+import 'react-toastify/dist/ReactToastify.css';
 //data
 import { KeyChain } from "./settings/KeyChain";
 
@@ -32,6 +34,8 @@ const editorConfiguration = {
   allowedContent: true,
 };
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 class Details extends React.Component {
   constructor(props) {
     super(props);
@@ -51,6 +55,7 @@ class Details extends React.Component {
       rightOpen: true,
       emailFooter: "",
       up_page: 1,
+      undo_email: false
     };
 
     this.editorEvent = this.editorEvent.bind(this);
@@ -174,7 +179,7 @@ class Details extends React.Component {
     this.setState({ editorData: event.editor.getData() });
   }
 
-  postUpdate = function (audience) {
+  postUpdate = async function (audience) {
     this.setState({ updateLoading: true });
     var update_string = this.state.editorData;
     var email_string = this.state.editorData;
@@ -208,6 +213,8 @@ class Details extends React.Component {
       });
 
     if (audience === "client") {
+      toast("Email is being sent to client");
+
       if (this.state.client_emails) {
         var raw = JSON.stringify({
           recipient: this.state.client_emails,
@@ -227,23 +234,25 @@ class Details extends React.Component {
           redirect: "follow",
           mode: "cors",
         };
-
-        fetch("https://api.carbonweb.co/send", requestOptions)
-          .then((response) => response.json())
-          .then((json) => {
-            if (!json.tokenCheck.data.token) {
-              monday
-                .execute("confirm", {
-                  message:
-                    "Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.",
-                  confirmButton: "Understood!",
-                  excludeCancelButton: true,
-                })
-                .then((res) => {
-                  // {'confirm': true}
-                });
-            }
-          });
+        await delay(5500);
+        if(this.state.undo_email == false) {
+          fetch("https://api.carbonweb.co/send", requestOptions)
+            .then((response) => response.json())
+            .then((json) => {
+              if (!json.tokenCheck.data.token) {
+                monday
+                  .execute("confirm", {
+                    message:
+                      "Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.",
+                    confirmButton: "Understood!",
+                    excludeCancelButton: true,
+                  })
+                  .then((res) => {
+                    // {'confirm': true}
+                  });
+              }
+            });
+        }
       } else {
         monday
           .execute("confirm", {
@@ -270,6 +279,16 @@ class Details extends React.Component {
 
     return (
       <>
+        <ToastContainer closeButton={ ({ closeToast }) => {
+          const handleClick = () => {
+            this.setState({ undo_email: true}, () => {
+              closeToast();
+            })
+          };
+          return(
+            <button onClick={handleClick}>Undo</button>
+          )
+        }} />
         <div id="layout">
           <div id="main">
             <div className="ticketDetailsTitleView">
