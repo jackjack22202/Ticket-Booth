@@ -38,6 +38,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       first_launch: "true", // String type to comply with monday.storage()
+      expanded: true
     };
   }
 
@@ -89,6 +90,10 @@ export default class App extends React.Component {
               <React.Fragment>
                 <div style={{ display: "flex", flexDirection: "row" }}>
                   <SideNav
+                  expanded={this.state.expanded}
+                  onToggle={(expanded) => {
+                    this.setState({ expanded });
+                }}
                     onSelect={(selected) => {
                       const to = "/" + selected;
                       if (location.pathname !== to) {
@@ -141,6 +146,17 @@ export default class App extends React.Component {
                     <button
                       className="blackBtn feedbackBtn"
                       style={{ margin: "16px auto 0px" }}
+                      onClick={() => {
+                        monday
+                          .execute("confirm", {
+                            message: `<iframe src="https://forms.monday.com/forms/embed/2cfd9a917144e22866ee8132fe1dc650" width="650" height="500" style="border: 0; box-shadow: 5px 5px 56px 0px rgba(0,0,0,0.25);"></iframe>`,
+                            confirmButton: "Close",
+                            excludeCancelButton: true,
+                          })
+                          .then((res) => {
+                            // {'confirm': true}
+                          });
+                      }}
                     >
                       <img src={MessageIcon}/>Give Feedback
                     </button>

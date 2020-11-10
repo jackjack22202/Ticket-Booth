@@ -9,7 +9,7 @@ import { GrAttachment, GrEmoji } from "react-icons/gr";
 import { toast, ToastContainer } from 'react-toastify';
 //styles
 import "./Details.scss";
-import 'react-toastify/dist/ReactToastify.css';
+import '../library/custom_styles/ReactToastify.css';
 //data
 import { KeyChain } from "./settings/KeyChain";
 
@@ -213,7 +213,7 @@ class Details extends React.Component {
       });
 
     if (audience === "client") {
-      toast("Email is being sent to client");
+      toast.success("Email is being sent to client");
 
       if (this.state.client_emails) {
         var raw = JSON.stringify({
