@@ -1,10 +1,12 @@
 .sidenav---sidenav---_2tBP {
-  padding: 0px 16px;
+  padding: 16px 16px;
   -webkit-transition: min-width 0.2s;
   -moz-transition: min-width 0.2s;
   -o-transition: min-width 0.2s;
   -ms-transition: min-width 0.2s;
   transition: min-width 0.2s;
+  border-right: 1px solid #e8e7e7;
+  box-shadow: 1px 0 1px 0px #f3f3f3;
 }
 .sidenav---sidenav---_2tBP.sidenav---collapsed---LQDEv .sidenav---sidenav-nav---3tvij .sidenav---sidenav-navitem---uwIJ- .sidenav---sidenav-subnav---1EN61 {
   display: none;
@@ -16,11 +18,11 @@
   /* min-width: 150px; */
   display: flex;
   flex-direction: column;
-  
 }
 
-.sidenav---sidenav-nav---3tvij.sidenav---expanded---1KdUL{
+.sidenav---sidenav-nav---3tvij.sidenav---expanded---1KdUL, .sidenav---sidenav-nav---3tvij{
   flex:1;
+  padding: 16px 0px;
 }
 
 .custNavItem {
@@ -29,6 +31,7 @@
   padding: 8px 16px;
   align-items: center;
   height: 40px;
+  cursor: pointer;
 }
 
 .custNavItem img{
@@ -36,7 +39,7 @@
 }
 
 .custNavItem  .navTitle {
-  font-size: 22px;
+  font-size: 16px;
   font-weight: 300;
   color: black;
   margin-left: 24px;
@@ -58,10 +61,12 @@
 display: flex;
 background: transparent;
 border: none;
-margin: 0px auto;
+/* margin: 0px auto;
 margin-bottom: 20px;
-padding: 0px;
+padding: 0px; */
 align-items: center;
+padding: 0px;
+margin: 0 auto;
 }
 
 .toggleBtn:focus{
@@ -69,14 +74,13 @@ align-items: center;
 }
 
 .toggleBtn img{
-  height: 47px;
+  height: 28px;
 }
 
 .toggleBtn .toggleTitle{
-  font-size: 32px;
+  font-size: 20px;
   font-weight: 700;
-  margin-right: 28px;
-  margin-left: 16px;
+  margin: 0px 28px;
 }
 
 .toggleBtn .toggleSupport{

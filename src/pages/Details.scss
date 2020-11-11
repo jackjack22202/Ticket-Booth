@@ -84,7 +84,7 @@ margin-bottom: 16px;
     }
   }
   .detailsNType {
-    color: #9495a4 !important;
+    color: #323338 !important;
   }
 }
  
@@ -132,4 +132,8 @@ stroke: rgb(43, 153, 255);
 
 #right.closed #rightbar,#right.closed .icon.closed h5 {
   display: none;
+}
+
+.cke_chrome {
+  border: 1px solid #323338 !important;
 }
