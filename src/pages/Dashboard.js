@@ -21,7 +21,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <>
-      <LoadingMask loading={this.state.loading} indicator={TicketBoothLogo} style={{height:"100vh", width:"100%", display:(this.state.loading ? "block" : "none")}}>
+      <LoadingMask loading={this.state.loading} indicator={TicketBoothLogo} style={{display:(this.state.loading ? "block" : "none")}}>
       </LoadingMask>
       </>
     );
