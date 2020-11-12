@@ -6,29 +6,26 @@
 }
 
 .card-link {
-  padding:10px;
-  color:#565353;
+  padding: 10px;
+  color: #565353;
   font-size: 14px;
 }
 
 .card-title {
-   color:gray;
+  color: gray;
   font-size: 18px;
 }
 .card-text {
   font-size: 12px;
-
-
 }
 
 .column-div {
-  padding-left:20px;
+  padding-left: 20px;
 }
 
 .card-body {
   margin: 0;
-  padding:14px;
-
+  padding: 14px;
 }
 
 .head {
@@ -40,11 +37,18 @@
 }
 .btn-response {
   margin-right: 10px;
-  color:#676879;
+  color: #676879;
   font-size: 20px;
   font-weight: 40;
-border-bottom: 2px solid #0085FF;
+  border-bottom: 2px solid grey;
+}
 
+.btn-response-active {
+  margin-right: 10px;
+  color: #676879;
+  font-size: 20px;
+  font-weight: 40;
+  border-bottom: 2px solid #0085ff;
 }
 
 .create-btn {
@@ -52,9 +56,21 @@ border-bottom: 2px solid #0085FF;
   float: right;
   font-weight: 500;
   font-size: 16px;
-
 }
 
 .icon-btn {
   float: right;
+}
+
+.text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.response-card {
+  min-height: 170px;
+  max-height: 170px;
 }
