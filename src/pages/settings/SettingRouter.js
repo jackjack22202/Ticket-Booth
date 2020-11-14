@@ -52,7 +52,6 @@ export default class SettingRouter extends React.Component {
 
   render() {
     return (
-      <div>
         <Tab.Container id="left-setting-tabs" default="general">
           <Nav className="mondayTab" variant="pills">
             <Nav.Item>
@@ -127,7 +126,6 @@ export default class SettingRouter extends React.Component {
             </Tab.Pane>
           </Tab.Content>
         </Tab.Container>
-      </div>
     );
   }
 }

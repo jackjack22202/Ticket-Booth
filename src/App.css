@@ -114,7 +114,7 @@ button:disabled {
 
 /* --------- CKEDITOR4 STYLES BEGIN  ----------------------------------------------------------------- */
 
-.cke_chrome{
+/* .cke_chrome{
   border-radius: 10px !important;
   border: 1px solid #bb89e5 !important;
   overflow: hidden;
@@ -126,13 +126,13 @@ button:disabled {
 
 .cke_bottom {
   display: none !important;
-}
+} */
 
 /* --------- CKEDITOR4 STYLES END -------------------------------------------------------------------- */
 
 
 /* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
-.ck-toolbar_grouping {
+/* .ck-toolbar_grouping {
 	border-top-left-radius: 10px !important;
 	border-top-right-radius: 10px !important;
 	border-top: 0px !important;
@@ -151,15 +151,12 @@ button:disabled {
 .ck-editor {
 	border: 1px solid #bb89e5 !important;
 	border-radius: 10px !important;
-}
+} */
 
-.editor__editable,
-/* Classic build. */
+/* .editor__editable,
 main .ck-editor[role='application'] .ck.ck-content,
-/* Decoupled document build. */
 .ck.editor__editable[role='textbox'],
 .ck.ck-editor__editable[role='textbox'],
-/* Inline & Balloon build. */
 .ck.editor[role='textbox'] {
 	width: 100%;
 	background: #fff;
@@ -176,16 +173,14 @@ main .ck-editor[role='application'] .ck.ck-content,
 }
 
 .ck.ck-editor {
-	/* To enable toolbar wrapping. */
 	width: 100%;
 	overflow-x: hidden;
 }
 
-/* Because of sidebar `position: relative`, Edge is overriding the outline of a focused editor. */
 .ck.ck-editor__editable {
 	position: relative;
 	z-index: 10;
-}
+} */
 
 .mondayTab.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
   color: #676879;
@@ -263,6 +258,7 @@ top: 46px;
   display: flex;
   flex-direction: row;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 .blackBtn {
@@ -291,4 +287,22 @@ top: 46px;
 
 .blackBtn:focus {
   outline: none;
+}
+
+.txtEditor .cke_chrome{
+  border: 1px solid #323338 !important;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.txtEditor .cke_top {
+  height: fit-content !important;
+}
+
+.txtEditor .cke_contents {
+  height: 100px !important;
+}
+
+.txtEditor .cke_bottom {
+  height: fit-content !important;
 }
