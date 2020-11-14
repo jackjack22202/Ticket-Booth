@@ -203,7 +203,7 @@ class Tickets extends React.Component {
 
     return (
       <>
-        <LoadingMask
+        {/* <LoadingMask
           loading={this.state.viewLoading}
           indicator={TicketBoothLogo}
           style={{
@@ -211,30 +211,32 @@ class Tickets extends React.Component {
             width: "100%",
             display: this.state.viewLoading ? "block" : "none",
           }}
-        ></LoadingMask>
-        <div style={{ display: this.state.viewLoading ? "none" : "block",}}>
-          <Container fluid style={{ display: "flex", alignItems: "center" }}>
-            <Nav
-              variant="pills"
-              activeKey={selected_group?.id}
-              onSelect={handleGroupSelect}
-              className="mondayTab"
-            >
-              {groups.map((group) => (
-                <Nav.Item key={group.id}>
-                  <Nav.Link eventKey={group.id} key={group.id}>
-                    {group.title}
-                  </Nav.Link>
-                </Nav.Item>
-              ))}
-            </Nav>
-            <div className="text-muted ticketCount text-right">
-              <strong className="blackTxt">{this.state.total_items}</strong> Tickets in{" "}
-              <strong className="blackTxt">{selected_group?.title}</strong> Board Group
-            </div>
-          </Container>
+        ></LoadingMask> */}
+        {/* <div style={{ display: this.state.viewLoading ? "none" : "block",}}> */}
+        {/* <Container fluid> */}
+        <div className="ticketTab">
+          <Nav
+            className="mondayTab"
+            variant="pills"
+            activeKey={selected_group?.id}
+            onSelect={handleGroupSelect}
+          >
+            {groups.map((group) => (
+              <Nav.Item key={group.id}>
+                <Nav.Link eventKey={group.id} key={group.id}>
+                  {group.title}
+                </Nav.Link>
+              </Nav.Item>
+            ))}
+          </Nav>
+          <div className="ticketCount">
+            <strong>{this.state.total_items}</strong> Tickets in{" "}
+            <strong>{selected_group?.title}</strong> Board Group
+          </div>
+        </div>
+        {/* </Container> */}
 
-          <LoadingMask
+        {/* <LoadingMask
             loading={this.state.groupLoading}
             indicator={TicketBoothLogo}
             text={"loading..."}
@@ -243,9 +245,9 @@ class Tickets extends React.Component {
               width: "100%",
               display: this.state.groupLoading ? "block" : "none",
             }}
-          />
-          <div style={{ display: this.state.groupLoading ? "none" : "block" }}>
-            <LoadingMask
+          /> */}
+        {/* <div style={{ display: this.state.groupLoading ? "none" : "block" }}> */}
+        {/* <LoadingMask
               loading={this.state.listLoading}
               indicator={TicketBoothLogo}
               text={"loading..."}
@@ -254,127 +256,97 @@ class Tickets extends React.Component {
                 width: "100%",
                 display: this.state.listLoading ? "block" : "none",
               }}
-            />
-            <div style={{ display: this.state.listLoading ? "none" : "block" }}>
-              <Container fluid>
-                <Row className="text-muted align-items-center tktBoothTitle">
-                  <Col sm={1} md={1} lg={1}>
-                    <p>
-                      <small>
-                        <strong>Creator</strong>
-                      </small>
-                    </p>
-                  </Col>
-                  <Col sm={3} md={3} lg={3}>
-                    <p>
-                      <small>
-                        <strong></strong>
-                      </small>
-                    </p>
-                  </Col>
-                  <Col sm={2} md={2} lg={2}>
-                    <p>
-                      <small>
-                        <strong>Ticket Status</strong>
-                      </small>
-                    </p>
-                  </Col>
-                  <Col sm={2} md={2} lg={2}>
-                    <p>
-                      <small>
-                        <strong>Last Updates</strong>
-                      </small>
-                    </p>
-                  </Col>
-                  <Col sm={2} md={2} lg={4}>
-                    <p>
-                      <small>
-                        <strong></strong>
-                      </small>
-                    </p>
-                  </Col>
-                </Row>
-                {tickets.map((item) => (
-                  <Row className="align-items-center tktBoothCV" key={item.id}>
-                    <Col sm={1} md={1} lg={1}>
-                      <Image
-                        src={item?.creator?.photo_thumb_small}
-                        roundedCircle
-                        fluid
-                        style={{ marginRight: "8px" }}
-                      />
-                    </Col>
-                    <Col sm={3} md={3} lg={3}>
-                      <Container>
-                        <Row>
-                          <Card.Title>{item.name}</Card.Title>
-                        </Row>
-                        <Row>
-                          <Card.Subtitle className="text-muted">
-                            {item.column_values.find(
-                              (x) => x.id === settings.subheading_column_key
-                            )?.text || ""}
-                          </Card.Subtitle>
-                        </Row>
-                      </Container>
-                    </Col>
-                    <Col sm={2} md={2} lg={2}>
-                      <div
-                        className="status-box"
-                        style={{
-                          backgroundColor:
-                            JSON.parse(
-                              item.column_values.find(
-                                (x) => x.id === settings.status_column_key
-                              )?.additional_info || '""'
-                            )?.color || "",
-                        }}
-                      >
-                        {item.column_values.find(
+            /> */}
+        {/* <div style={{ display: this.state.listLoading ? "none" : "block" }}> */}
+
+        <Container className="ticketListTitle">
+          <Row>
+            <Col sm={1} md={1} lg={1} className="itemTitle">
+              Creator
+            </Col>
+            <Col sm={5} md={5} lg={5}></Col>
+            <Col sm={2} md={2} lg={2} className="itemTitle">
+              Ticket Status
+            </Col>
+            <Col sm={2} md={2} lg={2} className="itemTitle">
+              Last Updates
+            </Col>
+            <Col sm={2} md={2} lg={2}></Col>
+          </Row>
+        </Container>
+        <Container className="ticketList">
+          {tickets.map((item) => (
+            <Row className="tktBoothCV" key={item.id}>
+              <Col sm={1} md={1} lg={1}>
+                <Image src={item?.creator?.photo_thumb_small} roundedCircle />
+              </Col>
+              <Col sm={5} md={5} lg={5}>
+                <div className="tName">{item.name}</div>
+
+                <div className="tUrl">
+                  {item.column_values.find(
+                    (x) => x.id === settings.subheading_column_key
+                  )?.text || ""}
+                </div>
+              </Col>
+              <Col sm={2} md={2} lg={2}>
+                <div
+                  className="status-box"
+                  style={{
+                    backgroundColor:
+                      JSON.parse(
+                        item.column_values.find(
                           (x) => x.id === settings.status_column_key
-                        )?.text || "Status N/A"}
-                      </div>
-                    </Col>
-                    <Col sm={2} md={2} lg={2} className="text-muted">
-                      {this.dateHandler(item.created_at)}
-                    </Col>
-                    <Col sm={2} md={2} lg={4} className="viewWrapper">  
-                      <Link
-                        to={{
-                          pathname: `/details/${item.id}`,
-                          data: {
-                            ticket: item,
-                            settings: settings,
-                          },
-                        }}
-                        className="viewBtn"
-                      >
-                        View
-                      </Link>
-                      <div className="viewId">
-                      ID#:{" "}
-                      {item.column_values.find(
-                        (x) => x.id === settings.id_column_key
-                      )?.text || ""}
-                      </div>
-                    </Col>
-                  </Row>
-                ))}
-              </Container>
-            </div>
-            <Container>
-              <Row className="align-items-center">
-                <Pagination
-                  activePage={this.state.current_page}
-                  itemsCountPerPage={this.page_limit}
-                  totalItemsCount={this.state.total_items}
-                  pageRangeDisplayed={5}
-                  onChange={this.handlePageChange.bind(this)}
-                />
-              </Row>
-            </Container>
-          </div>
+                        )?.additional_info || '""'
+                      )?.color || "",
+                  }}
+                >
+                  {item.column_values.find(
+                    (x) => x.id === settings.status_column_key
+                  )?.text || "Status N/A"}
+                </div>
+              </Col>
+              <Col sm={2} md={2} lg={2} className="createdDate">
+                {this.dateHandler(item.created_at)}
+              </Col>
+              <Col sm={2} md={2} lg={2}>
+                <Link
+                  to={{
+                    pathname: `/details/${item.id}`,
+                    data: {
+                      ticket: item,
+                      settings: settings,
+                    },
+                  }}
+                  className="blueBtn"
+                >
+                  View
+                </Link>
+                <div className="viewId">
+                  ID#:{" "}
+                  {item.column_values.find(
+                    (x) => x.id === settings.id_column_key
+                  )?.text || ""}
+                </div>
+              </Col>
+            </Row>
+          ))}
+        </Container>
+        {/*             
+            </div> */}
+
+        <div className="tLPagination">
+          <Pagination
+            activePage={this.state.current_page}
+            itemsCountPerPage={this.page_limit}
+            totalItemsCount={this.state.total_items}
+            pageRangeDisplayed={5}
+            onChange={this.handlePageChange.bind(this)}
+          />
         </div>
+
+        {/* </div>
+        </div> */}
       </>
     );
   }

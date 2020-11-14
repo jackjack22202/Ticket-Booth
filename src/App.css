@@ -14,7 +14,9 @@ body {
 }
 
 .sidebar-component {
-  flex:1
+  flex:1;
+  display:flex;
+  flex-direction: column;
 }
 
 /* .sidenav-custom {
@@ -196,10 +198,11 @@ main .ck-editor[role='application'] .ck.ck-content,
   color: #676879;
 }
 
-.mondayTab.nav-pills , .ticketCount{
+/* .mondayTab.nav-pills , .ticketCount{
   flex:1;
-}
+} */
 
+/* 
 .tktBoothCV {
   border: 1px solid #e7e9ee;
   padding: 32px 16px;
@@ -248,11 +251,31 @@ color: lightgray;
 position: absolute;
 top: 46px;
 }
-
+ */
 
 
 
 /*Clean Css Pritam*/
+
+.blueBtn {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10.5px 16px;
+  height: 40px;
+  background-color: #0085ff;
+  border-radius: 4px;
+  color: #fff;
+  border: 0;
+  display: block;
+  width: fit-content;
+}
+
+.blueBtn:hover {
+  text-decoration: none !important;
+  color: #fff !important;
+}
+
 
 .mainWrapper {
   display: flex;
@@ -272,8 +295,6 @@ top: 46px;
   border-radius: 4px;
   color: #323338;
   border: 0;
-  /* display: block;
-  width: fit-content; */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -306,3 +327,81 @@ top: 46px;
 .txtEditor .cke_bottom {
   height: fit-content !important;
 }
+
+/* Ticket List*/
+.ticketTab {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.ticketTab .mondayTab{
+  flex: 1;
+}
+
+.ticketTab .mondayTab.nav-pills, .ticketTab .ticketCount {
+  border: 0px;
+}
+
+.ticketTab .ticketCount {
+  color: #9495a4;
+  font-size: 12px;
+  padding-right: 16px;
+}
+
+.ticketListTitle {
+  margin: 0px !important;
+  border-bottom: 1px solid #dfdfdf;
+  padding: 0px 32px;
+}
+
+.ticketList {
+  flex:1;
+  margin: 0px !important;
+  overflow-y: auto;
+
+}
+
+.ticketList .tktBoothCV {
+  align-items: center;
+  border: 1px solid #e8e8e8;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin: 16px 0px;
+  border-radius: 8px;
+}
+
+.ticketListTitle .itemTitle{
+color: #9495a4;
+    font-weight: 700;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.ticketList .tktBoothCV  .tName{
+  color: #393A40;
+  display: block;
+  font-size: 16px;
+}
+.ticketList .tktBoothCV .tUrl, .ticketList .tktBoothCV .createdDate, .ticketList .tktBoothCV .viewId {
+  color: #727384;
+  display: block;
+  font-size: 14px;
+}
+
+.ticketList .tktBoothCV .viewBtn {
+  color: #9495a4;
+  display: block;
+}
+
+
+.tLPagination {
+  padding-top: 4px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  display: flex;
+}
+
+/* Ticket List End*/
