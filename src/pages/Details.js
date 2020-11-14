@@ -3,7 +3,7 @@ import mondaySdk from "monday-sdk-js";
 //controls
 import LoadingMask from "react-loadingmask";
 import { Link } from "react-router-dom";
-import { Image } from "react-bootstrap";
+import { Image, Modal, Button } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
 import { toast, ToastContainer } from "react-toastify";
@@ -56,6 +56,9 @@ class Details extends React.Component {
       rightOpen: true,
       emailFooter: "",
       up_page: 1,
+      undo_email: false
+      showCannedModal: false,
+      textResponses: []
       undo_email: false,
     };
 
@@ -91,6 +94,7 @@ class Details extends React.Component {
               }
             );
           }).then(() => {
+            this.fetchCannedResponses();
             Promise.all([
               monday.storage.instance.getItem(KeyChain.EmailFooter),
             ]).then((allPromises) => {
@@ -109,7 +113,17 @@ class Details extends React.Component {
     });
   }
 
-  fetchUpdates = function () {
+  fetchCannedResponses = async () => {
+    let textResponses = await monday.storage.instance.getItem("textResponses");
+    if (textResponses.data.value) {
+      let textResponsesData = JSON.parse(textResponses.data.value);
+      this.setState({
+        textResponses: textResponsesData
+      });
+    }
+  };
+
+  fetchUpdates = function() {
     this.setState({ updateLoading: true });
     monday
       .api(
@@ -160,6 +174,18 @@ class Details extends React.Component {
   toggleSidebar = (event) => {
     let key = `${event.currentTarget.parentNode.id}Open`;
     this.setState({ [key]: !this.state[key] });
+  };
+
+  openCannedResponse = () => {
+    this.setState({
+      showCannedModal: true
+    })
+  };
+
+  closeModal = () => {
+    this.setState({
+      showCannedModal: false
+    })
   };
 
   dateHandler(dateString) {
@@ -378,13 +404,26 @@ class Details extends React.Component {
                 config={editorConfiguration}
                 onChange={this.editorEvent}
               />
-              <div className="textEditorConfig">
-                <div className="flexOne">
-                  <a>
-                    <GrAttachment /> Add File
-                  </a>
-                  <a>GIF</a>
-                  <a>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <p style={{ padding: 5, color: "#2b99ff" }} onClick={this.openCannedResponse}>Select Response</p>
+                  <p style={{ padding: 5, color: "#2b99ff" }}>
+                    <GrAttachment className="attachFile" /> Add File
+                  </p>
+                  <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
+                  <p style={{ padding: 5, color: "#2b99ff" }}>
                     <GrEmoji /> Emoji
                   </a>
                   <a>@Mention</a>
@@ -443,6 +482,27 @@ class Details extends React.Component {
             {/* </div> */}
           </div>
         </div>
+        <Modal show={this.state.showCannedModal}>
+          <Modal.Body>
+            {this.state.textResponses.map((textResponse, index) => (
+              <div
+                className="body-area-select"
+                onClick={() => {
+                  this.setState({
+                    editorData: textResponse.text,
+                  })
+                  this.closeModal();
+                }}
+              >
+                <h6 style={{fontSize: '19px'}}>{textResponse.title}</h6>
+                <p dangerouslySetInnerHTML={{ __html: textResponse.text }} style={{fontSize: '13px'}}></p>
+              </div>
+            ))}
+            <div className="save-btn modal-button">
+              <Button className="cancelBtn" style={{marginRight: 5}} onClick={this.closeModal}>Cancel</Button>
+            </div>
+          </Modal.Body>
+        </Modal>
       </>
     );
   }
