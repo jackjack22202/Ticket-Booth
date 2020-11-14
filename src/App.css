@@ -14,14 +14,10 @@ body {
 }
 
 .sidebar-component {
-  flex:1
+  flex:1;
+  display:flex;
+  flex-direction: column;
 }
-
-/* .sidenav-custom {
-  height: 100%;
-  position: fixed; 
-  z-index: 1
-} */
 
 .btn {
   display: inline-block;
@@ -83,7 +79,7 @@ button:disabled {
   border-width: 2px;
 }
 
-.pagination {
+/* .pagination {
   margin: 15px auto;
   display: flex;
   list-style: none;
@@ -110,82 +106,7 @@ button:disabled {
 }
 .pagination > li:first-child > a, .pagination > li:first-child > span, .pagination > li:last-child > a, .pagination > li:last-child > span{
   border-radius: unset
-}
-
-/* --------- CKEDITOR4 STYLES BEGIN  ----------------------------------------------------------------- */
-
-.cke_chrome{
-  border-radius: 10px !important;
-  border: 1px solid #bb89e5 !important;
-  overflow: hidden;
-}
-
-.cke_reset_all, .cke_reset, .cke_inner, .cke_contents {
-  background: transparent !important;
-}
-
-.cke_bottom {
-  display: none !important;
-}
-
-/* --------- CKEDITOR4 STYLES END -------------------------------------------------------------------- */
-
-
-/* --------- EDITOR STYLES  ---------------------------------------------------------------------------------------- */
-.ck-toolbar_grouping {
-	border-top-left-radius: 10px !important;
-	border-top-right-radius: 10px !important;
-	border-top: 0px !important;
-	border-left: 0px !important;
-	border-right: 0px !important;
-	border-bottom: 1px solid #d0d2d9 !important;
-	background-color: #fff !important;
-}
-
-.ck-content {
-	border-bottom-left-radius: 10px !important;
-	border-bottom-right-radius: 10px !important;
-	border: 0px !important;
-}
-
-.ck-editor {
-	border: 1px solid #bb89e5 !important;
-	border-radius: 10px !important;
-}
-
-.editor__editable,
-/* Classic build. */
-main .ck-editor[role='application'] .ck.ck-content,
-/* Decoupled document build. */
-.ck.editor__editable[role='textbox'],
-.ck.ck-editor__editable[role='textbox'],
-/* Inline & Balloon build. */
-.ck.editor[role='textbox'] {
-	width: 100%;
-	background: #fff;
-	font-size: 1em;
-	line-height: 1.6em;
-	min-height: var(--ck-sample-editor-min-height);
-	padding: 1.5em 2em;
-}
-
-.ck.ck-editor__editable {
-	background: #fff;
-	border: 1px solid hsl(0, 0%, 70%);
-	width: 100%;
-}
-
-.ck.ck-editor {
-	/* To enable toolbar wrapping. */
-	width: 100%;
-	overflow-x: hidden;
-}
-
-/* Because of sidebar `position: relative`, Edge is overriding the outline of a focused editor. */
-.ck.ck-editor__editable {
-	position: relative;
-	z-index: 10;
-}
+} */
 
 .mondayTab.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
   color: #676879;
@@ -201,24 +122,9 @@ main .ck-editor[role='application'] .ck.ck-content,
   color: #676879;
 }
 
-.mondayTab.nav-pills , .ticketCount{
-  flex:1;
-}
+/*Clean Css Pritam*/
 
-.tktBoothCV {
-  border: 1px solid #e7e9ee;
-  padding: 32px 16px;
-  margin-bottom: 16px;
-  border-radius: 8px;
-}
-
-.tktBoothTitle {
-  padding: 16px;
-  border-radius: 8px;
-  margin-top: 16px;
-}
-
-.viewBtn {
+.blueBtn {
   font-weight: 400;
   font-size: 16px;
   line-height: 20px;
@@ -232,9 +138,9 @@ main .ck-editor[role='application'] .ck.ck-content,
   width: fit-content;
 }
 
-.viewBtn:hover {
-  text-decoration: none;
-  color: #fff;
+.blueBtn:hover {
+  text-decoration: none !important;
+  color: #fff !important;
 }
 
 .cancelBtn {
@@ -274,15 +180,11 @@ position: absolute;
 top: 46px;
 }
 
-
-
-
-/*Clean Css Pritam*/
-
 .mainWrapper {
   display: flex;
   flex-direction: row;
   height: 100vh;
+  overflow-y: hidden;
 }
 
 .blackBtn {
@@ -296,8 +198,6 @@ top: 46px;
   border-radius: 4px;
   color: #323338;
   border: 0;
-  /* display: block;
-  width: fit-content; */
   width: 100%;
   display: flex;
   justify-content: center;
@@ -312,3 +212,123 @@ top: 46px;
 .blackBtn:focus {
   outline: none;
 }
+
+.txtEditor .cke_chrome{
+  border: 1px solid #323338 !important;
+  border-radius: 8px;
+  padding: 2px;
+}
+
+.txtEditor .cke_top {
+  height: fit-content !important;
+}
+
+.txtEditor .cke_contents {
+  height: 100px !important;
+}
+
+.txtEditor .cke_bottom {
+  height: fit-content !important;
+}
+
+/* Ticket List*/
+.ticketTab {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dfdfdf;
+}
+
+.ticketTab .mondayTab{
+  flex: 1;
+}
+
+.ticketTab .mondayTab.nav-pills, .ticketTab .ticketCount {
+  border: 0px;
+}
+
+.ticketTab .ticketCount {
+  color: #9495a4;
+  font-size: 12px;
+  padding-right: 16px;
+}
+
+.ticketListTitle {
+  margin: 0px !important;
+  border-bottom: 1px solid #dfdfdf;
+  padding: 0px 32px;
+}
+
+.ticketList {
+  flex:1;
+  margin: 0px !important;
+  overflow-y: auto;
+  padding: 0px 16px;
+}
+
+.ticketList .tktBoothCV {
+  align-items: center;
+  border: 1px solid #e8e8e8;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  margin: 16px 0px;
+  border-radius: 8px;
+}
+
+.ticketListTitle .itemTitle{
+color: #9495a4;
+    font-weight: 700;
+    padding-top: 16px;
+    padding-bottom: 16px;
+}
+
+.ticketList .tktBoothCV  .tName{
+  color: #393A40;
+  display: block;
+  font-size: 16px;
+}
+.ticketList .tktBoothCV .tUrl, .ticketList .tktBoothCV .createdDate, .ticketList .tktBoothCV .viewId {
+  color: #727384;
+  display: block;
+  font-size: 14px;
+}
+
+.ticketList .tktBoothCV .viewBtn {
+  color: #9495a4;
+  display: block;
+}
+
+
+.tLPagination {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  display: flex;
+}
+
+.tLPagination .pagination {
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.tLPagination .pagination a{
+  color: #000;
+  text-decoration: none;
+  margin: 16px 8px;
+font-size: 16px;
+}
+
+.tLPagination .pagination .active a{
+  color: #0085ff;
+}
+
+.viewTkt {
+  text-align: right;
+}
+
+.viewTkt .blueBtn{
+  display: inline-block;
+}
+/* Ticket List End*/

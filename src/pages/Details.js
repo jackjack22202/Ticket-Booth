@@ -6,12 +6,13 @@ import { Link } from "react-router-dom";
 import { Image, Modal, Button } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast, ToastContainer } from "react-toastify";
 //styles
 import "./Details.scss";
-import '../library/custom_styles/ReactToastify.css';
+import "../library/custom_styles/ReactToastify.css";
 //data
 import { KeyChain } from "./settings/KeyChain";
+import loadmoreIcon from "../library/images/loadMore.svg";
 
 const monday = mondaySdk();
 const Handlebars = require("handlebars");
@@ -34,7 +35,7 @@ const editorConfiguration = {
   allowedContent: true,
 };
 
-const delay = ms => new Promise(res => setTimeout(res, ms));
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 
 class Details extends React.Component {
   constructor(props) {
@@ -58,6 +59,7 @@ class Details extends React.Component {
       undo_email: false
       showCannedModal: false,
       textResponses: []
+      undo_email: false,
     };
 
     this.editorEvent = this.editorEvent.bind(this);
@@ -124,9 +126,9 @@ class Details extends React.Component {
   fetchUpdates = function() {
     this.setState({ updateLoading: true });
     monday
-        .api(
-          `query { items(ids: ${this.state.ticket_data?.id}) { id name updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
-        )
+      .api(
+        `query { items(ids: ${this.state.ticket_data?.id}) { id name updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
+      )
       .then((response) => {
         const current_updates = this.state.updates;
         var new_updates = response.data.items[0].updates;
@@ -135,7 +137,7 @@ class Details extends React.Component {
 
         this.setState({ updates: updates_list, updateLoading: false });
       });
-  }
+  };
 
   parseSidebarSettings = function () {
     const settings = this.state.settings;
@@ -260,7 +262,7 @@ class Details extends React.Component {
           mode: "cors",
         };
         await delay(5500);
-        if(this.state.undo_email == false) {
+        if (this.state.undo_email == false) {
           fetch("https://api.carbonweb.co/send", requestOptions)
             .then((response) => response.json())
             .then((json) => {
@@ -304,16 +306,16 @@ class Details extends React.Component {
 
     return (
       <>
-        <ToastContainer closeButton={ ({ closeToast }) => {
-          const handleClick = () => {
-            this.setState({ undo_email: true}, () => {
-              closeToast();
-            })
-          };
-          return(
-            <button onClick={handleClick}>Undo</button>
-          )
-        }} />
+        <ToastContainer
+          closeButton={({ closeToast }) => {
+            const handleClick = () => {
+              this.setState({ undo_email: true }, () => {
+                closeToast();
+              });
+            };
+            return <button onClick={handleClick}>Undo</button>;
+          }}
+        />
         <div id="layout">
           <div id="main">
             <div className="ticketDetailsTitleView">
@@ -324,36 +326,36 @@ class Details extends React.Component {
               />
               <div className="nameSubheading">
                 <h4>{ticket?.name}</h4>
-                <small className="text-muted">
+                <div className="text-muted">
                   {ticket?.column_values.find(
                     (x) => x.id === subheading_column_key
                   )?.text || ""}
-                </small>
+                </div>
               </div>
-              <Link to="/tickets" className="viewBtn float-right">
+              <Link to="/tickets" className="blueBtn">
                 Back
               </Link>
             </div>
-            <LoadingMask
+            {/* <LoadingMask
               loading={this.state.outerLoading}
               style={{
                 height: "100%",
                 width: "100%",
                 display: this.state.outerLoading ? "block" : "none",
               }}
-            />
+            /> */}
             <div className="updateCardScroll">
-            <button
-                className="viewBtn"
-                style={{ marginLeft: "16px" }}
+              <button
+                className="blackBtn loadmoreBtn"
                 onClick={() => {
                   const current_up_page = this.state.up_page + 1;
-                  this.setState({ up_page: current_up_page}, () => {
+                  this.setState({ up_page: current_up_page }, () => {
                     this.fetchUpdates();
-                  })
+                  });
                 }}
                 disabled={this.state.updateLoading}
               >
+                <img src={loadmoreIcon}/>
                 Load More Updates
               </button>
               {updates?.map((update) => (
@@ -395,11 +397,8 @@ class Details extends React.Component {
                 </div>
               ))}
             </div>
-            <div
-              tag="texteditor"
-              style={{ paddingTop: "30px" }}
-              key={ticket?.id}
-            >
+
+            <div tag="texteditor" key={ticket?.id} className="txtEditor tktDetailEdit">
               <CKEditor
                 data={this.state.editorData}
                 config={editorConfiguration}
@@ -426,28 +425,19 @@ class Details extends React.Component {
                   <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
                   <p style={{ padding: 5, color: "#2b99ff" }}>
                     <GrEmoji /> Emoji
-                  </p>
-                  <p style={{ padding: 5, color: "#2b99ff" }}>@Mention</p>
+                  </a>
+                  <a>@Mention</a>
                 </div>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                    marginTop: 16,
-                  }}
-                >
+                <div className="btnTxtConfig">
                   <button
                     className="blackBtn"
-                    style={{ marginRight: "16px" }}
                     onClick={() => this.postUpdate("internal")}
                     disabled={this.state.updateLoading}
                   >
                     Note
                   </button>
                   <button
-                    className="viewBtn"
-                    style={{ marginLeft: "16px" }}
+                    className="blueBtn"
                     onClick={() => this.postUpdate("client")}
                     disabled={this.state.updateLoading}
                   >
@@ -457,7 +447,6 @@ class Details extends React.Component {
               </div>
             </div>
           </div>
-
           <div id="right" className={`${rightOpen}`}>
             <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>
               &equiv;
@@ -465,36 +454,32 @@ class Details extends React.Component {
                 Ticket Details
               </h5>
             </div>
-            <div id="rightbar">
-              {/* <div className="header">
+            {/* <div id="rightbar"> */}
+            {/* <div className="header">
                 <div className="drawerIcon" onClick={this.toggleSidebar}>
                   &equiv;
                 </div>
                
               </div> */}
-              <div className="updateCardStatusScroll">
-                {this.state.field_values?.map((item) => (
-                  <div className="stats" key={item.title}>
-                    <div>{item.title}:</div>
+            <div className="updateCardStatusScroll">
+              {this.state.field_values?.map((item) => (
+                <div className="stats" key={item.title}>
+                  <div>{item.title}:</div>
 
-                    <div className="statsInfo">{item.text}</div>
-                  </div>
-                ))}
-                <div className="stats">
-                  <div>Created At:</div>
-                  <div className="statsInfo">
-                    {this.dateHandler(ticket?.created_at)}
-                  </div>
+                  <div className="statsInfo">{item.text}</div>
+                </div>
+              ))}
+              <div className="stats">
+                <div>Created At:</div>
+                <div className="statsInfo">
+                  {this.dateHandler(ticket?.created_at)}
                 </div>
               </div>
-              <button
-                className="blackBtn"
-                style={{ margin: "16px auto 0px" }}
-                onClick={() => this.editDetails()}
-              >
-                Edit
-              </button>
             </div>
+            <button className="blackBtn" onClick={() => this.editDetails()}>
+              Edit
+            </button>
+            {/* </div> */}
           </div>
         </div>
         <Modal show={this.state.showCannedModal}>

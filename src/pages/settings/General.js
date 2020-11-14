@@ -68,34 +68,29 @@ export class General extends React.Component {
 
   render() {
     return (
-      <>
-      <Row>
-      <Col>
+      <div>
         <h3 className="setting-padding">General Settings</h3>
-        </Col>
-        </Row>
-        <Row className="setting-wrapper">
-          <Col md>
+        <div className="settingsMain">
+        <div className="setting-wrapper">
+          <div className="primary">
             <div className="settingTitle"> Primary</div>
-
             <div className="settingSubTitle">Choose your main theme color</div>
-
             <CirclePicker
               onChange={this.setPrimary}
               color={this.state.primary}
             />
-          </Col>
-          <Col md>
+          </div>
+          <div className="secondary">
             <div className="settingTitle">Secondary</div>
             <div className="settingSubTitle">Choose your accent color</div>
-
             <CirclePicker
               onChange={this.setSecondary}
               color={this.state.secondary}
             />
-          </Col>
-        </Row>
-      </>
+          </div>
+        </div>
+        </div>
+      </div>
     );
   }
 }

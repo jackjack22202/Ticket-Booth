@@ -1,15 +1,27 @@
 // Settings Styles
 .settingsContent {
-  width: 70%;
+  // width: 70%;
+  padding:16px;
+  height: 93%;
+  overflow-y: scroll;
 }
+// .settingsMain{
+//   width: 70%;
+// }
 .setting-padding {
-  padding: 32px 0px;
+  padding: 8px 0px 24px;
+  margin: 0;
 }
   .setting-wrapper {
-    border: 2px solid lightgrey;
+    border: 1px solid lightgrey;
     border-radius: 1rem;
-    padding: 24px 8px;
+    padding: 16px;
     margin: 0px 0px 32px;
+    display: flex;
+    flex-direction: row;
+    .primary, .secondary {
+      flex:1;
+    }
     select {
       max-width: 250px;
     }
@@ -60,47 +72,65 @@
   .flexOne {
     flex:1;
     display: flex;
-    p {
-      padding: 8px 8px 8px 0px;
-      color: #2b99ff;
+    a {
+      padding-right: 16px;
+      color: #000;
+      display: flex;
+      align-items: center;
+      svg {
+        margin-right: 8px;
+      }
     }
   }
 }
-  // .setting-area {
-  //     border: #007bff 2px solid;
-  //     border-radius: 5px;
-  // }
-  
-  // Utility classes
-  // .flex {
-  //   display: flex;
-  // }
-  // .bold {
-  //  font-weight: bold;
-  //  margin-bottom: 1rem;
-  // }
 
-//   .selected-view {
-//     color: #007bff;
-//     background-color: #C2DFFF;
-//     border-radius: 1em;
-//     &:focus{
-//         outline: none;
-//     }
-//   }
+.mondayTab.nav-pills, .ticketCount {
+  border-bottom: 1px solid #dfdfdf;
+}
 
-//   .unselected-view {
-//     color: black;
-//     &:focus{
-//         outline: none;
-//     }
-//   }
+.mondayTab.nav-pills .nav-link {
+  border-bottom:0px;
+  padding: 16px;
+}
 
-//  .nav-link {
-//       margin-left: 1em;
-//   }
-//   .row {
-//      margin-right: 0px;
-//      margin-left: 0px;
-//   }
+.fieldFlex {
+  display: flex;
+  .fieldWrapper {
+    display: flex;
+    flex:1;
+    flex-direction: column;
+    border: 1px solid lightgrey;
+    border-radius: 1rem;
+    padding: 16px;
+    .checkboxes {
+      .form-check {
+        padding-left: 0px;
+        width: 25%;
+        display: inline-flex;
+        // overflow: hidden;
+        padding-top: 8px;
+        input {
+          height: unset;
+        }
+        .form-check-label {
+          margin: 0px;
+        }
+    }
+    }
+  }
+  .fieldWrapperMLR {
+    margin-left: 16px;
+    margin-right: 16px;
+  } 
+}
+.fieldWrapperMT {
+  margin-top: 16px;
+}
 
+.mRight{
+  margin-right: 8px
+}
+
+.mLeft{
+  margin-left: 8px
+}
