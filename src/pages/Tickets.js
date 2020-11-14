@@ -259,7 +259,7 @@ class Tickets extends React.Component {
             /> */}
         {/* <div style={{ display: this.state.listLoading ? "none" : "block" }}> */}
 
-        <Container className="ticketListTitle">
+        <div className="ticketListTitle">
           <Row>
             <Col sm={1} md={1} lg={1} className="itemTitle">
               Creator
@@ -273,8 +273,8 @@ class Tickets extends React.Component {
             </Col>
             <Col sm={2} md={2} lg={2}></Col>
           </Row>
-        </Container>
-        <Container className="ticketList">
+        </div>
+        <div className="ticketList">
           {tickets.map((item) => (
             <Row className="tktBoothCV" key={item.id}>
               <Col sm={1} md={1} lg={1}>
@@ -309,7 +309,7 @@ class Tickets extends React.Component {
               <Col sm={2} md={2} lg={2} className="createdDate">
                 {this.dateHandler(item.created_at)}
               </Col>
-              <Col sm={2} md={2} lg={2}>
+              <Col sm={2} md={2} lg={2} className="viewTkt">
                 <Link
                   to={{
                     pathname: `/details/${item.id}`,
@@ -331,7 +331,7 @@ class Tickets extends React.Component {
               </Col>
             </Row>
           ))}
-        </Container>
+        </div>
         {/*             
             </div> */}
 
