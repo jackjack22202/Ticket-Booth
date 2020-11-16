@@ -107,8 +107,8 @@ export class Fields extends React.Component {
     return (
       <>
         <h3 className="setting-padding">Field Settings</h3>
-        <Row className="setting-wrapper">
-          <Col>
+        <div className="fieldFlex">
+          <div className="fieldWrapper">
             <div className="settingTitle">General</div>
             <div className="preTitle">Ticket ID</div>
             <div className="settingSubTitle">
@@ -129,12 +129,9 @@ export class Fields extends React.Component {
                 </option>
               ))}
             </Form.Control>
-          </Col>
-        </Row>
-        <Row className="setting-wrapper">
-          
-          <Col md>
-          <div className="settingTitle">Ticket List</div>
+          </div>
+          <div className="fieldWrapper fieldWrapperMLR">
+            <div className="settingTitle">Ticket List</div>
             <div className="preTitle">Ticket Subtitle</div>
             <div className="settingSubTitle">
               Choose any column to display under each ticket name.
@@ -154,9 +151,9 @@ export class Fields extends React.Component {
                 </option>
               ))}
             </Form.Control>
-          </Col>
-          <Col md>
-              <div className="settingTitle"></div>
+          </div>
+          <div className="fieldWrapper">
+            <div className="settingTitle"></div>
             <div className="preTitle">Ticket Status</div>
             <div className="settingSubTitle">
               Choose a status column to display on your tickets.
@@ -172,15 +169,16 @@ export class Fields extends React.Component {
                 </option>
               ))}
             </Form.Control>
-          </Col>
-        </Row>
-        <Row className="setting-wrapper">
-          <Col md>
+          </div>
+        </div>
+        <div className="fieldFlex fieldWrapperMT">
+          <div className="fieldWrapper">
             <div className="settingTitle">Ticket Details</div>
             <div className="preTitle">Ticket Info</div>
             <div className="settingSubTitle">
               Select the columns to be displayed inside your tickets.
             </div>
+            <div className="checkboxes">
             {this.props.columns.map((column, i) => {
               let contains = this.state.details
                 ? this.state.details.indexOf(column.id) !== -1
@@ -196,8 +194,9 @@ export class Fields extends React.Component {
                 />
               );
             })}
-          </Col>
-        </Row>
+            </div>
+          </div>
+        </div>
       </>
     );
   }

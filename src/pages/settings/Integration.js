@@ -140,36 +140,36 @@ export class Integration extends React.Component {
     return (
       <div>
         <h3 className="setting-padding">Integration Settings</h3>
-
-        <Row className="setting-wrapper">
-          <Col md={6}>
+        <div className="fieldFlex">
+          <div className="fieldWrapper mRight">
             <div className="settingTitle">API</div>
             <div className="preTitle">API Agreement</div>
             <div className="settingSubTitle">
               Allows Ticket Booth to store users API key on a thirdparty
               database for board view integrations.
             </div>
-            <Form.Check
-              type="checkbox"
-              label="I Accept"
-              onClick={(e) => this.setAcceptTerms(e.target.value)}
-              checked={this.state.acceptedTerms}
-            />
+            <div className="checkboxes">
+              <Form.Check
+                type="checkbox"
+                label="I Accept"
+                onClick={(e) => this.setAcceptTerms(e.target.value)}
+                checked={this.state.acceptedTerms}
+              />
+            </div>
             <div className="preTitle">API Key</div>
             <div className="settingSubTitle">Admins Personal API v2 Token</div>
-            <Form.Control
-              type="password"
-              placeholder="Paste your token here"
-              ref={this.tokenField}
-              onBlur={(event) => this.storeToken(event.target.value)}
-              title={"Accept the agreement above to input a token."}
-              disabled={!this.state.acceptedTerms}
-            />
-          </Col>
-        </Row>
-
-        <Row className="setting-wrapper">
-          <Col>
+            <div>
+              <Form.Control
+                type="password"
+                placeholder="Paste your token here"
+                ref={this.tokenField}
+                onBlur={(event) => this.storeToken(event.target.value)}
+                title={"Accept the agreement above to input a token."}
+                disabled={!this.state.acceptedTerms}
+              />
+            </div>
+          </div>
+          <div className="fieldWrapper mLeft">
             <div className="settingTitle">Client Support System</div>
             <div className="preTitle">Client Email</div>
             <div className="settingSubTitle">
@@ -186,9 +186,13 @@ export class Integration extends React.Component {
                 </option>
               ))}
             </Form.Control>
-          </Col>
-        </Row>
-        <div tag="texteditor">
+          </div>
+        </div>
+
+        {/* <Row className="setting-wrapper">
+          
+        </Row> */}
+        <div tag="texteditor" className="txtEditor fieldWrapperMT">
           <CKEditor
             data={this.state.editorData}
             config={editorConfiguration}
@@ -196,14 +200,14 @@ export class Integration extends React.Component {
           />
           <div className="textEditorConfig">
             <div className="flexOne">
-              <p>
-                <GrAttachment /> Add File
-              </p>
-              <p>GIF</p>
-              <p>
-                <GrEmoji /> Emoji
-              </p>
-              <p>@Mention</p>
+              <a>
+                <GrAttachment/> Add File
+              </a>
+              <a>GIF</a>
+              <a>
+                <GrEmoji/> Emoji
+              </a>
+              <a>@Mention</a>
             </div>
             <button className="saveBtn" onClick={() => this.setFooter()}>
               Save

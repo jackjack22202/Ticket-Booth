@@ -29,7 +29,7 @@ import SettingsIcon from "./library/images/nav-icons/Icons_Misc_Settings.svg";
 import CannedResponsesIcon from "./library/images/nav-icons/Icons_Misc_Settings2.svg";
 import AnnouncementsIcon from "./library/images/nav-icons/Icons_Misc_Megaphone.svg";
 import Hamburger from "./library/images/hamburger.svg";
-import MessageIcon from "./library/images/messageicon.svg"
+import MessageIcon from "./library/images/messageicon.svg";
 
 const monday = mondaySdk();
 
@@ -38,7 +38,7 @@ export default class App extends React.Component {
     super();
     this.state = {
       first_launch: "true", // String type to comply with monday.storage()
-      expanded: true
+      expanded: true,
     };
   }
 
@@ -88,12 +88,12 @@ export default class App extends React.Component {
           <Route
             render={({ location, history }) => (
               <React.Fragment>
-                <div style={{ display: "flex", flexDirection: "row" }}>
+                <div className="mainWrapper">
                   <SideNav
-                  expanded={this.state.expanded}
-                  onToggle={(expanded) => {
-                    this.setState({ expanded });
-                }}
+                    expanded={this.state.expanded}
+                    onToggle={(expanded) => {
+                      this.setState({ expanded });
+                    }}
                     onSelect={(selected) => {
                       const to = "/" + selected;
                       if (location.pathname !== to) {
@@ -130,7 +130,10 @@ export default class App extends React.Component {
                       </NavItem>
                       <NavItem eventKey="cannedResponses">
                         <div className="custNavItem">
-                          <img src={CannedResponsesIcon} alt="Canned Responses Icon" />
+                          <img
+                            src={CannedResponsesIcon}
+                            alt="Canned Responses Icon"
+                          />
 
                           <div className="navTitle">Canned Responses</div>
                         </div>
@@ -145,7 +148,6 @@ export default class App extends React.Component {
                     </SideNav.Nav>
                     <button
                       className="blackBtn feedbackBtn"
-                      style={{ margin: "16px auto 0px" }}
                       onClick={() => {
                         monday
                           .execute("confirm", {
@@ -158,11 +160,11 @@ export default class App extends React.Component {
                           });
                       }}
                     >
-                      <img src={MessageIcon}/>Give Feedback
+                      <img src={MessageIcon} />
+                      Give Feedback
                     </button>
                   </SideNav>
                   <div className="sidebar-component">
-                    <main>
                       <Switch>
                         <Route
                           path="/dashboard"
@@ -198,8 +200,7 @@ export default class App extends React.Component {
                           component={(props) => <NewForm />}
                         />
                         <Route path="/" component={(props) => <Dashboard />} />
-                      </Switch>
-                    </main>
+                      </Switch>   
                   </div>
                 </div>
               </React.Fragment>

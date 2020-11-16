@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
 import moment from "moment";
@@ -7,11 +7,15 @@ import mondaySdk from "monday-sdk-js";
 
 const monday = mondaySdk();
 
-const AddFormResponse = () => {
+const AddFormResponse = (props) => {
   const history = useHistory();
-  const { title, url, index } = useLocation();
-  const [titleValue, setTitleValue] = useState(title);
-  const [urlValue, setUrlValue] = useState(url);
+  const { selectedTitle, selectedUrl, selectedIndex } = props;
+  const [titleValue, setTitleValue] = useState(selectedTitle);
+  const [urlValue, setUrlValue] = useState(selectedUrl);
+  useEffect(() => {
+    setTitleValue(selectedTitle);
+    setUrlValue(selectedUrl);
+  }, [selectedTitle, selectedUrl]);
 
   const handleTitle = (e) => {
     setTitleValue(e.target.value);
@@ -25,12 +29,12 @@ const AddFormResponse = () => {
     const data = {
       title: titleValue,
       url: urlValue,
-      date: moment().format("MMM Do YYYY")
+      date: moment().format("MMM Do YYYY"),
     };
     let formResponses = await monday.storage.instance.getItem("formResponses");
     let formResponsesData = JSON.parse(formResponses.data.value);
-    if (index >= 0) {
-        formResponsesData[index] = data
+    if (selectedIndex >= 0) {
+      formResponsesData[selectedIndex] = data;
     } else {
       if (formResponsesData) {
         formResponsesData.push(data);
@@ -44,45 +48,43 @@ const AddFormResponse = () => {
       "formResponses",
       JSON.stringify(formResponsesData)
     );
-    history.push("/cannedResponses");
+    props.setShowFormModal();
+    setTitleValue("");
+    setUrlValue("");
   };
 
   return (
     <>
-      <Modal show={true}>
+      <Modal show={props.showFormModal}>
         <Modal.Body>
-          <p>Form title</p>
-          <input
-            type="text"
-            style={{ width: "350px" }}
-            value={titleValue}
-            onChange={handleTitle}
-          />
-          <p>Past url here!</p>
-          <input
-            type="text"
-            style={{ width: "350px" }}
-            value={urlValue}
-            onChange={handleUrl}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Link to="/cannedResponses">
-            <Button
-              className="btn btn-primary btn-sm"
-              style={{ width: "70px" }}
-            >
-              Cancel
+          <div className="body-area">
+            <p className="modal-heading">New Canned Form Response</p>
+            <p className="res-title"> Form Title</p>
+            <input
+              className="form-control"
+              type="text"
+              value={titleValue}
+              placeholder="Insert Title"
+              onChange={handleTitle}
+            />
+            <p className="res-title"> Form Link</p>
+            <input
+              className="form-control"
+              type="text"
+              value={urlValue}
+              placeholder=""
+              onChange={handleUrl}
+            />
+          </div>
+          <div className="save-btn modal-button">
+            <div className="save-btn modal-button">
+            <Button className="cancelBtn" style={{marginRight: 5}} onClick={() => {props.setShowFormModal();}}>Cancel</Button>
+            <Button className="viewBtn" style={{color: "#fff"}} onClick={saveClick}>
+              Create
             </Button>
-          </Link>
-          <Button
-            className="btn btn-success btn-sm"
-            style={{ width: "70px" }}
-            onClick={saveClick}
-          >
-            Save
-          </Button>
-        </Modal.Footer>
+          </div>
+          </div>
+        </Modal.Body>
       </Modal>
     </>
   );

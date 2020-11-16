@@ -3,81 +3,93 @@
   margin: auto;
 }
 
-
 input {
   height: 35px;
   width: 450px;
-
 }
 
 .modal-body {
-
-    padding: 0px;
-    padding-right: 40px;
+  padding: 0px;
 }
 
 .res-title {
-  margin:0px;
-
+  margin: 0px;
 }
-
 
 .message {
   width: 450px;
   margin-top: 10px;
 }
 
-.body-area {
-margin-top:20px;
-  margin-bottom: 49px;
-  margin-left: 38px;
+.body-area-select {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: 1px solid lightgrey;
+}
 
+.body-area {
+  margin-top: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .body-area h5 {
-  color:#000000;
+  color: #000000;
   font-size: 24px;
-
 }
 
 .res-title {
-  font-weight:normal;
-  font-size:16px;
-  color:#000000;
+  font-weight: normal;
+  font-size: 16px;
+  color: #000000;
 }
 
 .body-area input {
   margin-bottom: 20px;
   width: 400px;
-  color:#C5C7D0;
+  color: #c5c7d0;
 }
 
 .save-btn {
   text-align: right;
-  margin-right:10px;
-
+  margin-right: 10px;
 }
 
 .btn-cancel {
-  color:#323338;
+  color: #323338;
   font-size: 16px;
   display: inline-block;
   margin-right: 30px;
-  padding-top:10px;
-
-
-
+  padding-top: 10px;
 }
 
 .btn-save {
-  color:white;
-  background:#008FF0;
-  margin-bottom:10px;
-  padding:8px 16px;
+  color: white;
+  background: #008ff0;
+  margin-bottom: 10px;
+  padding: 8px 16px;
 }
 
+.modal-heading {
+  font-weight: 400;
+  font-size: 24px;
+  color: grey;
+}
 
+.modal-button {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
+.submitButton {
+  background-color: '#0085FF';
+  height: '58px';
+  border-radius: '4px';
+}
 
 @media screen and (min-width: 476px) {
   .modal-dialog {

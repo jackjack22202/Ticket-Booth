@@ -1,63 +1,65 @@
 #layout {
   display: flex; // Flexbox definition
   overflow: hidden; // Disable scrolling on layout
+  height: 100%;
 }
 
 #main {
   flex:1;
+  border-right: 1px solid lightgray;
+  display: flex;
+  flex-direction: column;
 }
 
-#right { transition: width var(--secs); width: 142px;
-  @media (orientation: landscape) {
-    &.open { width: 350px;    display: flex;
-      flex-direction: column; }
-  }
-  .icon {  
-    margin-top: 30px;
-    display: flex;
-    align-self: center;
-    justify-content: center;
-    font-size: 48px;
-    height: 24px;
-    line-height: 17px;
-    text-align: center; 
-    user-select: none; 
-    cursor: pointer;
-    h5 {
-    font-size: 16px;
-    margin-bottom: 0px;
-    line-height: 1.5;
-    }
+#right {
+  width: 64px;
+  padding: 16px;
+}
+
+/* right menu Ticket Details */
+#right.open {
+  width: 260px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+#right .icon {  
+  margin-top: 15px;
+  margin-bottom: 16px;
+  display: flex;
+  align-self: center;
+  justify-content: center;
+  font-size: 48px;
+  height: 24px;
+  line-height: 17px;
+  text-align: center; 
+  user-select: none; 
+  cursor: pointer;
+  h5 {
+  font-size: 16px;
+  margin-bottom: 0px;
+  line-height: 1.5;
   }
 }
 
-#rightbar {
-  flex:1;
-  .stats {
+.updateCardStatusScroll {
+  flex: 1;
+  overflow-y: scroll;
+    .stats {
 box-shadow: 0 15px 50px 0 rgba(0,0,0,0.05);
 border-radius: 8px;
-padding:8px;
-margin-bottom: 16px;
-.statsInfo {
-  color:#565865;
-  font-size: 14px;
-  margin-top: 8px;
+padding:16px 16px;
+margin: 4px 4px 16px 4px;
 }
 }
-.header {
-  display: flex;
-  justify-content: center;
-    align-items: center;
-    margin: 14px 0px 28px;
-  .drawerIcon {
-    font-size: 48px;
-    height: 24px;
-    line-height: 17px;
-  }
-  .title {
-    margin-bottom: 0px;
-  }
+
+#right.closed .updateCardStatusScroll,#right.closed .icon.closed h5, #right.closed .blackBtn {
+  display: none;
 }
+
+#right.open .blackBtn {
+  margin-top: 16px;
 }
 
 #rightcardheading {
@@ -84,15 +86,19 @@ margin-bottom: 16px;
     }
   }
   .detailsNType {
-    color: #9495a4 !important;
+    color: #323338 !important;
+    p{
+      word-break: break-all;
+    }
+    img {
+      max-width: 300px;
+    }
   }
 }
  
 /*Css by Pritam */
 .ticketDetailsTitleView {
-  padding-top: 16px;
-  padding-bottom: 16px;
-  margin-bottom: 32px;
+  padding: 16px;
   border-bottom: 1px solid lightgray;
   display:flex;
   align-items: center;
@@ -106,30 +112,84 @@ margin-bottom: 16px;
 }
 
 
-.text-muted {
-  color: #9495a4 !important;
-}
+// .text-muted {
+//   color: #9495a4 !important;
+// }
 
-.ck-editor {
-  border: 1px solid rgba(0,0,0,.125) !important;
-  border-radius: 8px !important;
-}
-svg.attachFile path {
-stroke: rgb(43, 153, 255);
-}
+// .ck-editor {
+//   border: 1px solid rgba(0,0,0,.125) !important;
+//   border-radius: 8px !important;
+// }
+// svg.attachFile path {
+// stroke: rgb(43, 153, 255);
+// }
 
 .updateCardScroll {
-  height: 50vh;
-  overflow-y: scroll;
-}
-
-
-.updateCardStatusScroll {
-  height: 95vh;
-  overflow-y: scroll;
+  flex: 1;
   padding: 16px;
+  overflow-y: scroll;
 }
 
-#right.closed #rightbar,#right.closed .icon.closed h5 {
-  display: none;
+
+
+
+// .cke_chrome {
+//   border: 1px solid #323338 !important;
+// }
+
+.blueBtn {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 10.5px 16px;
+  height: 40px;
+  background-color: #0085ff;
+  border-radius: 4px;
+  color: #fff;
+  border: 0;
+  display: block;
+  width: fit-content;
+}
+
+.blueBtn:hover {
+  text-decoration: none !important;
+  color: #fff !important;
+}
+
+.tktDetailEdit {
+  margin: 16px;
+  .btnTxtConfig {
+    display: flex;
+  flex-direction: row;
+  margin-top: 16px;
+  .blackBtn {
+    margin-right: 16px;
+  }
+  }
+}
+.textEditorConfig {
+  display: flex;
+  flex-direction: row;
+  .flexOne {
+    flex:1;
+    display: flex;
+    a {
+      padding-right: 16px;
+      color: #000;
+      display: flex;
+      align-items: center;
+      svg {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.loadmoreBtn {
+  width: fit-content;
+  margin: 0 auto;
+  img {
+    width: 18px;
+    margin-right: 4px;
+  }
 }
