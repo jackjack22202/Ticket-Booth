@@ -56,9 +56,9 @@ class Details extends React.Component {
       rightOpen: true,
       emailFooter: "",
       up_page: 1,
-      undo_email: false
+      undo_email: false,
       showCannedModal: false,
-      textResponses: []
+      textResponses: [],
       undo_email: false,
     };
 
@@ -425,7 +425,7 @@ class Details extends React.Component {
                   <p style={{ padding: 5, color: "#2b99ff" }}>GIF</p>
                   <p style={{ padding: 5, color: "#2b99ff" }}>
                     <GrEmoji /> Emoji
-                  </a>
+                  </p>
                   <a>@Mention</a>
                 </div>
                 <div className="btnTxtConfig">
