@@ -1,8 +1,9 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Row, Form, Col, Container } from "react-bootstrap";
+import { Form, Container, Row, Col } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
-import { GrAttachment, GrEmoji } from "react-icons/gr";
+import { GrAttachment, GrEmoji, GrThreeDEffects } from "react-icons/gr";
+import { RiAlertFill } from "react-icons/ri"
 
 //data
 import { KeyChain } from "./KeyChain";
@@ -207,8 +208,40 @@ export class Integration extends React.Component {
             <button className="saveBtn" onClick={() => this.setFooter()}>
               Save
             </button>
-            <div></div>
           </div>
+        </div>
+        <div className="attention-box">
+          <Container fluid>
+            <Row>
+              <div>
+                <h6>
+                <RiAlertFill className="alert-icon" color="#0085FF"/><strong>Please use the following tags to automatically insert user profile data:</strong>
+                </h6>
+              </div>
+            </Row>
+            <Row>
+              <Col>
+                <ul>
+                  <li>{"{{name}}"}</li>
+                  <li>{"{{phone}}"}</li>
+                  <li>{"{{mobile_phone}}"}</li>
+                  <li>{"{{country_code}}"}</li>
+                  <li>{"{{email}}"}</li>
+                  <li>{"{{title}}"}</li>
+                </ul>
+              </Col>
+              <Col>
+                <ul>
+                  <li>{"{{birthday}}"}</li>
+                  <li>{"{{join_date}}"}</li>
+                  <li>{"{{location}}"}</li>
+                  <li>{"{{time_zone_identifier}}"}</li>
+                  <li>{"{{url}}"}</li>
+                  <li>{"{{join_date}}"}</li>
+                </ul>
+              </Col>
+            </Row>
+          </Container>
         </div>
       </div>
     );
