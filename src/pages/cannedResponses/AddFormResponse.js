@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Modal, Button } from "react-bootstrap";
 import moment from "moment";
+import "./AddCannedResponse.css";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import mondaySdk from "monday-sdk-js";
 
@@ -57,32 +58,35 @@ const AddFormResponse = (props) => {
     <>
       <Modal show={props.showFormModal}>
         <Modal.Body>
-          <div className="body-area">
-            <p className="modal-heading">New Canned Form Response</p>
-            <p className="res-title"> Form Title</p>
-            <input
-              className="form-control"
-              type="text"
-              value={titleValue}
-              placeholder="Insert Title"
-              onChange={handleTitle}
-            />
-            <p className="res-title"> Form Link</p>
-            <input
-              className="form-control"
-              type="text"
-              value={urlValue}
-              placeholder=""
-              onChange={handleUrl}
-            />
-          </div>
-          <div className="save-btn modal-button">
-            <div className="save-btn modal-button">
-            <Button className="cancelBtn" style={{marginRight: 5}} onClick={() => {props.setShowFormModal();}}>Cancel</Button>
-            <Button className="viewBtn" style={{color: "#fff"}} onClick={saveClick}>
+          <div className="modalTitle">New Canned Form Response</div>
+          <div className="modalLable"> Form Title</div>
+          <input
+            className="form-control"
+            type="text"
+            value={titleValue}
+            placeholder="Insert Title"
+            onChange={handleTitle}
+          />
+          <div className="modalLable"> Form Link</div>
+          <input
+            className="form-control"
+            type="text"
+            value={urlValue}
+            placeholder=""
+            onChange={handleUrl}
+          />
+          <div className="modalButton">
+            <a
+              className="blackBtn"
+              onClick={() => {
+                props.setShowFormModal();
+              }}
+            >
+              Cancel
+            </a>
+            <a className="blueBtn" onClick={saveClick}>
               Create
-            </Button>
-          </div>
+            </a>
           </div>
         </Modal.Body>
       </Modal>

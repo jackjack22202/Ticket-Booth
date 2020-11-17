@@ -23,17 +23,17 @@ const editorConfiguration = {
       "insertTable",
       "undo",
       "redo",
-      "alignment"
-    ]
+      "alignment",
+    ],
   },
   language: "en",
   image: {
-    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"]
+    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
   },
   table: {
-    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"]
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
   },
-  licenseKey: ""
+  licenseKey: "",
 };
 
 const AddCannedResponse = (props) => {
@@ -47,7 +47,6 @@ const AddCannedResponse = (props) => {
     setTextValue(selectedText);
   }, [selectedTitle, selectedText]);
 
-  
   const handleTitle = (e) => {
     setTitleValue(e.target.value);
   };
@@ -75,44 +74,49 @@ const AddCannedResponse = (props) => {
       JSON.stringify(textResponsesData)
     );
     props.setShowTextModal(false);
-    setTitleValue('');
-    setTextValue('');
+    setTitleValue("");
+    setTextValue("");
   };
 
   const closeModal = () => {
     //setTitleValue('');
     //setTextValue('');
-  }
+  };
 
   return (
     <>
-      <Modal show={props.showTextModal} className="model">
+      <Modal show={props.showTextModal} className="modal">
         <Modal.Body>
-          <div className="body-area" style={{paddingRight: 20}}>
-            <p className="modal-heading">New Canned Text Response</p>
-            <p className="res-title"> Response Title</p>
-            <input
-              className="form-control"
-              type="text"
-              value={titleValue}
-              placeholder="Insert Title"
-              onChange={handleTitle}
-            />
-            <p className="res-title"> Description</p>
-            <CKEditor
-              editor={ClassicEditor}
-              data={textValue}
-              config={editorConfiguration}
-              onChange={(event, editor) => {
-                setTextValue(editor.getData());
+          <div className="modalTitle">New Canned Text Response</div>
+          <div className="modalLable"> Response Title</div>
+          <input
+            className="form-control"
+            type="text"
+            value={titleValue}
+            placeholder="Insert Title"
+            onChange={handleTitle}
+          />
+          <div className="modalLable"> Description</div>
+          <CKEditor
+            editor={ClassicEditor}
+            data={textValue}
+            config={editorConfiguration}
+            onChange={(event, editor) => {
+              setTextValue(editor.getData());
+            }}
+          />
+          <div className="modalButton">
+            <a
+              className="blackBtn"
+              onClick={() => {
+                props.setShowTextModal();
               }}
-            />
-          </div>
-          <div className="save-btn modal-button">
-            <Button className="cancelBtn" style={{marginRight: 5}} onClick={() => {props.setShowTextModal();}}>Cancel</Button>
-            <Button className="viewBtn" style={{color: "#fff"}} onClick={saveClick}>
+            >
+              Cancel
+            </a>
+            <a className="blueBtn" onClick={saveClick}>
               Create
-            </Button>
+            </a>
           </div>
         </Modal.Body>
       </Modal>

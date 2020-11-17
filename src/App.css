@@ -151,6 +151,7 @@ button:disabled {
   border: 0;
   display: block;
   width: fit-content;
+  cursor: pointer;
 }
 
 .blueBtn:hover {
@@ -218,6 +219,7 @@ top: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
 }
 
 .blackBtn:hover {
