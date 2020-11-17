@@ -95,7 +95,22 @@ class Details extends React.Component {
             );
           }).then(() => {
             this.fetchCannedResponses();
-            this.parseSidebarSettings();
+            Promise.all([
+              monday.storage.instance.getItem(KeyChain.EmailFooter),
+            ]).then((allPromises) => {
+              new Promise((resolve, _) => {
+                const storedEmailFooter = allPromises[0].data.value
+                  ? allPromises[0].data.value
+                  : "";
+                const templateFooter = Handlebars.compile(storedEmailFooter);
+                const compiledFooter = templateFooter(this.state.user);
+                this.setState({emailFooter: compiledFooter}, function() {
+                  resolve();
+                })
+              }).then(() => {
+                this.parseSidebarSettings();
+              });
+            });
           });
         });
     });
