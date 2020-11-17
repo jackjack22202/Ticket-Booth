@@ -1,5 +1,14 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Container, Card, Button, CardColumns, Row, Col, Tab, Nav } from "react-bootstrap";
+import {
+  Container,
+  Card,
+  Button,
+  CardColumns,
+  Row,
+  Col,
+  Tab,
+  Nav,
+} from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
@@ -9,6 +18,7 @@ import Avatar from "react-avatar";
 import mondaySdk from "monday-sdk-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Responses.css";
+import "../../App.css";
 import moment from "moment";
 
 const monday = mondaySdk();
@@ -70,7 +80,7 @@ const Responses = () => {
         message: "Are you sure you want delete text response?",
         confirmButton: "Delete",
         cancelButton: "Cancel",
-        excludeCancelButton: false
+        excludeCancelButton: false,
       })
       .then((res) => {
         if (res.data.confirm) {
@@ -131,7 +141,7 @@ const Responses = () => {
         message: "Are you sure you want delete form response?",
         confirmButton: "Delete",
         cancelButton: "Cancel",
-        excludeCancelButton: false
+        excludeCancelButton: false,
       })
       .then((res) => {
         if (res.data.confirm) {
@@ -147,17 +157,22 @@ const Responses = () => {
 
   if (show) {
     createTextButton = (
-      <Button className="viewBtn create-btn" onClick={() => {
+      <Button
+        className="blueBtn"
+        onClick={() => {
           setShowTextModal(true);
-        }}>
+        }}
+      >
         Create Response
       </Button>
     );
 
     cardList = (
-      <CardColumns>
+      <>
         {textResponses.map((textResponse, index) => (
+          <Col md={4}>
           <div
+            className="cardView"
             onClick={() => {
               setSelectedIndex(index);
               setSelectedText(textResponse.text);
@@ -167,47 +182,49 @@ const Responses = () => {
               }, 500);
             }}
           >
-            <Card style={{}}>
-              <Card.Body className="response-card">
-                <Card.Title >{textResponse.title}</Card.Title>
-                <Card.Text 
-                  dangerouslySetInnerHTML={{ __html: textResponse.text }}
-                  className="text"
-                ></Card.Text>
-                <div style={{position: 'absolute', bottom: '10px', width: '90%'}}>
-                  <Avatar name="Foo Bar" size={24} round="12px" />
-                  <Card.Link href="#" style={{fontSize: '13px'}}>{textResponse.date}</Card.Link>
-                  <span
-                    className="icon-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteTextResponse(index);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
-                  </span>
-                </div>
-              </Card.Body>
-            </Card>
+            <div className="title">{textResponse.title}</div>
+            <div
+              className="url"
+              dangerouslySetInnerHTML={{ __html: textResponse.text }}
+            ></div>
+            <div className="bottomView">
+              <Avatar name="Foo Bar" size={24} round="12px" />
+              <div className="date">{textResponse.date}</div>
+              <a
+                className="icon-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteTextResponse(index);
+                }}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
+              </a>
+            </div>
           </div>
+          </Col>
         ))}
-      </CardColumns>
+      </>
     );
   }
 
   if (showForm) {
     createFormButton = (
-      <Button className="viewBtn create-btn" onClick={() => {
+      <Button
+        className="blueBtn"
+        onClick={() => {
           setShowFormModal(true);
-        }}>
+        }}
+      >
         Create Form Response
       </Button>
     );
 
     formList = (
-      <CardColumns>
+      <>
         {formResponses.map((textResponse, index) => (
+          <Col md={4}>
           <div
+            className="cardView"
             onClick={() => {
               setSelectedTitle(textResponse.title);
               setSelectedUrl(textResponse.url);
@@ -215,64 +232,55 @@ const Responses = () => {
               setShowFormModal(true);
             }}
           >
-            <Card style={{}}>
-              <Card.Body className="response-card">
-                <Card.Title>{textResponse.title}</Card.Title>
-                <Card.Text>{textResponse.url}</Card.Text>
-                <div style={{position: 'absolute', bottom: '5px', width: '90%'}}>
-                  <Avatar name="Foo Bar" size={24} round="12px" />
-                  <Card.Link href="#">{textResponse.date}</Card.Link>
-                  <span
-                    className="icon-btn"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      deleteFormResponse(index);
-                    }}
-                  >
-                    <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
-                  </span>
-                </div>
-              </Card.Body>
-            </Card>
+            <div className="title">{textResponse.title}</div>
+            <div className="url">{textResponse.url}</div>
+            <div className="bottomView">
+              <Avatar name="Foo Bar" size={24} round="12px" />
+              <div className="date">{textResponse.date}</div>
+              <a
+                className="icon-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  deleteFormResponse(index);
+                }}
+              >
+                <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
+              </a>
+            </div>
           </div>
+          </Col>
         ))}
-      </CardColumns>
+      </>
     );
   }
 
   return (
     <>
-      <Container className="container">
-        <header className="head">
-          <div className='row'>
+      <div className="navBar">
         <Nav className="mondayTab" variant="pills">
-            <Nav.Item>
-              <Nav.Link
-                eventKey={0}
-                onClick={handleText}
-                className={
-                  show
-                    ? "selected-view nav-link active"
-                    : "unselected-view"
-                }
-              >
-                Text
-              </Nav.Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Nav.Link
-                eventKey={1}
-                onClick={handleForm}
-                className={
-                  showForm
-                    ? "selected-view nav-link active"
-                    : "unselected-view"
-                }
-              >
-                Form
-              </Nav.Link>
-            </Nav.Item>
-            {/* 
+          <Nav.Item>
+            <Nav.Link
+              eventKey={0}
+              onClick={handleText}
+              className={
+                show ? "selected-view nav-link active" : "unselected-view"
+              }
+            >
+              Text
+            </Nav.Link>
+          </Nav.Item>
+          <Nav.Item>
+            <Nav.Link
+              eventKey={1}
+              onClick={handleForm}
+              className={
+                showForm ? "selected-view nav-link active" : "unselected-view"
+              }
+            >
+              Form
+            </Nav.Link>
+          </Nav.Item>
+          {/* 
                 <Nav.Item>
                   <Nav.Link eventKey="dashboard">
                     <img src={DashboardIcon} alt="Dashboard Settings" style={{height:"32px", width:"32px"}}/>
@@ -280,37 +288,34 @@ const Responses = () => {
                   </Nav.Link>
                 </Nav.Item>
                 */}
-          </Nav>
-
-          {createFormButton}
-          {createTextButton}
-          </div>
-        </header>
-        {showForm && (
-          <div>
-            <div style={{ padding: "10px" }}>{formList}</div>
-            <AddFormResponse
-              setShowFormModal={closeModal}
-              showFormModal={showFormModal}
-              selectedIndex={selectedIndex}
-              selectedTitle={selectedTitle}
-              selectedUrl={selectedUrl}
-            />
-          </div>
-        )}
-        {show && (
-          <div>
-            <div style={{ padding: "10px" }}>{cardList}</div>
-            <AddCannedResponse
-              setShowTextModal={closeModal}
-              showTextModal={showTextModal}
-              selectedIndex={selectedIndex}
-              selectedTitle={selectedTitle}
-              selectedText={selectedText}
-            />
-          </div>
-        )}
-      </Container>
+        </Nav>
+        {createFormButton}
+        {createTextButton}
+      </div>
+      {showForm && (
+        <Container>
+          <Row>{formList}</Row>
+          <AddFormResponse
+            setShowFormModal={closeModal}
+            showFormModal={showFormModal}
+            selectedIndex={selectedIndex}
+            selectedTitle={selectedTitle}
+            selectedUrl={selectedUrl}
+          />
+        </Container>
+      )}
+      {show && (
+        <Container>
+          <Row>{cardList}</Row>
+          <AddCannedResponse
+            setShowTextModal={closeModal}
+            showTextModal={showTextModal}
+            selectedIndex={selectedIndex}
+            selectedTitle={selectedTitle}
+            selectedText={selectedText}
+          />
+        </Container>
+      )}
     </>
   );
 };

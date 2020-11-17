@@ -1,4 +1,4 @@
-.container {
+/* .container {
   margin-top: 40px;
 }
 .show-grid {
@@ -73,4 +73,65 @@
 .response-card {
   min-height: 170px;
   max-height: 170px;
+} */
+
+/* .mondayTab.nav-pills .nav-link.active, .nav-pills .show>.nav-link{
+  color: #676879;
+  background-color: transparent;
+  border-bottom: 2px solid #0084ff;
+  border-radius: 0;
+}
+
+.mondayTab.nav-pills .nav-link {
+  border-radius: 0px;
+  border-bottom: 1px solid #dfdfdf;
+  margin-left: 0px;
+  color: #676879;
+} */
+
+.navBar {
+  display:flex;
+  align-items: center;
+  border-bottom: 1px solid #dfdfdf;
+  padding-right: 16px;
+}
+
+.navBar .mondayTab {
+  flex:1;
+  border-bottom: 0px;
+}
+
+.cardView {
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  cursor: pointer;
+}
+
+.cardView .title {
+  font-size: 24px;
+}
+
+.cardView .url {
+  margin-top: 8px;
+  margin-bottom: 16px;
+}
+
+.cardView .url p{ 
+  margin:0px;
+}
+
+.cardView .bottomView{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.cardView .bottomView .date{
+  flex: 1;
+  margin-left: 16px;
+  margin-right: 16px;
 }
