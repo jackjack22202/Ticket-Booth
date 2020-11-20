@@ -6,10 +6,9 @@ import { Link } from "react-router-dom";
 import { Image, Modal, Button } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { GrAttachment, GrEmoji } from "react-icons/gr";
-import { toast, ToastContainer } from "react-toastify";
+import { toast, ToastContainer, Zoom } from "react-toastify";
 //styles
 import "./Details.scss";
-import "../library/custom_styles/ReactToastify.css";
 //data
 import { KeyChain } from "./settings/KeyChain";
 import loadmoreIcon from "../library/images/loadMore.svg";
@@ -309,14 +308,14 @@ class Details extends React.Component {
 
     return (
       <>
-        <ToastContainer
+        <ToastContainer transition={Zoom} pauseOnFocusLoss={true} pauseOnHover={false}
           closeButton={({ closeToast }) => {
             const handleClick = () => {
               this.setState({ undo_email: true }, () => {
                 closeToast();
               });
             };
-            return <button onClick={handleClick}>Undo</button>;
+            return <button className="btn-toast" onClick={handleClick}>Undo</button>;
           }}
         />
         <div id="layout">

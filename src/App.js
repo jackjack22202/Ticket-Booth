@@ -9,6 +9,7 @@ import { Messages } from "./library/Messages";
 // Import Stylesheets
 import "./library/custom_styles/react-sidenav.css";
 import "./library/custom_styles/react-loadingmask.css";
+import "./library/custom_styles/ReactToastify.css";
 import "./App.css";
 
 // Import Pages

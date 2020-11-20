@@ -56,6 +56,15 @@ body {
   box-shadow: none;
 }
 
+.btn-toast {
+  outline: none;
+  color: #ffffff;
+  background-color: transparent;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 4px 12px 4px 12px;
+}
+
 button:disabled {
   background-color: #e2e6ec;
   border-color: #e2e6ec;
