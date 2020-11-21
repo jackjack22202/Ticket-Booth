@@ -13,14 +13,18 @@ export class Fields extends React.Component {
     super();
     //bindings
     this.setIDColumn.bind(this);
-    this.setStatusColumn.bind(this);
     this.setSubtitleColumn.bind(this);
+    this.setStatusColumn.bind(this);
+    this.setDateColumn.bind(this);
+    this.setPersonColumn.bind(this);
     this.toggleDetail.bind(this);
 
     this.state = {
       idColumn: null,
       subtitleColumn: null,
       statusColumn: null,
+      dateColumn: null,
+      personColumn: null,
       details: [],
     };
 
@@ -36,6 +40,8 @@ export class Fields extends React.Component {
       monday.storage.instance.getItem(KeyChain.Columns.ID), //0
       monday.storage.instance.getItem(KeyChain.Columns.Status), //1
       monday.storage.instance.getItem(KeyChain.Columns.Subtitle), //2
+      monday.storage.instance.getItem(KeyChain.Columns.Date),
+      monday.storage.instance.getItem(KeyChain.Columns.Person),
       monday.storage.instance.getItem(KeyChain.Columns.Details),
     ]).then((allPromises) => {
       // collect up the monday.storage values
@@ -48,14 +54,22 @@ export class Fields extends React.Component {
       const storedSubtitleColumn = allPromises[2].data
         ? allPromises[2].data.value
         : "";
-      const storedDetails = allPromises[3].data
-        ? allPromises[3].data.value?.split(",") ?? []
+      const storedDateColumn = allPromises[3].data
+        ? allPromises[3].data.value
+        : "";
+      const storedPersonColumn = allPromises[4].data
+        ? allPromises[4].data.value
+        : "";
+      const storedDetails = allPromises[5].data
+        ? allPromises[5].data.value?.split(",") ?? []
         : [];
 
       this.setState({
         idColumn: storedIDColumn,
         statusColumn: storedStatusColumn,
         subtitleColumn: storedSubtitleColumn,
+        dateColumn: storedDateColumn,
+        personColumn: storedPersonColumn,
         details: storedDetails,
       });
     });
@@ -86,6 +100,22 @@ export class Fields extends React.Component {
     });
     monday.storage.instance.setItem(KeyChain.Columns.Status, newStatus);
   }
+  setDateColumn(e) {
+    const newDate = this.props.columns.find((c) => c.title === e.target.value)
+      ?.id;
+    this.setState({
+      dateColumn: newDate,
+    });
+    monday.storage.instance.setItem(KeyChain.Columns.Date, newDate);
+  }
+  setPersonColumn(e) {
+    const newPerson = this.props.columns.find((c) => c.title === e.target.value)
+      ?.id;
+    this.setState({
+      personColumn: newPerson,
+    });
+    monday.storage.instance.setItem(KeyChain.Columns.Person, newPerson);
+  }
   toggleDetail(value) {
     const targetId = this.props.columns[value].id;
     const targetIndex = this.state.details
@@ -109,7 +139,7 @@ export class Fields extends React.Component {
         <h3 className="setting-padding">Field Settings</h3>
         <div className="fieldFlex">
           <div className="fieldWrapper">
-            <div className="settingTitle">General</div>
+            <div className="settingTitle">Ticket List</div>
             <div className="preTitle">Ticket ID</div>
             <div className="settingSubTitle">
               Choose a column that uniquely identifies each ticket.
@@ -153,7 +183,7 @@ export class Fields extends React.Component {
             </Form.Control>
           </div>
           <div className="fieldWrapper">
-            <div className="settingTitle"></div>
+            <div className="settingTitle">Ticket List</div>
             <div className="preTitle">Ticket Status</div>
             <div className="settingSubTitle">
               Choose a status column to display on your tickets.
@@ -163,6 +193,52 @@ export class Fields extends React.Component {
                 <option
                   id={column.id}
                   selected={this.state.statusColumn === column.id}
+                  key={column.id}
+                >
+                  {column.title}
+                </option>
+              ))}
+            </Form.Control>
+          </div>
+        </div>
+        <div className="fieldFlex fieldWrapperMT">
+          <div className="fieldWrapper">
+            <div className="settingTitle">Ticket List</div>
+            <div className="preTitle">Person</div>
+            <div className="settingSubTitle">
+              Choose any person column type to display thumbnail.
+            </div>
+            <Form.Control
+              as="select"
+              placeholder="Select a Column"
+              onChange={(e) => this.setPersonColumn(e)}
+            >
+              {this.props.columns.map((column, i) => (
+                <option
+                  id={column.id}
+                  selected={this.state.personColumn === column.id}
+                  key={column.id}
+                >
+                  {column.title}
+                </option>
+              ))}
+            </Form.Control>
+          </div>
+          <div className="fieldWrapper fieldWrapperMLR">
+            <div className="settingTitle">Ticket List</div>
+            <div className="preTitle">Date Column</div>
+            <div className="settingSubTitle">
+              Choose any column to display date.
+            </div>
+
+            <Form.Control
+              as="select"
+              onChange={(e) => this.setDateColumn(e)}
+            >
+              {this.props.columns.map((column, i) => (
+                <option
+                  id={column.id}
+                  selected={this.state.dateColumn === column.id}
                   key={column.id}
                 >
                   {column.title}

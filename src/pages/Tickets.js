@@ -44,6 +44,8 @@ class Tickets extends React.Component {
         monday.storage.instance.getItem(KeyChain.Columns.Details),
         monday.storage.instance.getItem(KeyChain.Columns.Email),
         monday.storage.instance.getItem(KeyChain.Colors.Primary),
+        monday.storage.instance.getItem(KeyChain.Columns.Date), //2
+        monday.storage.instance.getItem(KeyChain.Columns.Person), //2
       ]).then((allResponses) => {
         const storedIDColumn = allResponses[0].data
           ? allResponses[0].data.value
@@ -63,6 +65,13 @@ class Tickets extends React.Component {
         const storedColor = allResponses[5].data
           ? allResponses[5].data.value
           : "";
+        const storedDateColumn = allResponses[6].data
+          ? allResponses[6].data.value
+          : "";
+        const storedPersonColumn = allResponses[7].data
+          ? allResponses[7].data.value
+          : "";
+          
 
         this.setState({
           settings: {
@@ -70,6 +79,8 @@ class Tickets extends React.Component {
             id_column_key: storedIDColumn,
             status_column_key: storedStatusColumn,
             subheading_column_key: storedSubtitleColumn,
+            date_column_key: storedDateColumn,
+            person_column_key: storedPersonColumn,
             client_email_column_key: storedEmail,
             details_fields: storedDetails,
           },
@@ -100,7 +111,7 @@ class Tickets extends React.Component {
   }
 
   reloadData() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
       this.fetchGroupMetadata().then(() => {
         this.fetchItems().then(() => {
           resolve();
@@ -110,7 +121,7 @@ class Tickets extends React.Component {
   }
 
   fetchGroupMetadata() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve, _) => {
       monday
         .api(
           `query ($boardIds: [Int], $groupId: String) { boards(ids: $boardIds) { name groups(ids: [$groupId]) { title id items { id name } } } } `,
@@ -141,7 +152,7 @@ class Tickets extends React.Component {
     return new Promise((resolve, reject) => {
       monday
         .api(
-          `query ($boardIds: [Int], $groupId: String, $current_page: Int, $limit: Int) { boards(ids: $boardIds) { name groups(ids: [$groupId]) { title id items(limit: $limit, page: $current_page) { id name group { id } created_at creator { photo_thumb_small } column_values { id title text additional_info } } } } } `,
+          `query ($boardIds: [Int], $groupId: String, $current_page: Int, $limit: Int) { boards(ids: $boardIds) { name groups(ids: [$groupId]) { title id items(limit: $limit, page: $current_page) { id name group { id } created_at creator { photo_thumb_small } column_values { id title text additional_info value } } } } } `,
           {
             variables: {
               boardIds: this.state.context.boardIds,
@@ -152,16 +163,46 @@ class Tickets extends React.Component {
           }
         )
         .then((res) => {
-          this.setState(
-            {
-              tickets: res?.data?.boards[0]?.groups[0]?.items,
-              loading: false,
-              listLoading: false,
-            },
-            () => {
-              resolve();
+          const tickets = res?.data?.boards[0]?.groups[0]?.items;
+          const promises = [];
+          tickets.forEach((item) => {
+            var person_column_data = item.column_values.find(
+              (x) => x.id === this.state.settings.person_column_key
+            )?.value
+            try {
+              person_column_data = JSON.parse(person_column_data);
+              const person_id = person_column_data?.personsAndTeams[0]?.id;
+              if(person_id) {
+                const promise = monday.api(`query { users(ids: [${person_id}]) { photo_thumb_small } }`)
+                .then((res) => {
+                  const person_image_URL = res.data?.users[0]?.photo_thumb_small;
+                  item.thumb_URL = person_image_URL;
+                })
+                .catch(() => {
+                  item.thumb_URL = "";
+                })
+                promises.push(promise);
+              }
+              else {
+                item.thumb_URL = "";
+              }
             }
-          );
+            catch {
+              item.thumb_URL = item?.creator?.photo_thumb_small;
+            }
+          })
+          Promise.all(promises).then(()=> {
+            this.setState(
+              {
+                tickets: tickets,
+                loading: false,
+                listLoading: false,
+              },
+              () => {
+                resolve();
+              }
+            );
+          })
         });
     });
   }
@@ -278,7 +319,7 @@ class Tickets extends React.Component {
           {tickets.map((item) => (
             <Row className="tktBoothCV" key={item.id}>
               <Col sm={1} md={1} lg={1}>
-                <Image src={item?.creator?.photo_thumb_small} roundedCircle />
+                <Image src={item?.thumb_URL} roundedCircle />
               </Col>
               <Col sm={5} md={5} lg={5}>
                 <div className="tName">{item.name}</div>
@@ -306,8 +347,10 @@ class Tickets extends React.Component {
                   )?.text || "Status N/A"}
                 </div>
               </Col>
-              <Col sm={2} md={2} lg={2} className="createdDate">
-                {this.dateHandler(item.created_at)}
+              <Col sm={2} md={2} lg={2} className="lastUpdates">
+                {this.dateHandler(item.column_values.find(
+                    (x) => x.id === settings.date_column_key
+                  )?.text || item.created_at)}
               </Col>
               <Col sm={2} md={2} lg={2} className="viewTkt">
                 <Link

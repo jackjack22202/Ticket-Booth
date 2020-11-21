@@ -10,7 +10,9 @@ export const KeyChain = {
         Subtitle: 'column_subtitle',
         Status: 'column_status',
         Details: 'columns_details',
-        Email: 'column_email'
+        Email: 'column_email',
+        Person: 'column_person',
+        Date: 'column_date'
     },
     PerPage: 'per_page',
     AcceptedTerms: 'accepted_terms',

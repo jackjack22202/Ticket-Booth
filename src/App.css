@@ -313,7 +313,7 @@ color: #9495a4;
   display: block;
   font-size: 16px;
 }
-.ticketList .tktBoothCV .tUrl, .ticketList .tktBoothCV .createdDate, .ticketList .tktBoothCV .viewId {
+.ticketList .tktBoothCV .tUrl, .ticketList .tktBoothCV .lastUpdates, .ticketList .tktBoothCV .viewId {
   color: #727384;
   display: block;
   font-size: 14px;
