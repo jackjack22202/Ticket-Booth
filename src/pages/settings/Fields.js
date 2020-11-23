@@ -149,7 +149,7 @@ export class Fields extends React.Component {
               placeholder="Select a Column"
               onChange={(e) => this.setIDColumn(e)}
             >
-              {this.props.columns.map((column, i) => (
+              {this.props.columns.filter(col => col.type == "pulse-id").map((column, i) => (
                 <option
                   id={column.id}
                   selected={this.state.idColumn === column.id}
@@ -189,7 +189,7 @@ export class Fields extends React.Component {
               Choose a status column to display on your tickets.
             </div>
             <Form.Control as="select" onChange={(e) => this.setStatusColumn(e)}>
-              {this.props.columns.map((column, i) => (
+              {this.props.columns.filter(col => col.type == "color").map((column, i) => (
                 <option
                   id={column.id}
                   selected={this.state.statusColumn === column.id}
@@ -213,7 +213,7 @@ export class Fields extends React.Component {
               placeholder="Select a Column"
               onChange={(e) => this.setPersonColumn(e)}
             >
-              {this.props.columns.map((column, i) => (
+              {this.props.columns.filter(col => col.type == "multiple-person").map((column, i) => (
                 <option
                   id={column.id}
                   selected={this.state.personColumn === column.id}
@@ -235,7 +235,7 @@ export class Fields extends React.Component {
               as="select"
               onChange={(e) => this.setDateColumn(e)}
             >
-              {this.props.columns.map((column, i) => (
+              {this.props.columns.filter(col => col.type == "date").map((column, i) => (
                 <option
                   id={column.id}
                   selected={this.state.dateColumn === column.id}
