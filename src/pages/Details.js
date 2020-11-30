@@ -401,6 +401,43 @@ class Details extends React.Component {
             </div>
 
             <div tag="texteditor" key={ticket?.id} className="txtEditor tktDetailEdit">
+            <CKEditor
+              data={this.state.editorData}
+              config={editorConfiguration}
+              onChange={this.editorEvent}
+            />
+            <div className="textEditorConfig">
+              <div className="flexOne">
+              <a onClick={this.openCannedResponse}>Select Response</a>
+                <a>
+                  <GrAttachment /> Add File
+                </a>
+                <a>GIF</a>
+                <a>
+                  <GrEmoji /> Emoji
+                </a>
+                <a>@Mention</a>
+              </div>
+              <div className="btnTxtConfig">
+                  <button
+                    className="blackBtn"
+                    onClick={() => this.postUpdate("internal")}
+                    disabled={this.state.updateLoading}
+                  >
+                    Note
+                  </button>
+                  <button
+                    className="blueBtn"
+                    onClick={() => this.postUpdate("client")}
+                    disabled={this.state.updateLoading}
+                  >
+                    Email
+                  </button>
+                </div>
+            </div>
+          </div>
+
+            {/* <div tag="texteditor" key={ticket?.id} className="txtEditor tktDetailEdit">
               <CKEditor
                 data={this.state.editorData}
                 config={editorConfiguration}
@@ -447,7 +484,7 @@ class Details extends React.Component {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
           <div id="right" className={`${rightOpen}`}>
             <div className={`icon ${rightOpen}`} onClick={this.toggleSidebar}>
