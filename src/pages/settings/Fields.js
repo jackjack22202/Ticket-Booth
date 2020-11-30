@@ -136,140 +136,161 @@ export class Fields extends React.Component {
   render() {
     return (
       <>
-        <h3 className="setting-padding">Field Settings</h3>
         <div className="fieldFlex">
           <div className="fieldWrapper">
-            <div className="settingTitle">Ticket List</div>
+            {/* <div className="settingTitle">Ticket List</div> */}
             <div className="preTitle">Ticket ID</div>
-            <div className="settingSubTitle">
-              Choose a column that uniquely identifies each ticket.
+            <div className="cardWrapper">
+              <div className="settingSubTitle">
+                Choose a column that uniquely identifies each ticket.
+              </div>
+              <Form.Control
+                as="select"
+                placeholder="Select a Column"
+                onChange={(e) => this.setIDColumn(e)}
+              >
+                {this.props.columns
+                  .filter((col) => col.type == "pulse-id")
+                  .map((column, i) => (
+                    <option
+                      id={column.id}
+                      selected={this.state.idColumn === column.id}
+                      key={column.id}
+                    >
+                      {column.title}
+                    </option>
+                  ))}
+              </Form.Control>
             </div>
-            <Form.Control
-              as="select"
-              placeholder="Select a Column"
-              onChange={(e) => this.setIDColumn(e)}
-            >
-              {this.props.columns.filter(col => col.type == "pulse-id").map((column, i) => (
-                <option
-                  id={column.id}
-                  selected={this.state.idColumn === column.id}
-                  key={column.id}
-                >
-                  {column.title}
-                </option>
-              ))}
-            </Form.Control>
           </div>
           <div className="fieldWrapper fieldWrapperMLR">
-            <div className="settingTitle">Ticket List</div>
+            {/* <div className="settingTitle">Ticket List</div> */}
             <div className="preTitle">Ticket Subtitle</div>
-            <div className="settingSubTitle">
-              Choose any column to display under each ticket name.
-            </div>
+            <div className="cardWrapper">
+              <div className="settingSubTitle">
+                Choose any column to display under each ticket name.
+              </div>
 
-            <Form.Control
-              as="select"
-              onChange={(e) => this.setSubtitleColumn(e)}
-            >
-              {this.props.columns.map((column, i) => (
-                <option
-                  id={column.id}
-                  selected={this.state.subtitleColumn === column.id}
-                  key={column.id}
-                >
-                  {column.title}
-                </option>
-              ))}
-            </Form.Control>
+              <Form.Control
+                as="select"
+                onChange={(e) => this.setSubtitleColumn(e)}
+              >
+                {this.props.columns.map((column, i) => (
+                  <option
+                    id={column.id}
+                    selected={this.state.subtitleColumn === column.id}
+                    key={column.id}
+                  >
+                    {column.title}
+                  </option>
+                ))}
+              </Form.Control>
+            </div>
           </div>
           <div className="fieldWrapper">
-            <div className="settingTitle">Ticket List</div>
+            {/* <div className="settingTitle">Ticket List</div> */}
             <div className="preTitle">Ticket Status</div>
-            <div className="settingSubTitle">
-              Choose a status column to display on your tickets.
+            <div className="cardWrapper">
+              <div className="settingSubTitle">
+                Choose a status column to display on your tickets.
+              </div>
+              <Form.Control
+                as="select"
+                onChange={(e) => this.setStatusColumn(e)}
+              >
+                {this.props.columns
+                  .filter((col) => col.type == "color")
+                  .map((column, i) => (
+                    <option
+                      id={column.id}
+                      selected={this.state.statusColumn === column.id}
+                      key={column.id}
+                    >
+                      {column.title}
+                    </option>
+                  ))}
+              </Form.Control>
             </div>
-            <Form.Control as="select" onChange={(e) => this.setStatusColumn(e)}>
-              {this.props.columns.filter(col => col.type == "color").map((column, i) => (
-                <option
-                  id={column.id}
-                  selected={this.state.statusColumn === column.id}
-                  key={column.id}
-                >
-                  {column.title}
-                </option>
-              ))}
-            </Form.Control>
           </div>
         </div>
+
         <div className="fieldFlex fieldWrapperMT">
           <div className="fieldWrapper">
-            <div className="settingTitle">Ticket List</div>
+            {/* <div className="settingTitle">Ticket List</div> */}
             <div className="preTitle">Person</div>
-            <div className="settingSubTitle">
-              Choose any person column type to display thumbnail.
+            <div className="cardWrapper">
+              <div className="settingSubTitle">
+                Choose any person column type to display thumbnail.
+              </div>
+              <Form.Control
+                as="select"
+                placeholder="Select a Column"
+                onChange={(e) => this.setPersonColumn(e)}
+              >
+                {this.props.columns
+                  .filter((col) => col.type == "multiple-person")
+                  .map((column, i) => (
+                    <option
+                      id={column.id}
+                      selected={this.state.personColumn === column.id}
+                      key={column.id}
+                    >
+                      {column.title}
+                    </option>
+                  ))}
+              </Form.Control>
             </div>
-            <Form.Control
-              as="select"
-              placeholder="Select a Column"
-              onChange={(e) => this.setPersonColumn(e)}
-            >
-              {this.props.columns.filter(col => col.type == "multiple-person").map((column, i) => (
-                <option
-                  id={column.id}
-                  selected={this.state.personColumn === column.id}
-                  key={column.id}
-                >
-                  {column.title}
-                </option>
-              ))}
-            </Form.Control>
           </div>
           <div className="fieldWrapper fieldWrapperMLR">
-            <div className="settingTitle">Ticket List</div>
+            {/* <div className="settingTitle">Ticket List</div> */}
             <div className="preTitle">Date Column</div>
-            <div className="settingSubTitle">
-              Choose any column to display date.
-            </div>
+            <div className="cardWrapper">
+              <div className="settingSubTitle">
+                Choose any column to display date.
+              </div>
 
-            <Form.Control
-              as="select"
-              onChange={(e) => this.setDateColumn(e)}
-            >
-              {this.props.columns.filter(col => col.type == "date").map((column, i) => (
-                <option
-                  id={column.id}
-                  selected={this.state.dateColumn === column.id}
-                  key={column.id}
-                >
-                  {column.title}
-                </option>
-              ))}
-            </Form.Control>
+              <Form.Control as="select" onChange={(e) => this.setDateColumn(e)}>
+                {this.props.columns
+                  .filter((col) => col.type == "date")
+                  .map((column, i) => (
+                    <option
+                      id={column.id}
+                      selected={this.state.dateColumn === column.id}
+                      key={column.id}
+                    >
+                      {column.title}
+                    </option>
+                  ))}
+              </Form.Control>
+            </div>
           </div>
         </div>
+
         <div className="fieldFlex fieldWrapperMT">
           <div className="fieldWrapper">
-            <div className="settingTitle">Ticket Details</div>
+            {/* <div className="settingTitle">Ticket Details</div> */}
             <div className="preTitle">Ticket Info</div>
-            <div className="settingSubTitle">
-              Select the columns to be displayed inside your tickets.
-            </div>
-            <div className="checkboxes">
-            {this.props.columns.map((column, i) => {
-              let contains = this.state.details
-                ? this.state.details.indexOf(column.id) !== -1
-                : false;
-              return (
-                <Form.Check
-                  type="checkbox"
-                  label={column.title}
-                  value={column.id}
-                  onChange={() => this.toggleDetail(i)}
-                  checked={contains}
-                  key={column.id}
-                />
-              );
-            })}
+            <div className="cardWrapper">
+              <div className="settingSubTitle">
+                Select the columns to be displayed inside your tickets.
+              </div>
+              <div className="checkboxes">
+                {this.props.columns.map((column, i) => {
+                  let contains = this.state.details
+                    ? this.state.details.indexOf(column.id) !== -1
+                    : false;
+                  return (
+                    <Form.Check
+                      type="checkbox"
+                      label={column.title}
+                      value={column.id}
+                      onChange={() => this.toggleDetail(i)}
+                      checked={contains}
+                      key={column.id}
+                    />
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

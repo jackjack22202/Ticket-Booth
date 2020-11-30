@@ -95,6 +95,7 @@ margin: 0 auto;
 
 .feedbackBtn {
   display: flex;
+  width: 100% !important;
 }
 
 .feedbackBtn img{

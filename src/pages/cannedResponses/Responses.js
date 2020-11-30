@@ -20,6 +20,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Responses.css";
 import "../../App.css";
 import moment from "moment";
+import empty from "../../library/images/empty.jpg";
+// import ticketBooth from "../library/images/TicketBooth.gif";
 
 const monday = mondaySdk();
 let date = moment().format("MMM Do YYYY");
@@ -171,36 +173,36 @@ const Responses = () => {
       <>
         {textResponses.map((textResponse, index) => (
           <Col md={4}>
-          <div
-            className="cardView"
-            onClick={() => {
-              setSelectedIndex(index);
-              setSelectedText(textResponse.text);
-              setSelectedTitle(textResponse.title);
-              setTimeout(() => {
-                setShowTextModal(true);
-              }, 500);
-            }}
-          >
-            <div className="title">{textResponse.title}</div>
             <div
-              className="url"
-              dangerouslySetInnerHTML={{ __html: textResponse.text }}
-            ></div>
-            <div className="bottomView">
-              <Avatar name="Foo Bar" size={24} round="12px" />
-              <div className="date">{textResponse.date}</div>
-              <a
-                className="icon-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteTextResponse(index);
-                }}
-              >
-                <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
-              </a>
+              className="cardView"
+              onClick={() => {
+                setSelectedIndex(index);
+                setSelectedText(textResponse.text);
+                setSelectedTitle(textResponse.title);
+                setTimeout(() => {
+                  setShowTextModal(true);
+                }, 500);
+              }}
+            >
+              <div className="title">{textResponse.title}</div>
+              <div
+                className="url"
+                dangerouslySetInnerHTML={{ __html: textResponse.text }}
+              ></div>
+              <div className="bottomView">
+                <Avatar name="Foo Bar" size={24} round="12px" />
+                <div className="date">{textResponse.date}</div>
+                <a
+                  className="icon-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteTextResponse(index);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
+                </a>
+              </div>
             </div>
-          </div>
           </Col>
         ))}
       </>
@@ -223,31 +225,31 @@ const Responses = () => {
       <>
         {formResponses.map((textResponse, index) => (
           <Col md={4}>
-          <div
-            className="cardView"
-            onClick={() => {
-              setSelectedTitle(textResponse.title);
-              setSelectedUrl(textResponse.url);
-              setSelectedIndex(index);
-              setShowFormModal(true);
-            }}
-          >
-            <div className="title">{textResponse.title}</div>
-            <div className="url">{textResponse.url}</div>
-            <div className="bottomView">
-              <Avatar name="Foo Bar" size={24} round="12px" />
-              <div className="date">{textResponse.date}</div>
-              <a
-                className="icon-btn"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  deleteFormResponse(index);
-                }}
-              >
-                <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
-              </a>
+            <div
+              className="cardView"
+              onClick={() => {
+                setSelectedTitle(textResponse.title);
+                setSelectedUrl(textResponse.url);
+                setSelectedIndex(index);
+                setShowFormModal(true);
+              }}
+            >
+              <div className="title">{textResponse.title}</div>
+              <div className="url">{textResponse.url}</div>
+              <div className="bottomView">
+                <Avatar name="Foo Bar" size={24} round="12px" />
+                <div className="date">{textResponse.date}</div>
+                <a
+                  className="icon-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteFormResponse(index);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faTrashAlt} color="#676879" />
+                </a>
+              </div>
             </div>
-          </div>
           </Col>
         ))}
       </>
@@ -316,6 +318,11 @@ const Responses = () => {
           />
         </Container>
       )}
+      <Container className="emptyWrapper">
+        <img src={empty} />
+        <div className="emptyMessage">No Canned Response</div>
+        <Button className="blueBtn">Create</Button>
+      </Container>
     </>
   );
 };

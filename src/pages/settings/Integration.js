@@ -3,7 +3,7 @@ import mondaySdk from "monday-sdk-js";
 import { Form, Container, Row, Col } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { GrAttachment, GrEmoji, GrThreeDEffects } from "react-icons/gr";
-import { RiAlertFill } from "react-icons/ri"
+import { RiAlertFill } from "react-icons/ri";
 
 //data
 import { KeyChain } from "./KeyChain";
@@ -139,38 +139,71 @@ export class Integration extends React.Component {
   render() {
     return (
       <div>
-        <h3 className="setting-padding">Integration Settings</h3>
         <div className="fieldFlex">
           <div className="fieldWrapper mRight">
             <div className="settingTitle">API</div>
-            <div className="preTitle">API Agreement</div>
-            <div className="settingSubTitle">
-              Allows Ticket Booth to store users API key on a thirdparty
-              database for board view integrations.
+            <div className="cardWrapper">
+              <div className="preTitle">API Agreement</div>
+              <div className="settingSubTitle">
+                Allows Ticket Booth to store users API key on a thirdparty
+                database for board view integrations.
+              </div>
+              <div className="checkboxes">
+                <Form.Check
+                  type="checkbox"
+                  label="I Accept"
+                  onClick={(e) => this.setAcceptTerms(e.target.value)}
+                  checked={this.state.acceptedTerms}
+                />
+              </div>
             </div>
-            <div className="checkboxes">
-              <Form.Check
-                type="checkbox"
-                label="I Accept"
-                onClick={(e) => this.setAcceptTerms(e.target.value)}
-                checked={this.state.acceptedTerms}
-              />
-            </div>
-            <div className="preTitle">API Key</div>
-            <div className="settingSubTitle">Admins Personal API v2 Token</div>
-            <div>
-              <Form.Control
-                type="password"
-                placeholder="Paste your token here"
-                ref={this.tokenField}
-                onBlur={(event) => this.storeToken(event.target.value)}
-                title={"Accept the agreement above to input a token."}
-                disabled={!this.state.acceptedTerms}
-              />
+          </div>
+          <div className="fieldWrapper mRight mLeft">
+         
+            <div className="settingTitle">API Key</div>
+            <div className="cardWrapper">
+            <div className="preTitle"></div>
+              <div className="settingSubTitle">
+                Admins Personal API v2 Token
+              </div>
+              <div>
+                <Form.Control
+                  type="password"
+                  placeholder="Paste your token here"
+                  ref={this.tokenField}
+                  onBlur={(event) => this.storeToken(event.target.value)}
+                  title={"Accept the agreement above to input a token."}
+                  disabled={!this.state.acceptedTerms}
+                />
+              </div>
             </div>
           </div>
           <div className="fieldWrapper mLeft">
             <div className="settingTitle">Client Support System</div>
+            <div className="cardWrapper">
+              <div className="preTitle">Client Email</div>
+              <div className="settingSubTitle">
+                Choose the column that contains your client's email.
+              </div>
+              <Form.Control
+                as="select"
+                onChange={(e) => this.setEmailColumn(e)}
+              >
+                {this.props.columns.map((column, i) => (
+                  <option
+                    id={column.id}
+                    selected={this.state.emailColumn === column.id}
+                    key={column.id}
+                  >
+                    {column.title}
+                  </option>
+                ))}
+              </Form.Control>
+            </div>
+          </div>
+          {/* <div className="fieldWrapper mLeft">
+            <div className="settingTitle">Client Support System</div>
+            <div className="cardWrapper">
             <div className="preTitle">Client Email</div>
             <div className="settingSubTitle">
               Choose the column that contains your client's email.
@@ -186,66 +219,59 @@ export class Integration extends React.Component {
                 </option>
               ))}
             </Form.Control>
-          </div>
-        </div>
-
-        {/* <Row className="setting-wrapper">
-          
-        </Row> */}
-        <div tag="texteditor" className="txtEditor fieldWrapperMT">
-          <CKEditor
-            data={this.state.editorData}
-            config={editorConfiguration}
-            onChange={this.editorEvent}
-          />
-          <div className="textEditorConfig">
-            <div className="flexOne">
-              <a>
-                <GrAttachment/> Add File
-              </a>
-              <a>GIF</a>
-              <a>
-                <GrEmoji/> Emoji
-              </a>
-              <a>@Mention</a>
             </div>
-            <button className="saveBtn" onClick={() => this.setFooter()}>
-              Save
-            </button>
-          </div>
+          </div> */}
         </div>
-        <div className="attention-box">
-          <Container fluid>
-            <Row>
-              <div>
-                <h6>
-                <RiAlertFill className="alert-icon" color="#0085FF"/><strong>Please use the following tags to automatically insert user profile data:</strong>
-                </h6>
+        <div className="fieldFlex fieldWrapperMT">
+          <div tag="texteditor" className="txtEditor ">
+            <CKEditor
+              data={this.state.editorData}
+              config={editorConfiguration}
+              onChange={this.editorEvent}
+            />
+            <div className="textEditorConfig">
+              <div className="flexOne">
+                <a>
+                  <GrAttachment /> Add File
+                </a>
+                <a>GIF</a>
+                <a>
+                  <GrEmoji /> Emoji
+                </a>
+                <a>@Mention</a>
               </div>
-            </Row>
-            <Row>
-              <Col>
-                <ul>
-                  <li>{"{{name}}"}</li>
-                  <li>{"{{phone}}"}</li>
-                  <li>{"{{mobile_phone}}"}</li>
-                  <li>{"{{country_code}}"}</li>
-                  <li>{"{{email}}"}</li>
-                  <li>{"{{title}}"}</li>
-                </ul>
-              </Col>
-              <Col>
-                <ul>
-                  <li>{"{{birthday}}"}</li>
-                  <li>{"{{join_date}}"}</li>
-                  <li>{"{{location}}"}</li>
-                  <li>{"{{time_zone_identifier}}"}</li>
-                  <li>{"{{url}}"}</li>
-                  <li>{"{{join_date}}"}</li>
-                </ul>
-              </Col>
-            </Row>
-          </Container>
+              <button className="saveBtn" onClick={() => this.setFooter()}>
+                Save
+              </button>
+            </div>
+          </div>
+          <div className="attention-box">
+            <div className="title">
+              <RiAlertFill className="alert-icon" color="#0085FF" />
+              <strong>
+                Please use the following tags to automatically insert user
+                profile data:
+              </strong>
+            </div>
+            <div className="fieldFlex">
+              <div className="txtEditor flexCol">
+                <div>{"{{name}}"}</div>
+                <div>{"{{phone}}"}</div>
+                <div>{"{{mobile_phone}}"}</div>
+                <div>{"{{country_code}}"}</div>
+                <div>{"{{email}}"}</div>
+                <div>{"{{title}}"}</div>
+              </div>
+              <div className="txtEditor flexCol">
+                <div>{"{{birthday}}"}</div>
+                <div>{"{{join_date}}"}</div>
+                <div>{"{{location}}"}</div>
+                <div>{"{{time_zone_identifier}}"}</div>
+                <div>{"{{url}}"}</div>
+                <div> {"{{join_date}}"}</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );

@@ -84,14 +84,21 @@ button:disabled {
 }
 
 .attention-box {
-  width: 100%;
-  height: auto;
   background: #DFF0FF;
-  padding: 20px;
   display: flex;
   border-radius: 10px;
-  margin: 10px 0px 10px 0px;
   font-family: "Roboto";
+  flex:1;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.title {
+  font-weight: 900;
+    color: #212529;
+    margin-bottom: 16px;
+    height: 24px;
+    padding: 16px;
 }
 
 .alert-icon {
@@ -241,7 +248,7 @@ top: 8px;
 }
 
 .txtEditor .cke_chrome{
-  border: 1px solid #323338 !important;
+  border: 1px solid lightgrey !important;
   border-radius: 8px;
   padding: 2px;
 }

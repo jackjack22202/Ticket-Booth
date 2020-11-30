@@ -113,6 +113,7 @@
 
 .cardView .title {
   font-size: 24px;
+  padding: 0px;
 }
 
 .cardView .url {
@@ -122,6 +123,13 @@
 
 .cardView .url p{ 
   margin:0px;
+    white-space: nowrap;
+    max-width: 250px;
+    overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
 }
 
 .cardView .bottomView{
@@ -134,4 +142,20 @@
   flex: 1;
   margin-left: 16px;
   margin-right: 16px;
+}
+
+.emptyWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+.emptyWrapper img{
+  height: 64px;
+}
+
+.emptyWrapper .emptyMessage{
+  margin: 16px 0px;
+  color: #676879;
 }

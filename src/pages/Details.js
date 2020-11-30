@@ -478,9 +478,11 @@ class Details extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="rightBtnWrapper">
             <button className="blackBtn" onClick={() => this.editDetails()}>
               Edit
             </button>
+            </div>
             {/* </div> */}
           </div>
         </div>

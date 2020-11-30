@@ -13,7 +13,7 @@
 
 #right {
   width: 64px;
-  padding: 16px;
+  padding: 16px 0px;
 }
 
 /* right menu Ticket Details */
@@ -21,7 +21,6 @@
   width: 260px;
   display: flex;
   flex-direction: column;
-  padding: 16px;
 }
 
 #right .icon {  
@@ -39,7 +38,7 @@
   h5 {
   font-size: 16px;
   margin-bottom: 0px;
-  line-height: 1.5;
+  line-height: 0;
   }
 }
 
@@ -47,10 +46,10 @@
   flex: 1;
   overflow-y: scroll;
     .stats {
-box-shadow: 0 15px 50px 0 rgba(0,0,0,0.05);
+box-shadow: 0 5px 10px 0 rgba(0,0,0,0.05);
 border-radius: 8px;
 padding:16px 16px;
-margin: 4px 4px 16px 4px;
+margin: 16px;
 }
 }
 
@@ -58,8 +57,12 @@ margin: 4px 4px 16px 4px;
   display: none;
 }
 
+#right.open .rightBtnWrapper {
+  margin:16px 16px 0px;
+}
+
 #right.open .blackBtn {
-  margin-top: 16px;
+  width: 100%;
 }
 
 #rightcardheading {
