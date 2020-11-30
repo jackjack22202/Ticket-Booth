@@ -27,7 +27,7 @@ import NewForm from "./pages/cannedResponses/NewForm";
 import DashboardIcon from "./library/images/nav-icons/Icons_Misc_activity.svg";
 import TicketsIcon from "./library/images/nav-icons/Icons_Misc_item.svg";
 import SettingsIcon from "./library/images/nav-icons/Icons_Misc_Settings.svg";
-import CannedResponsesIcon from "./library/images/nav-icons/Icons_Misc_Settings2.svg";
+import CannedResponsesIcon from "./library/images/nav-icons/cannedresponse.svg";
 import AnnouncementsIcon from "./library/images/nav-icons/Icons_Misc_Megaphone.svg";
 import Hamburger from "./library/images/hamburger.svg";
 import MessageIcon from "./library/images/messageicon.svg";

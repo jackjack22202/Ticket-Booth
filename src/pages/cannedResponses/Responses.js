@@ -20,7 +20,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./Responses.css";
 import "../../App.css";
 import moment from "moment";
-import empty from "../../library/images/empty.jpg";
+import empty from "../../library/images/nav-icons/Icons_Misc_Settings2.svg";
 // import ticketBooth from "../library/images/TicketBooth.gif";
 
 const monday = mondaySdk();
