@@ -57,6 +57,9 @@ const AddCannedResponse = (props) => {
       text: textValue,
       date: moment().format("MMM Do YYYY"),
     };
+    props.setShowTextModal(false);
+    setTitleValue("");
+    setTextValue("");
     let textResponses = await monday.storage.instance.getItem("textResponses");
     let textResponsesData = JSON.parse(textResponses.data.value);
     if (selectedIndex >= 0) {
@@ -73,9 +76,12 @@ const AddCannedResponse = (props) => {
       "textResponses",
       JSON.stringify(textResponsesData)
     );
-    props.setShowTextModal(false);
-    setTitleValue("");
-    setTextValue("");
+    monday.execute("notice", { 
+      message: "Text Response added Successfully",
+      type: "success", // or "error" (red), or "info" (blue)
+      timeout: 10000,
+    });
+    
   };
 
   const closeModal = () => {
@@ -115,7 +121,7 @@ const AddCannedResponse = (props) => {
               Cancel
             </a>
             <a className="blueBtn" onClick={saveClick}>
-              Create
+              {selectedIndex > 0 ? 'Update' : 'Create' }
             </a>
           </div>
         </Modal.Body>

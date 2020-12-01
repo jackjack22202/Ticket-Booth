@@ -32,6 +32,9 @@ const AddFormResponse = (props) => {
       url: urlValue,
       date: moment().format("MMM Do YYYY"),
     };
+    props.setShowFormModal();
+    setTitleValue("");
+    setUrlValue("");
     let formResponses = await monday.storage.instance.getItem("formResponses");
     let formResponsesData = JSON.parse(formResponses.data.value);
     if (selectedIndex >= 0) {
@@ -49,9 +52,11 @@ const AddFormResponse = (props) => {
       "formResponses",
       JSON.stringify(formResponsesData)
     );
-    props.setShowFormModal();
-    setTitleValue("");
-    setUrlValue("");
+    monday.execute("notice", { 
+      message: "Form Response added Successfully",
+      type: "success", // or "error" (red), or "info" (blue)
+      timeout: 10000,
+    });
   };
 
   return (
@@ -85,7 +90,7 @@ const AddFormResponse = (props) => {
               Cancel
             </a>
             <a className="blueBtn" onClick={saveClick}>
-              Create
+             {selectedIndex > 0 ? 'Update' : 'Create' }
             </a>
           </div>
         </Modal.Body>
