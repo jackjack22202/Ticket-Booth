@@ -65,7 +65,7 @@ export default class App extends React.Component {
                 cancelButton: "Remind Me Later",
               })
               .then((res) => {
-                if (res.data.confirm) {
+                if (res.data && res.data.confirm) {
                   // Acknowledged welcome
                   monday.storage.instance.setItem(
                     KeyChain.FirstLaunch,
