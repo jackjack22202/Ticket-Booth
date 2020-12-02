@@ -26,8 +26,6 @@ const editorConfiguration = {
       "NumberedList",
       "BlockQuote",
       "Table",
-      "Undo",
-      "Redo",
       "Source",
     ],
   ],
@@ -409,14 +407,6 @@ class Details extends React.Component {
             <div className="textEditorConfig">
               <div className="flexOne">
               <a onClick={this.openCannedResponse}>Select Response</a>
-                <a>
-                  <GrAttachment /> Add File
-                </a>
-                <a>GIF</a>
-                <a>
-                  <GrEmoji /> Emoji
-                </a>
-                <a>@Mention</a>
               </div>
               <div className="btnTxtConfig">
                   <button

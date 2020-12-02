@@ -99,7 +99,7 @@ const AddFormResponse = (props) => {
               Cancel
             </a>
             <a className="blueBtn" onClick={saveClick}>
-              {selectedIndex > 0 ? "Update" : "Create"}
+              {selectedIndex > -1 ? "Update" : "Create"}
             </a>
           </div>
         </Modal.Body>

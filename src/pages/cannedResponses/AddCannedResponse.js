@@ -20,8 +20,6 @@ const editorConfiguration = {
       "NumberedList",
       "BlockQuote",
       "Table",
-      "Undo",
-      "Redo",
       "Source"
     ]
   ],
@@ -128,7 +126,7 @@ const AddCannedResponse = (props) => {
               Cancel
             </a>
             <a className="blueBtn" onClick={saveClick}>
-              {selectedIndex > 0 ? "Update" : "Create"}
+              {selectedIndex > -1 ? "Update" : "Create"}
             </a>
           </div>
         </Modal.Body>

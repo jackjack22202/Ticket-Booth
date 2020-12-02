@@ -310,7 +310,14 @@ const Responses = () => {
             <Container className="emptyWrapper">
               <img src={empty} />
               <div className="emptyMessage">No Form Canned Response</div>
-              <Button className="blueBtn">Create</Button>
+              <Button
+                className="blueBtn"
+                onClick={() => {
+                  setShowFormModal(true);
+                }}
+              >
+                Create
+              </Button>
             </Container>
           )}
         </>
@@ -331,7 +338,14 @@ const Responses = () => {
             <Container className="emptyWrapper">
               <img src={empty} />
               <div className="emptyMessage">No Canned Response</div>
-              <Button className="blueBtn">Create</Button>
+              <Button
+                className="blueBtn"
+                onClick={() => {
+                  setShowTextModal(true);
+                }}
+              >
+                Create
+              </Button>
             </Container>
           )}
         </>
