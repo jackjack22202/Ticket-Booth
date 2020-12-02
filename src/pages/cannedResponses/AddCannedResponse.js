@@ -2,38 +2,38 @@ import React, { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import "./AddCannedResponse.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import CKEditor from "ckeditor4-react";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import moment from "moment";
 import mondaySdk from "monday-sdk-js";
 import { propTypes } from "react-bootstrap/esm/Image";
 
 const monday = mondaySdk();
+
 const editorConfiguration = {
-  toolbar: {
-    items: [
-      "underline",
-      "bold",
-      "italic",
-      "link",
-      "bulletedList",
-      "numberedList",
-      "blockQuote",
-      "insertTable",
-      "undo",
-      "redo",
-      "alignment",
-    ],
-  },
+  toolbar: [
+    [
+      "Bold",
+      "Italic",
+      "Link",
+      "BulletedList",
+      "NumberedList",
+      "BlockQuote",
+      "Table",
+      "Undo",
+      "Redo",
+      "Source"
+    ]
+  ],
+  allowedContent: true,
   language: "en",
   image: {
-    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
+    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"]
   },
   table: {
-    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"]
   },
-  licenseKey: "",
+  licenseKey: ""
 };
 
 const AddCannedResponse = (props) => {
@@ -52,35 +52,43 @@ const AddCannedResponse = (props) => {
   };
 
   const saveClick = async () => {
-    const data = {
-      title: titleValue,
-      text: textValue,
-      date: moment().format("MMM Do YYYY"),
-    };
     props.setShowTextModal(false);
     setTitleValue("");
     setTextValue("");
-    let textResponses = await monday.storage.instance.getItem("textResponses");
-    let textResponsesData = JSON.parse(textResponses.data.value);
-    if (selectedIndex >= 0) {
-      textResponsesData[selectedIndex] = data;
-    } else {
-      if (textResponsesData) {
-        textResponsesData.push(data);
-      } else {
-        textResponsesData = [];
-        textResponsesData.push(data);
+    monday.api(`query { me { id name } } `).then(async (res) => {
+      let name = 'N A';
+      if(res && res.data && res.data.me && res.data.me.name) {
+        name = res.data.me.name;
       }
-    }
-    await monday.storage.instance.setItem(
-      "textResponses",
-      JSON.stringify(textResponsesData)
-    );
-    monday.execute("notice", { 
-      message: "Text Response added Successfully",
-      type: "success", // or "error" (red), or "info" (blue)
-      timeout: 10000,
+      const data = {
+        title: titleValue,
+        text: textValue,
+        date: moment().format("MMM Do YYYY"),
+        name: name
+      };
+      let textResponses = await monday.storage.instance.getItem("textResponses");
+      let textResponsesData = JSON.parse(textResponses.data.value);
+      if (selectedIndex >= 0) {
+        textResponsesData[selectedIndex] = data;
+      } else {
+        if (textResponsesData) {
+          textResponsesData.push(data);
+        } else {
+          textResponsesData = [];
+          textResponsesData.push(data);
+        }
+      }
+      await monday.storage.instance.setItem(
+        "textResponses",
+        JSON.stringify(textResponsesData)
+      );
+      monday.execute("notice", {
+        message: "Text Response added Successfully",
+        type: "success", // or "error" (red), or "info" (blue)
+        timeout: 10000
+      });
     });
+    
     
   };
 
@@ -104,11 +112,10 @@ const AddCannedResponse = (props) => {
           />
           <div className="modalLable"> Description</div>
           <CKEditor
-            editor={ClassicEditor}
             data={textValue}
             config={editorConfiguration}
             onChange={(event, editor) => {
-              setTextValue(editor.getData());
+              setTextValue(event.editor.getData());
             }}
           />
           <div className="modalButton">
@@ -121,7 +128,7 @@ const AddCannedResponse = (props) => {
               Cancel
             </a>
             <a className="blueBtn" onClick={saveClick}>
-              {selectedIndex > 0 ? 'Update' : 'Create' }
+              {selectedIndex > 0 ? "Update" : "Create"}
             </a>
           </div>
         </Modal.Body>

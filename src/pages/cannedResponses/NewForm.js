@@ -2,36 +2,35 @@ import React, { useState, useEffect } from "react";
 import { Button, Container, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import mondaySdk from "monday-sdk-js";
-import { CKEditor } from "@ckeditor/ckeditor5-react";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import CKEditor from "ckeditor4-react";
 import "./NewForm.css";
 
 const monday = mondaySdk();
 
 const editorConfiguration = {
-  toolbar: {
-    items: [
-      "underline",
-      "bold",
-      "italic",
-      "link",
-      "bulletedList",
-      "numberedList",
-      "blockQuote",
-      "insertTable",
-      "undo",
-      "redo",
-      "alignment"
-    ]
-  },
+  toolbar: [
+    [
+      "Bold",
+      "Italic",
+      "Link",
+      "BulletedList",
+      "NumberedList",
+      "BlockQuote",
+      "Table",
+      "Undo",
+      "Redo",
+      "Source",
+    ],
+  ],
+  allowedContent: true,
   language: "en",
   image: {
-    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"]
+    toolbar: ["imageTextAlternative", "imageStyle:full", "imageStyle:side"],
   },
   table: {
-    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"]
+    contentToolbar: ["tableColumn", "tableRow", "mergeTableCells"],
   },
-  licenseKey: ""
+  licenseKey: "",
 };
 
 const NewForm = () => {
@@ -69,7 +68,6 @@ const NewForm = () => {
         </Link>
 
         <CKEditor
-          editor={ClassicEditor}
           data={textValue}
           config={editorConfiguration}
           onReady={(editor) => {
