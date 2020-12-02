@@ -105,6 +105,7 @@ margin: 16px;
   border-bottom: 1px solid lightgray;
   display:flex;
   align-items: center;
+  margin-bottom: 16px;
  .nameSubheading{
    flex:1;
    margin:0px 16px;
@@ -128,7 +129,6 @@ margin: 16px;
 // }
 
 .updateCardScroll {
-  flex: 1;
   padding: 16px;
   overflow-y: scroll;
 }

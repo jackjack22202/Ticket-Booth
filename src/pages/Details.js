@@ -346,8 +346,7 @@ class Details extends React.Component {
                 display: this.state.outerLoading ? "block" : "none",
               }}
             /> */}
-            <div className="updateCardScroll">
-              <button
+            <button
                 className="blackBtn loadmoreBtn"
                 onClick={() => {
                   const current_up_page = this.state.up_page + 1;
@@ -360,6 +359,8 @@ class Details extends React.Component {
                 <img src={loadmoreIcon}/>
                 Load More Updates
               </button>
+            <div className="updateCardScroll">
+              
               {updates?.map((update) => (
                 <div id="updatecard">
                   <div

@@ -34,6 +34,19 @@
   cursor: pointer;
 }
 
+.custNavItem :-webkit-direct-focus {
+  outline: none !important;
+  outline-width: 0;
+  /* outline-color: -webkit-focus-ring-color;
+  outline-style: auto;
+  outline-width: 5px; */
+  }
+
+  .custNavItem:focus{
+    outline: none !important;
+  outline-width: 0px;
+  }
+
 .custNavItem img{
   height: 20px;
 }
