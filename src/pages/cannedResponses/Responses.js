@@ -7,7 +7,7 @@ import {
   Row,
   Col,
   Tab,
-  Nav,
+  Nav
 } from "react-bootstrap";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -82,7 +82,7 @@ const Responses = () => {
         message: "Are you sure you want delete text response?",
         confirmButton: "Delete",
         cancelButton: "Cancel",
-        excludeCancelButton: false,
+        excludeCancelButton: false
       })
       .then((res) => {
         if (res.data.confirm) {
@@ -143,7 +143,7 @@ const Responses = () => {
         message: "Are you sure you want delete form response?",
         confirmButton: "Delete",
         cancelButton: "Cancel",
-        excludeCancelButton: false,
+        excludeCancelButton: false
       })
       .then((res) => {
         if (res.data.confirm) {
@@ -190,7 +190,7 @@ const Responses = () => {
                 dangerouslySetInnerHTML={{ __html: textResponse.text }}
               ></div>
               <div className="bottomView">
-                <Avatar name="Foo Bar" size={24} round="12px" />
+                <Avatar name={textResponse.name} size={24} round="12px" />
                 <div className="date">{textResponse.date}</div>
                 <a
                   className="icon-btn"
@@ -237,7 +237,7 @@ const Responses = () => {
               <div className="title">{textResponse.title}</div>
               <div className="url">{textResponse.url}</div>
               <div className="bottomView">
-                <Avatar name="Foo Bar" size={24} round="12px" />
+                <Avatar name={textResponse.name} size={24} round="12px" />
                 <div className="date">{textResponse.date}</div>
                 <a
                   className="icon-btn"
@@ -295,34 +295,61 @@ const Responses = () => {
         {createTextButton}
       </div>
       {showForm && (
-        <Container>
-          <Row>{formList}</Row>
-          <AddFormResponse
-            setShowFormModal={closeModal}
-            showFormModal={showFormModal}
-            selectedIndex={selectedIndex}
-            selectedTitle={selectedTitle}
-            selectedUrl={selectedUrl}
-          />
-        </Container>
+        <>
+          <Container>
+            <Row>{formList}</Row>
+            <AddFormResponse
+              setShowFormModal={closeModal}
+              showFormModal={showFormModal}
+              selectedIndex={selectedIndex}
+              selectedTitle={selectedTitle}
+              selectedUrl={selectedUrl}
+            />
+          </Container>
+          {formResponses.length < 1 && (
+            <Container className="emptyWrapper">
+              <img src={empty} />
+              <div className="emptyMessage">No Form Canned Response</div>
+              <Button
+                className="blueBtn"
+                onClick={() => {
+                  setShowFormModal(true);
+                }}
+              >
+                Create
+              </Button>
+            </Container>
+          )}
+        </>
       )}
       {show && (
-        <Container>
-          <Row>{cardList}</Row>
-          <AddCannedResponse
-            setShowTextModal={closeModal}
-            showTextModal={showTextModal}
-            selectedIndex={selectedIndex}
-            selectedTitle={selectedTitle}
-            selectedText={selectedText}
-          />
-        </Container>
+        <>
+          <Container>
+            <Row>{cardList}</Row>
+            <AddCannedResponse
+              setShowTextModal={closeModal}
+              showTextModal={showTextModal}
+              selectedIndex={selectedIndex}
+              selectedTitle={selectedTitle}
+              selectedText={selectedText}
+            />
+          </Container>
+          {textResponses.length < 1 && (
+            <Container className="emptyWrapper">
+              <img src={empty} />
+              <div className="emptyMessage">No Canned Response</div>
+              <Button
+                className="blueBtn"
+                onClick={() => {
+                  setShowTextModal(true);
+                }}
+              >
+                Create
+              </Button>
+            </Container>
+          )}
+        </>
       )}
-      <Container className="emptyWrapper">
-        <img src={empty} />
-        <div className="emptyMessage">No Canned Response</div>
-        <Button className="blueBtn">Create</Button>
-      </Container>
     </>
   );
 };

@@ -27,35 +27,44 @@ const AddFormResponse = (props) => {
   };
 
   const saveClick = async () => {
-    const data = {
-      title: titleValue,
-      url: urlValue,
-      date: moment().format("MMM Do YYYY"),
-    };
     props.setShowFormModal();
     setTitleValue("");
     setUrlValue("");
-    let formResponses = await monday.storage.instance.getItem("formResponses");
-    let formResponsesData = JSON.parse(formResponses.data.value);
-    if (selectedIndex >= 0) {
-      formResponsesData[selectedIndex] = data;
-    } else {
-      if (formResponsesData) {
-        formResponsesData.push(data);
-      } else {
-        formResponsesData = [];
-        formResponsesData.push(data);
+    monday.api(`query { me { id name } } `).then(async (res) => {
+      let name = "N A";
+      if (res && res.data && res.data.me && res.data.me.name) {
+        name = res.data.me.name;
       }
-    }
+      const data = {
+        title: titleValue,
+        url: urlValue,
+        date: moment().format("MMM Do YYYY"),
+        name: name
+      };
+      let formResponses = await monday.storage.instance.getItem(
+        "formResponses"
+      );
+      let formResponsesData = JSON.parse(formResponses.data.value);
+      if (selectedIndex >= 0) {
+        formResponsesData[selectedIndex] = data;
+      } else {
+        if (formResponsesData) {
+          formResponsesData.push(data);
+        } else {
+          formResponsesData = [];
+          formResponsesData.push(data);
+        }
+      }
 
-    await monday.storage.instance.setItem(
-      "formResponses",
-      JSON.stringify(formResponsesData)
-    );
-    monday.execute("notice", { 
-      message: "Form Response added Successfully",
-      type: "success", // or "error" (red), or "info" (blue)
-      timeout: 10000,
+      await monday.storage.instance.setItem(
+        "formResponses",
+        JSON.stringify(formResponsesData)
+      );
+      monday.execute("notice", {
+        message: "Form Response added Successfully",
+        type: "success", // or "error" (red), or "info" (blue)
+        timeout: 10000
+      });
     });
   };
 
@@ -90,7 +99,7 @@ const AddFormResponse = (props) => {
               Cancel
             </a>
             <a className="blueBtn" onClick={saveClick}>
-             {selectedIndex > 0 ? 'Update' : 'Create' }
+              {selectedIndex > -1 ? "Update" : "Create"}
             </a>
           </div>
         </Modal.Body>
