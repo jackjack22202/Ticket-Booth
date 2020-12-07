@@ -197,3 +197,14 @@ margin: 16px;
     margin-right: 4px;
   }
 }
+
+.modal .modalButton {
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.modal .modalButton .blackBtn{
+  margin-right: 16px;
+}

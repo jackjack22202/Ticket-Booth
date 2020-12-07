@@ -256,18 +256,6 @@ export class Integration extends React.Component {
               config={editorConfiguration}
               onChange={this.editorEvent}
             />
-            <div className="textEditorConfig">
-              <div className="flexOne">
-                <a>
-                  <GrAttachment /> Add File
-                </a>
-                <a>GIF</a>
-                <a>
-                  <GrEmoji /> Emoji
-                </a>
-                <a>@Mention</a>
-              </div>
-            </div>
           </div>
           <div className="attention-box">
             <div className="title">
