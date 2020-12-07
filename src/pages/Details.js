@@ -417,7 +417,7 @@ class Details extends React.Component {
               />
               <div className="textEditorConfig">
                 <div className="flexOne">
-                  <a onClick={this.openCannedResponse}>Select Response</a>
+                  <a onClick={this.openCannedResponse}>Response</a>
                 </div>
                 <div className="btnTxtConfig">
                   <button

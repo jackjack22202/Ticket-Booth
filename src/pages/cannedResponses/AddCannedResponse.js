@@ -54,7 +54,7 @@ const AddCannedResponse = (props) => {
     setTitleValue("");
     setTextValue("");
     monday.execute("notice", {
-      message: "Response is being createdy",
+      message: "Response is being created",
       type: "info", // or "error" (red), or "info" (blue)
       timeout: 5000
     });
