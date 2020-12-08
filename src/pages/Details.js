@@ -26,10 +26,10 @@ const editorConfiguration = {
       "NumberedList",
       "BlockQuote",
       "Table",
-      "Source",
-    ],
+      "Source"
+    ]
   ],
-  allowedContent: true,
+  allowedContent: true
 };
 
 const delay = (ms) => new Promise((res) => setTimeout(res, ms));
@@ -56,7 +56,7 @@ class Details extends React.Component {
       undo_email: false,
       showCannedModal: false,
       textResponses: [],
-      undo_email: false,
+      undo_email: false
     };
 
     this.editorEvent = this.editorEvent.bind(this);
@@ -83,7 +83,7 @@ class Details extends React.Component {
                 ticket_address: `pulse-${this.state.ticket_id}@${res.data.me.account?.slug}.monday.com`,
                 user: res.data.me,
                 outerLoading: false,
-                slug: res.data.me.account?.slug,
+                slug: res.data.me.account?.slug
               },
               function () {
                 // call back after set state is complete
@@ -93,7 +93,7 @@ class Details extends React.Component {
           }).then(() => {
             this.fetchCannedResponses();
             Promise.all([
-              monday.storage.instance.getItem(KeyChain.EmailFooter),
+              monday.storage.instance.getItem(KeyChain.EmailFooter)
             ]).then((allPromises) => {
               new Promise((resolve, _) => {
                 const storedEmailFooter = allPromises[0].data.value
@@ -101,9 +101,9 @@ class Details extends React.Component {
                   : "";
                 const templateFooter = Handlebars.compile(storedEmailFooter);
                 const compiledFooter = templateFooter(this.state.user);
-                this.setState({emailFooter: compiledFooter}, function() {
+                this.setState({ emailFooter: compiledFooter }, function () {
                   resolve();
-                })
+                });
               }).then(() => {
                 this.parseSidebarSettings();
               });
@@ -123,7 +123,7 @@ class Details extends React.Component {
     }
   };
 
-  fetchUpdates = function() {
+  fetchUpdates = function () {
     this.setState({ updateLoading: true });
     monday
       .api(
@@ -179,13 +179,13 @@ class Details extends React.Component {
   openCannedResponse = () => {
     this.setState({
       showCannedModal: true
-    })
+    });
   };
 
   closeModal = () => {
     this.setState({
       showCannedModal: false
-    })
+    });
   };
 
   dateHandler(dateString) {
@@ -196,7 +196,7 @@ class Details extends React.Component {
       month: "short",
       day: "numeric",
       hour: "2-digit",
-      minute: "2-digit",
+      minute: "2-digit"
     };
     const formattedString = dateObject.toLocaleString("en-US", options);
     return formattedString;
@@ -234,7 +234,7 @@ class Details extends React.Component {
             const updates_list = current_updates.concat(new_updates);
             this.setState({
               updates: updates_list,
-              updateLoading: false,
+              updateLoading: false
             });
           });
       });
@@ -251,7 +251,7 @@ class Details extends React.Component {
           ticket_slug: this.state.slug,
           ticket_id: this.state.ticket_id,
           ticket_name: this.state.ticket_data.name,
-          creator_address: this.state.user.email,
+          creator_address: this.state.user.email
         });
 
         var requestOptions = {
@@ -259,7 +259,7 @@ class Details extends React.Component {
           headers: { "Content-Type": "application/json" },
           body: raw,
           redirect: "follow",
-          mode: "cors",
+          mode: "cors"
         };
         await delay(5500);
         if (this.state.undo_email == false) {
@@ -272,7 +272,7 @@ class Details extends React.Component {
                     message:
                       "Your email request has been received. However, because a token was not found for your Monday Account, an update may not get published to the ticket when your client writes back. Please set your Email API Token from TicketBooth Settings.",
                     confirmButton: "Understood!",
-                    excludeCancelButton: true,
+                    excludeCancelButton: true
                   })
                   .then((res) => {
                     // {'confirm': true}
@@ -285,7 +285,7 @@ class Details extends React.Component {
           .execute("confirm", {
             message: `Client Emails not found. Make sure you have selected a column in this app's settings.`,
             confirmButton: "Understood!",
-            excludeCancelButton: true,
+            excludeCancelButton: true
           })
           .then((res) => {
             // {'confirm': true}
@@ -306,14 +306,21 @@ class Details extends React.Component {
 
     return (
       <>
-        <ToastContainer transition={Zoom} pauseOnFocusLoss={true} pauseOnHover={false}
+        <ToastContainer
+          transition={Zoom}
+          pauseOnFocusLoss={true}
+          pauseOnHover={false}
           closeButton={({ closeToast }) => {
             const handleClick = () => {
               this.setState({ undo_email: true }, () => {
                 closeToast();
               });
             };
-            return <button className="btn-toast" onClick={handleClick}>Undo</button>;
+            return (
+              <button className="btn-toast" onClick={handleClick}>
+                Undo
+              </button>
+            );
           }}
         />
         <div id="layout">
@@ -345,20 +352,19 @@ class Details extends React.Component {
               }}
             /> */}
             <button
-                className="blackBtn loadmoreBtn"
-                onClick={() => {
-                  const current_up_page = this.state.up_page + 1;
-                  this.setState({ up_page: current_up_page }, () => {
-                    this.fetchUpdates();
-                  });
-                }}
-                disabled={this.state.updateLoading}
-              >
-                <img src={loadmoreIcon}/>
-                Load More Updates
-              </button>
+              className="blackBtn loadmoreBtn"
+              onClick={() => {
+                const current_up_page = this.state.up_page + 1;
+                this.setState({ up_page: current_up_page }, () => {
+                  this.fetchUpdates();
+                });
+              }}
+              disabled={this.state.updateLoading}
+            >
+              <img src={loadmoreIcon} />
+              Load More Updates
+            </button>
             <div className="updateCardScroll">
-              
               {updates?.map((update) => (
                 <div id="updatecard">
                   <div
@@ -371,7 +377,7 @@ class Details extends React.Component {
                         ? "2px solid #7854cc"
                         : update?.body.includes("[Internal]")
                         ? "2px solid red"
-                        : "none",
+                        : "none"
                     }}
                   >
                     <div className="creatorImgInfo">
@@ -391,7 +397,7 @@ class Details extends React.Component {
                     <div
                       className="detailsNType"
                       dangerouslySetInnerHTML={{
-                        __html: update.body,
+                        __html: update.body
                       }}
                     />
                   </div>
@@ -399,17 +405,26 @@ class Details extends React.Component {
               ))}
             </div>
 
-            <div tag="texteditor" key={ticket?.id} className="txtEditor tktDetailEdit">
-            <CKEditor
-              data={this.state.editorData}
-              config={editorConfiguration}
-              onChange={this.editorEvent}
-            />
-            <div className="textEditorConfig">
-              <div className="flexOne">
-              <a onClick={this.openCannedResponse}>Select Response</a>
-              </div>
-              <div className="btnTxtConfig">
+            <div
+              tag="texteditor"
+              key={ticket?.id}
+              className="txtEditor tktDetailEdit"
+            >
+              <CKEditor
+                data={this.state.editorData}
+                config={editorConfiguration}
+                onChange={this.editorEvent}
+              />
+              <div className="textEditorConfig">
+                <div className="flexOne">
+                  <button
+                    className="blackBtn"
+                    onClick={this.openCannedResponse}
+                  >
+                    Response
+                  </button>
+                </div>
+                <div className="btnTxtConfig">
                   <button
                     className="blackBtn"
                     onClick={() => this.postUpdate("internal")}
@@ -425,8 +440,8 @@ class Details extends React.Component {
                     Email
                   </button>
                 </div>
+              </div>
             </div>
-          </div>
 
             {/* <div tag="texteditor" key={ticket?.id} className="txtEditor tktDetailEdit">
               <CKEditor
@@ -507,9 +522,9 @@ class Details extends React.Component {
               </div>
             </div>
             <div className="rightBtnWrapper">
-            <button className="blackBtn" onClick={() => this.editDetails()}>
-              Edit
-            </button>
+              <button className="blackBtn" onClick={() => this.editDetails()}>
+                Edit
+              </button>
             </div>
             {/* </div> */}
           </div>
@@ -521,17 +536,22 @@ class Details extends React.Component {
                 className="body-area-select"
                 onClick={() => {
                   this.setState({
-                    editorData: textResponse.text,
-                  })
+                    editorData: textResponse.text
+                  });
                   this.closeModal();
                 }}
               >
-                <h6 style={{fontSize: '19px'}}>{textResponse.title}</h6>
-                <p dangerouslySetInnerHTML={{ __html: textResponse.text }} style={{fontSize: '13px'}}></p>
+                <h6 style={{ fontSize: "19px" }}>{textResponse.title}</h6>
+                <p
+                  dangerouslySetInnerHTML={{ __html: textResponse.text }}
+                  style={{ fontSize: "13px" }}
+                ></p>
               </div>
             ))}
-            <div className="save-btn modal-button">
-              <Button className="cancelBtn" style={{marginRight: 5}} onClick={this.closeModal}>Cancel</Button>
+            <div className="modalButton">
+              <a className="blueBtn" onClick={this.closeModal}>
+                Cancel
+              </a>
             </div>
           </Modal.Body>
         </Modal>

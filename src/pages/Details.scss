@@ -176,6 +176,7 @@ margin: 16px;
   .flexOne {
     flex:1;
     display: flex;
+    margin-top: 16px;
     a {
       padding-right: 16px;
       color: #000;
@@ -196,4 +197,15 @@ margin: 16px;
     width: 18px;
     margin-right: 4px;
   }
+}
+
+.modal .modalButton {
+  display:flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.modal .modalButton .blackBtn{
+  margin-right: 16px;
 }

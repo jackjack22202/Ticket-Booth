@@ -30,6 +30,11 @@ const AddFormResponse = (props) => {
     props.setShowFormModal();
     setTitleValue("");
     setUrlValue("");
+    monday.execute("notice", {
+      message: "Response is being created",
+      type: "info", // or "error" (red), or "info" (blue)
+      timeout: 5000
+    });
     monday.api(`query { me { id name } } `).then(async (res) => {
       let name = "N A";
       if (res && res.data && res.data.me && res.data.me.name) {
