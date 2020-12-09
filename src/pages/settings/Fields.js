@@ -1,6 +1,6 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Container, Row, Col, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 //data
 import { KeyChain } from "./KeyChain";
 //styles
@@ -148,9 +148,13 @@ export class Fields extends React.Component {
                 as="select"
                 placeholder="Select a Column"
                 onChange={(e) => this.setIDColumn(e)}
+                defaultValue="Please Select One"
               >
+                <option id={"blank"} key={"blank"} disabled>
+                  Please Select One
+                </option>
                 {this.props.columns
-                  .filter((col) => col.type == "pulse-id")
+                  .filter((col) => col.type === "pulse-id")
                   .map((column, i) => (
                     <option
                       id={column.id}
@@ -174,7 +178,11 @@ export class Fields extends React.Component {
               <Form.Control
                 as="select"
                 onChange={(e) => this.setSubtitleColumn(e)}
+                defaultValue="Please Select One"
               >
+                <option id={"blank"} key={"blank"} disabled>
+                  Please Select One
+                </option>
                 {this.props.columns.map((column, i) => (
                   <option
                     id={column.id}
@@ -197,9 +205,13 @@ export class Fields extends React.Component {
               <Form.Control
                 as="select"
                 onChange={(e) => this.setStatusColumn(e)}
+                defaultValue="Please Select One"
               >
+                <option id={"blank"} key={"blank"} disabled>
+                  Please Select One
+                </option>
                 {this.props.columns
-                  .filter((col) => col.type == "color")
+                  .filter((col) => col.type === "color")
                   .map((column, i) => (
                     <option
                       id={column.id}
@@ -226,9 +238,13 @@ export class Fields extends React.Component {
                 as="select"
                 placeholder="Select a Column"
                 onChange={(e) => this.setPersonColumn(e)}
+                defaultValue="Please Select One"
               >
+                <option id={"blank"} key={"blank"} disabled>
+                  Please Select One
+                </option>
                 {this.props.columns
-                  .filter((col) => col.type == "multiple-person")
+                  .filter((col) => col.type === "multiple-person")
                   .map((column, i) => (
                     <option
                       id={column.id}
@@ -249,9 +265,12 @@ export class Fields extends React.Component {
                 Choose any column to display date.
               </div>
 
-              <Form.Control as="select" onChange={(e) => this.setDateColumn(e)}>
+              <Form.Control as="select" onChange={(e) => this.setDateColumn(e)} defaultValue="Please Select One">
+                <option id={"blank"} key={"blank"} disabled>
+                    Please Select One
+                </option>
                 {this.props.columns
-                  .filter((col) => col.type == "date")
+                  .filter((col) => col.type === "date")
                   .map((column, i) => (
                     <option
                       id={column.id}

@@ -1,8 +1,7 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Form, Container, Row, Col } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
-import { GrAttachment, GrEmoji, GrThreeDEffects } from "react-icons/gr";
 import { RiAlertFill } from "react-icons/ri";
 
 //data
@@ -122,13 +121,13 @@ export class Integration extends React.Component {
         mode: "cors",
       };
 
-      fetch("https://api.carbonweb.co/storeToken", requestOptions);
+      fetch("https://www.api.carbonweb.co/storeToken", requestOptions);
     }
   }
 
   authorize() {
     const url =
-      "https://auth.monday.com/oauth2/authorize?client_id=1c612937c349fa0ee64ddaf597e1de88";
+      "https://auth.monday.com/oauth2/authorize?client_id=ab958ebc5a7bcfe32a5a1fab0bc69c15";
     window.open(url, "_blank");
   }
 
@@ -141,7 +140,7 @@ export class Integration extends React.Component {
       mode: "cors",
     };
     fetch(
-      `https://api.carbonweb.co/checkToken?slug=${this.state.slug}`,
+      `https://www.api.carbonweb.co/checkToken?slug=${this.state.slug}`,
       requestOptions
     )
       .then((response) => response.json())

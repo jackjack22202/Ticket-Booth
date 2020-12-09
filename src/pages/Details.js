@@ -263,7 +263,7 @@ class Details extends React.Component {
         };
         await delay(5500);
         if (this.state.undo_email == false) {
-          fetch("https://api.carbonweb.co/send", requestOptions)
+          fetch("https://www.api.carbonweb.co/send", requestOptions)
             .then((response) => response.json())
             .then((json) => {
               if (!json.tokenCheck.data.token) {
