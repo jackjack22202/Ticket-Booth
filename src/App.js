@@ -1,7 +1,7 @@
 // Import Components used in App.js
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import SideNav, { NavItem, NavIcon, NavText } from "@trendmicro/react-sidenav";
+import SideNav, { NavItem } from "@trendmicro/react-sidenav";
 import mondaySdk from "monday-sdk-js";
 import { KeyChain } from "./pages/settings/KeyChain";
 import { Messages } from "./library/Messages";
@@ -24,11 +24,9 @@ import Responses from "./pages/cannedResponses/Responses";
 import NewForm from "./pages/cannedResponses/NewForm";
 
 // Import Icon Images for Side Nav
-import DashboardIcon from "./library/images/nav-icons/Icons_Misc_activity.svg";
 import TicketsIcon from "./library/images/nav-icons/Icons_Misc_item.svg";
 import SettingsIcon from "./library/images/nav-icons/Icons_Misc_Settings.svg";
 import CannedResponsesIcon from "./library/images/nav-icons/cannedresponse.svg";
-import AnnouncementsIcon from "./library/images/nav-icons/Icons_Misc_Megaphone.svg";
 import Hamburger from "./library/images/hamburger.svg";
 import MessageIcon from "./library/images/messageicon.svg";
 
@@ -47,7 +45,6 @@ export default class App extends React.Component {
     Promise.all([
       monday.storage.instance.getItem(KeyChain.FirstLaunch), //0
     ]).then((allResponses) => {
-      console.log(allResponses);
       const firstLaunch = allResponses[0].data?.value
         ? allResponses[0].data.value
         : "true";
@@ -161,7 +158,7 @@ export default class App extends React.Component {
                           });
                       }}
                     >
-                      <img src={MessageIcon} />
+                      <img src={MessageIcon} alt="Message Icon"/>
                       Give Feedback
                     </button>
                   </SideNav>
