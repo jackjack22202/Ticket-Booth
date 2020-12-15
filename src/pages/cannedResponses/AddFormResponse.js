@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import moment from "moment";
 import "./AddCannedResponse.css";
-import { Link, useLocation, useHistory } from "react-router-dom";
 import mondaySdk from "monday-sdk-js";
 
 const monday = mondaySdk();
 
 const AddFormResponse = (props) => {
-  const history = useHistory();
   const { selectedTitle, selectedUrl, selectedIndex } = props;
   const [titleValue, setTitleValue] = useState(selectedTitle);
   const [urlValue, setUrlValue] = useState(selectedUrl);

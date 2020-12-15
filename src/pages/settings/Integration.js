@@ -1,4 +1,5 @@
 import React from "react";
+import ReactTooltip from '../../library/custom_styles/react-tooltip';
 import mondaySdk from "monday-sdk-js";
 import { Row } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
@@ -38,7 +39,6 @@ export class Integration extends React.Component {
 
     this.setAcceptTerms.bind(this);
     this.setEmailColumn.bind(this);
-    this.storeToken.bind(this);
     this.setFooter.bind(this);
 
     this.state = {
@@ -102,29 +102,6 @@ export class Integration extends React.Component {
     this.setState({ editorData: event.editor.getData() });
   }
 
-  storeToken() {
-    this.setState({ updateLoading: true });
-    var token = this.tokenField?.current?.value;
-    if (token) {
-      // this.form.current.reset();
-
-      var raw = JSON.stringify({
-        slug: this.state.slug,
-        token: token,
-      });
-
-      var requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: raw,
-        redirect: "follow",
-        mode: "cors",
-      };
-
-      fetch("https://www.api.carbonweb.co/storeToken", requestOptions);
-    }
-  }
-
   authorize() {
     const url =
       "https://auth.monday.com/oauth2/authorize?client_id=ab958ebc5a7bcfe32a5a1fab0bc69c15";
@@ -140,7 +117,7 @@ export class Integration extends React.Component {
       mode: "cors",
     };
     fetch(
-      `https://www.api.carbonweb.co/checkToken?slug=${this.state.slug}`,
+      `https://tb.carbonweb.co/checkToken?slug=${this.state.slug}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -213,7 +190,7 @@ export class Integration extends React.Component {
                 Validate
               </button>
             </Row>
-            {/* <div className="preTitle">API Key</div>
+            {/* 
             <div className="settingSubTitle">Admins Personal API v2 Token</div>
             <div>
               <Form.Control
@@ -250,11 +227,14 @@ export class Integration extends React.Component {
         </div>
         <div className="fieldFlex fieldWrapperMT">
           <div tag="texteditor" className="txtEditor">
+          <ReactTooltip place="bottom" type="info" effect="solid"/>
+            <a data-tip="This footer will be attached to all your customer updates posted in the Tickets Details Screen before sending an email">
             <CKEditor
               data={this.state.editorData}
               config={editorConfiguration}
               onChange={this.editorEvent}
             />
+            </a>
           </div>
           <div className="attention-box">
             <div className="title">

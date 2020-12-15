@@ -1,11 +1,9 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
 //controls
-import LoadingMask from "react-loadingmask";
 import { Link } from "react-router-dom";
-import { Image, Modal, Button } from "react-bootstrap";
+import { Image, Modal } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
-import { GrAttachment, GrEmoji } from "react-icons/gr";
 import { toast, ToastContainer, Zoom } from "react-toastify";
 //styles
 import "./Details.scss";
@@ -56,7 +54,6 @@ class Details extends React.Component {
       undo_email: false,
       showCannedModal: false,
       textResponses: [],
-      undo_email: false
     };
 
     this.editorEvent = this.editorEvent.bind(this);
@@ -149,7 +146,7 @@ class Details extends React.Component {
     if (settings?.details_fields == null) {
       parsedValues = ticketColumnValues;
     } else if (settings?.details_fields?.length > 0) {
-      let z = settings?.details_fields?.forEach(function (entry) {
+      let _ = settings?.details_fields?.forEach(function (entry) {
         const match =
           ticketColumnValues.find((column) => column.id === entry) || null;
         if (match) {
@@ -262,8 +259,8 @@ class Details extends React.Component {
           mode: "cors"
         };
         await delay(5500);
-        if (this.state.undo_email == false) {
-          fetch("https://www.api.carbonweb.co/send", requestOptions)
+        if (this.state.undo_email === false) {
+          fetch("https://tb.carbonweb.co/send", requestOptions)
             .then((response) => response.json())
             .then((json) => {
               if (!json.tokenCheck.data.token) {

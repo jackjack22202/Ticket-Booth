@@ -6,7 +6,6 @@ import { Nav, Image, Row, Col } from "react-bootstrap";
 import Pagination from "react-js-pagination";
 
 import { KeyChain } from "./settings/KeyChain";
-import ticketBooth from "../library/images/TicketBooth.gif";
 
 const monday = mondaySdk();
 
