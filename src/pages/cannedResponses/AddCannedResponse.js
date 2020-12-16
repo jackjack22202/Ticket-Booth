@@ -102,7 +102,7 @@ const AddCannedResponse = (props) => {
 
   return (
     <>
-      <Modal show={props.showTextModal} className="modal">
+      <Modal show={props.showTextModal} onHide={() => {}} className="modal">
         <Modal.Body>
           <div className="modalTitle">New Canned Text Response</div>
           <div className="modalLable"> Response Title</div>
