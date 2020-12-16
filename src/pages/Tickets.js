@@ -1,16 +1,13 @@
-import LoadingMask from "react-loadingmask";
 import React from "react";
 import { Link } from "react-router-dom";
 import mondaySdk from "monday-sdk-js";
 
-import { Nav, Card, Image, Container, Row, Col } from "react-bootstrap";
+import { Nav, Image, Row, Col } from "react-bootstrap";
 import Pagination from "react-js-pagination";
 
 import { KeyChain } from "./settings/KeyChain";
-import ticketBooth from "../library/images/TicketBooth.gif";
 
 const monday = mondaySdk();
-const TicketBoothLogo = <img src={ticketBooth} alt="Ticket Booth Logo" />;
 
 class Tickets extends React.Component {
   constructor(props) {
@@ -344,7 +341,7 @@ class Tickets extends React.Component {
                 >
                   {item.column_values.find(
                     (x) => x.id === settings.status_column_key
-                  )?.text || "Status N/A"}
+                  )?.text || ""}
                 </div>
               </Col>
               <Col sm={2} md={2} lg={2} className="lastUpdates">

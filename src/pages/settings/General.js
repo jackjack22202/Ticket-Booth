@@ -1,7 +1,6 @@
 //basics
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Container, Row, Col, Form } from "react-bootstrap";
 import { CirclePicker } from "react-color";
 //styles
 import "./Settings.scss";

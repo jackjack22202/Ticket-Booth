@@ -1,14 +1,11 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
-import { Row, Col, Tab, Nav } from "react-bootstrap";
+import { Tab, Nav } from "react-bootstrap";
 
 import { General as GeneralSettings } from "./General";
 import { Fields as FieldsSettings } from "./Fields";
 import { Integration as IntegrationSettings } from "./Integration";
 
-import Settings2Icon from "../../library/images/nav-icons/Icons_Misc_Settings2.svg";
-import ColumnIcon from "../../library/images/nav-icons/Icons_Misc_column.svg";
-import ItegrationIcon from "../../library/images/nav-icons/Icons_Misc_Integrations.svg";
 //styles
 import "./Settings.scss";
 
@@ -20,7 +17,7 @@ export default class SettingRouter extends React.Component {
     this.state = {
       columns: [],
       loading: true,
-      currentView: null,
+      currentView: SettingViews.General,
     };
   }
 
@@ -52,7 +49,7 @@ export default class SettingRouter extends React.Component {
 
   render() {
     return (
-        <Tab.Container id="left-setting-tabs" default="general">
+        <Tab.Container id="left-setting-tabs" defaultActiveKey="general">
           <Nav className="mondayTab" variant="pills">
             <Nav.Item>
               <Nav.Link

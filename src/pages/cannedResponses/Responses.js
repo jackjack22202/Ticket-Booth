@@ -1,15 +1,11 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Container,
-  Card,
   Button,
-  CardColumns,
   Row,
   Col,
-  Tab,
   Nav
 } from "react-bootstrap";
-import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import AddCannedResponse from "./AddCannedResponse";
@@ -19,15 +15,11 @@ import mondaySdk from "monday-sdk-js";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./Responses.css";
 import "../../App.css";
-import moment from "moment";
 import empty from "../../library/images/nav-icons/Icons_Misc_Settings2.svg";
 // import ticketBooth from "../library/images/TicketBooth.gif";
 
 const monday = mondaySdk();
-let date = moment().format("MMM Do YYYY");
-
 const Responses = () => {
-  const history = useHistory();
   const [show, setShow] = useState(true);
   const [showForm, setShowForm] = useState(false);
   const [textResponses, setTextResponses] = useState([]);

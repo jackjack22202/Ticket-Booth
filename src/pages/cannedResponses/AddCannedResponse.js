@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import "./AddCannedResponse.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CKEditor from "ckeditor4-react";
-import { Link, useLocation, useHistory } from "react-router-dom";
 import moment from "moment";
 import mondaySdk from "monday-sdk-js";
-import { propTypes } from "react-bootstrap/esm/Image";
 
 const monday = mondaySdk();
 
@@ -35,8 +33,6 @@ const editorConfiguration = {
 };
 
 const AddCannedResponse = (props) => {
-  const history = useHistory();
-
   const { selectedTitle, selectedText, selectedIndex } = props;
   const [titleValue, setTitleValue] = useState(selectedTitle);
   const [textValue, setTextValue] = useState(selectedText);
@@ -94,12 +90,7 @@ const AddCannedResponse = (props) => {
     
     
   };
-
-  const closeModal = () => {
-    //setTitleValue('');
-    //setTextValue('');
-  };
-
+  
   return (
     <>
       <Modal show={props.showTextModal} onHide={() => {}} className="modal">

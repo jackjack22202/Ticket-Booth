@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Container, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import mondaySdk from "monday-sdk-js";
 import CKEditor from "ckeditor4-react";
@@ -34,7 +34,6 @@ const editorConfiguration = {
 };
 
 const NewForm = () => {
-  const [titleValue, setTitleValue] = useState("");
   const [textValue, setTextValue] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [textResponses, setTextResponses] = useState([]);
@@ -72,16 +71,13 @@ const NewForm = () => {
           config={editorConfiguration}
           onReady={(editor) => {
             // You can store the "editor" and use when it is needed.
-            console.log("Editor is ready to use!", editor);
           }}
           onChange={(event, editor) => {
             setTextValue(editor.getData());
           }}
           onBlur={(event, editor) => {
-            console.log("Blur.", editor);
           }}
           onFocus={(event, editor) => {
-            console.log("Focus.", editor);
           }}
         />
         <p style={{ padding: 5, color: "#2b99ff" }} onClick={handleClick}>Select Canned Response</p>
