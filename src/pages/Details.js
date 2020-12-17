@@ -526,7 +526,7 @@ class Details extends React.Component {
             {/* </div> */}
           </div>
         </div>
-        <Modal show={this.state.showCannedModal}>
+        <Modal show={this.state.showCannedModal} onHide={() => {}}>
           <Modal.Body>
             {this.state.textResponses.map((textResponse, index) => (
               <div

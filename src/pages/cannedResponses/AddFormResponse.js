@@ -73,7 +73,7 @@ const AddFormResponse = (props) => {
 
   return (
     <>
-      <Modal show={props.showFormModal}>
+      <Modal show={props.showFormModal} onHide={() => {}}>
         <Modal.Body>
           <div className="modalTitle">New Canned Form Response</div>
           <div className="modalLable"> Form Title</div>

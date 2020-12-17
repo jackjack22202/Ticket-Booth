@@ -164,7 +164,7 @@ const Responses = () => {
     cardList = (
       <>
         {textResponses.map((textResponse, index) => (
-          <Col md={4}>
+          <Col md={4} key={index}>
             <div
               className="cardView"
               onClick={() => {
@@ -216,7 +216,7 @@ const Responses = () => {
     formList = (
       <>
         {formResponses.map((textResponse, index) => (
-          <Col md={4}>
+          <Col md={4} key={index}>
             <div
               className="cardView"
               onClick={() => {

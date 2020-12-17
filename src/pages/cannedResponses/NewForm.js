@@ -83,7 +83,7 @@ const NewForm = () => {
         <p style={{ padding: 5, color: "#2b99ff" }} onClick={handleClick}>Select Canned Response</p>
       </div>
 
-        <Modal show={showModal}>
+        <Modal show={showModal} onHide={() => {}}>
           <Modal.Body>
             {textResponses.map((textResponse, index) => (
               <div
