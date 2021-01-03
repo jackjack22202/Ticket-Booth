@@ -95,6 +95,7 @@ export default class App extends React.Component {
                     onSelect={(selected) => {
                       const to = "/" + selected;
                       if (location.pathname !== to) {
+                        localStorage.setItem('pathname', to);
                         history.push(to);
                       }
                     }}

@@ -1,7 +1,7 @@
 import React from "react";
 import mondaySdk from "monday-sdk-js";
 //controls
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { Image, Modal } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { toast, ToastContainer, Zoom } from "react-toastify";
@@ -35,16 +35,24 @@ const delay = (ms) => new Promise((res) => setTimeout(res, ms));
 class Details extends React.Component {
   constructor(props) {
     super(props);
+    const pathname = localStorage.getItem('pathname') || null;
+    if (pathname != null && document.location.pathname != pathname) {
+      this.redirect = true;
+      this.pathname = pathname;
+    } else {
+      localStorage.setItem('pathname', document.location.pathname);
+    }
+
     this.state = {
       ticket_id: this.props.match.params.id,
-      ticket_data: this.props.location.data?.ticket,
+      ticket_data: null,
       field_values: [],
       fields_selected: [],
       client_emails: null,
       ticket_address: null,
       user: null,
       slug: null,
-      settings: this.props.location.data?.settings,
+      settings: null,
       updates: [],
       outerLoading: true,
       updateLoading: false,
@@ -61,10 +69,64 @@ class Details extends React.Component {
 
   componentDidMount() {
     monday.listen("context", (res) => {
-      this.setState({ context: res.data });
-      monday
+    this.setState({ context: res.data });
+
+    new Promise((resolve, reject) => {
+
+      Promise.all([
+        monday.storage.instance.getItem(KeyChain.Columns.ID), //0
+        monday.storage.instance.getItem(KeyChain.Columns.Status), //1
+        monday.storage.instance.getItem(KeyChain.Columns.Subtitle), //2
+        monday.storage.instance.getItem(KeyChain.Columns.Details),
+        monday.storage.instance.getItem(KeyChain.Columns.Email),
+        monday.storage.instance.getItem(KeyChain.Colors.Primary),
+        monday.storage.instance.getItem(KeyChain.Columns.Date), //2
+        monday.storage.instance.getItem(KeyChain.Columns.Person), //2
+      ]).then((allResponses) => {
+        const storedIDColumn = allResponses[0].data
+          ? allResponses[0].data.value
+          : "";
+        const storedStatusColumn = allResponses[1].data
+          ? allResponses[1].data.value
+          : "";
+        const storedSubtitleColumn = allResponses[2].data
+          ? allResponses[2].data.value
+          : "";
+        const storedDetails = allResponses[3].data
+          ? allResponses[3].data.value?.split(",") ?? []
+          : [];
+        const storedEmail = allResponses[4].data
+          ? allResponses[4].data.value
+          : "";
+        const storedColor = allResponses[5].data
+          ? allResponses[5].data.value
+          : "";
+        const storedDateColumn = allResponses[6].data
+          ? allResponses[6].data.value
+          : "";
+        const storedPersonColumn = allResponses[7].data
+          ? allResponses[7].data.value
+          : "";
+  
+        this.setState({
+          settings: {
+            primaryColor: storedColor,
+            id_column_key: storedIDColumn,
+            status_column_key: storedStatusColumn,
+            subheading_column_key: storedSubtitleColumn,
+            date_column_key: storedDateColumn,
+            person_column_key: storedPersonColumn,
+            client_email_column_key: storedEmail,
+            details_fields: storedDetails,
+          },
+        }, function() {
+          resolve();
+        })
+      });
+    }).then(() => {
+        monday
         .api(
-          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_data?.id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
+          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
         )
         .then((res) => {
           new Promise((resolve, _) => {
@@ -107,6 +169,7 @@ class Details extends React.Component {
             });
           });
         });
+      });
     });
   }
 
@@ -296,6 +359,9 @@ class Details extends React.Component {
   };
 
   render() {
+    if(this.redirect) {
+      return (<Redirect to={this.pathname} />);
+    }
     const ticket = this.state.ticket_data;
     const subheading_column_key = this.state.settings?.subheading_column_key;
     const updates = this.state.updates;
@@ -336,9 +402,15 @@ class Details extends React.Component {
                   )?.text || ""}
                 </div>
               </div>
-              <Link to="/tickets" className="blueBtn">
-                Back
-              </Link>
+              <span onClick={() => {localStorage.setItem('pathname', `/tickets`)}}>
+                <Link
+                  to={{
+                    pathname: `/tickets`,
+                  }}
+                  className="blueBtn"
+                >Back
+                </Link>
+              </span>
             </div>
             {/* <LoadingMask
               loading={this.state.outerLoading}

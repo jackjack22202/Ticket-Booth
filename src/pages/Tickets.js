@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import mondaySdk from "monday-sdk-js";
 
 import { Nav, Image, Row, Col } from "react-bootstrap";
@@ -12,6 +12,13 @@ const monday = mondaySdk();
 class Tickets extends React.Component {
   constructor(props) {
     super(props);
+    const pathname = localStorage.getItem('pathname') || null;
+    if (pathname != null && document.location.pathname != pathname) {
+      this.redirect = true;
+      this.pathname = pathname;
+    } else {
+      localStorage.setItem('pathname', document.location.pathname);
+    }
 
     // Default state
     this.page_limit = 20;
@@ -217,6 +224,9 @@ class Tickets extends React.Component {
   }
 
   render() {
+    if(this.redirect) {
+      return (<Redirect to={this.pathname} />);
+    }
     const settings = this.state.settings;
     const tickets = this.state.tickets;
     const groups = this.state.groups;
@@ -350,18 +360,16 @@ class Tickets extends React.Component {
                   )?.text || item.created_at)}
               </Col>
               <Col sm={2} md={2} lg={2} className="viewTkt">
-                <Link
-                  to={{
-                    pathname: `/details/${item.id}`,
-                    data: {
-                      ticket: item,
-                      settings: settings,
-                    },
-                  }}
-                  className="blueBtn"
-                >
-                  View
-                </Link>
+                <span onClick={() => {localStorage.setItem('pathname', `/details/${item.id}`)}}>
+                  <Link
+                    to={{
+                      pathname: `/details/${item.id}`,
+                    }}
+                    className="blueBtn"
+                  >
+                    View
+                  </Link>
+                </span>
                 <div className="viewId">
                   ID#:{" "}
                   {item.column_values.find(
