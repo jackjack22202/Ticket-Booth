@@ -1,3 +1,4 @@
+import config from '../library/config';
 import React from "react";
 import mondaySdk from "monday-sdk-js";
 //controls
@@ -11,6 +12,7 @@ import "./Details.scss";
 import { KeyChain } from "./settings/KeyChain";
 import loadmoreIcon from "../library/images/loadMore.svg";
 
+const jwt = require('jsonwebtoken');
 const monday = mondaySdk();
 const Handlebars = require("handlebars");
 
@@ -313,17 +315,18 @@ class Details extends React.Component {
           ticket_name: this.state.ticket_data.name,
           creator_address: this.state.user.email
         });
+        const token = jwt.sign({ app: 'ticketbooth' }, config.monday_app.signing_secret);
 
         var requestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: { "Content-Type": "application/json" , 'x-access-token': token },
           body: raw,
           redirect: "follow",
           mode: "cors"
         };
         await delay(5500);
         if (this.state.undo_email === false) {
-          fetch("https://tb.carbonweb.co/send", requestOptions)
+          fetch(`${config.api.base_url}/send`, requestOptions)
             .then((response) => response.json())
             .then((json) => {
               if (!json.tokenCheck.data.token) {

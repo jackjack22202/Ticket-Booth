@@ -30,6 +30,8 @@ import CannedResponsesIcon from "./library/images/nav-icons/cannedresponse.svg";
 import Hamburger from "./library/images/hamburger.svg";
 import MessageIcon from "./library/images/messageicon.svg";
 
+require("dotenv").config();
+
 const monday = mondaySdk();
 
 export default class App extends React.Component {
@@ -105,7 +107,7 @@ export default class App extends React.Component {
                       <div className="toggleTitle">Booth</div>
                       <div className="toggleSupport">Support</div>
                     </SideNav.Toggle>
-                    <SideNav.Nav defaultSelected="dashboard">
+                    <SideNav.Nav defaultSelected="tickets">
                       <NavItem eventKey="dashboard">
                         <div className="custNavItem">
                           <img src={DashboardIcon} alt="Dashboard Icon" />
@@ -198,7 +200,7 @@ export default class App extends React.Component {
                           path="/newform"
                           component={(props) => <NewForm />}
                         />
-                        <Route path="/" component={(props) => <Dashboard />} />
+                        <Route path="/" component={(props) => <Tickets />} />
                       </Switch>   
                   </div>
                 </div>

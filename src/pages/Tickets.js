@@ -94,7 +94,7 @@ class Tickets extends React.Component {
             `query ($boardIds: [Int]) { boards (ids:$boardIds) { name groups { title id } } }`,
             {
               variables: {
-                boardIds: this.state.context.boardIds,
+                boardIds: this.state.context?.boardIds,
               },
             }
           )

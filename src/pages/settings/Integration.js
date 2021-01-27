@@ -1,7 +1,8 @@
+import config from '../../library/config';
 import React from "react";
 import ReactTooltip from '../../library/custom_styles/react-tooltip';
 import mondaySdk from "monday-sdk-js";
-import { Row } from "react-bootstrap";
+import { Row, Form } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { RiAlertFill } from "react-icons/ri";
 
@@ -10,6 +11,7 @@ import { KeyChain } from "./KeyChain";
 //styles
 import "./Settings.scss";
 
+const jwt = require('jsonwebtoken');
 const monday = mondaySdk();
 
 const editorConfiguration = {
@@ -103,21 +105,21 @@ export class Integration extends React.Component {
   }
 
   authorize() {
-    const url =
-      "https://auth.monday.com/oauth2/authorize?client_id=ab958ebc5a7bcfe32a5a1fab0bc69c15";
+    const url = `${config.monday_app.auth_url}?client_id=${config.monday_app.client_id}`;
     window.open(url, "_blank");
   }
 
   validate() {
     this.setState({ authorization: null, auth_checked: false });
+    const token = jwt.sign({ app: 'ticketbooth' }, config.monday_app.signing_secret);
     var requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", 'x-access-token': token },
       redirect: "follow",
       mode: "cors",
     };
     fetch(
-      `https://tb.carbonweb.co/checkToken?slug=${this.state.slug}`,
+      `${config.api.base_url}/checkToken?slug=${this.state.slug}`,
       requestOptions
     )
       .then((response) => response.json())
@@ -204,7 +206,7 @@ export class Integration extends React.Component {
             </div> */}
             </div>
           </div>
-          {/* <div className="fieldWrapper mLeft">
+          <div className="fieldWrapper mLeft">
             <div className="settingTitle">Client Support System</div>
             <div className="cardWrapper">
             <div className="preTitle">Client Email</div>
@@ -223,7 +225,7 @@ export class Integration extends React.Component {
               ))}
             </Form.Control>
             </div>
-          </div> */}
+          </div>
         </div>
         <div className="fieldFlex fieldWrapperMT">
           <div tag="texteditor" className="txtEditor">
