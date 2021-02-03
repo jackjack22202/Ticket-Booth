@@ -3,7 +3,7 @@ import React from "react";
 import mondaySdk from "monday-sdk-js";
 //controls
 import { Link, Redirect } from "react-router-dom";
-import { Image, Modal } from "react-bootstrap";
+import { Image, Modal, Nav } from "react-bootstrap";
 import CKEditor from "ckeditor4-react";
 import { toast, ToastContainer, Zoom } from "react-toastify";
 //styles
@@ -64,6 +64,9 @@ class Details extends React.Component {
       undo_email: false,
       showCannedModal: false,
       textResponses: [],
+      formResponses: [],
+      showTextResponses: true,
+      showFormResponses: false
     };
 
     this.editorEvent = this.editorEvent.bind(this);
@@ -181,6 +184,14 @@ class Details extends React.Component {
       let textResponsesData = JSON.parse(textResponses.data.value);
       this.setState({
         textResponses: textResponsesData
+      });
+    }
+
+    let formResponses = await monday.storage.instance.getItem("formResponses");
+    if (formResponses.data.value) {
+      let formResponsesData = JSON.parse(formResponses.data.value);
+      this.setState({
+        formResponses: formResponsesData
       });
     }
   };
@@ -603,23 +614,92 @@ class Details extends React.Component {
         </div>
         <Modal show={this.state.showCannedModal} onHide={() => {}}>
           <Modal.Body>
-            {this.state.textResponses.map((textResponse, index) => (
-              <div
-                className="body-area-select"
-                onClick={() => {
-                  this.setState({
-                    editorData: textResponse.text
-                  });
-                  this.closeModal();
-                }}
-              >
-                <h6 style={{ fontSize: "19px" }}>{textResponse.title}</h6>
-                <p
-                  dangerouslySetInnerHTML={{ __html: textResponse.text }}
-                  style={{ fontSize: "13px" }}
-                ></p>
-              </div>
-            ))}
+            <Nav className="mondayTab" variant="pills">
+              <Nav.Item>
+                <Nav.Link
+                  eventKey={0}
+                  onClick={() =>
+                    this.setState({
+                      showTextResponses: true,
+                      showFormResponses: false
+                    })
+                  }
+                  className={
+                    this.state.showTextResponses
+                      ? "selected-view nav-link active"
+                      : "unselected-view"
+                  }
+                >
+                  Text
+                </Nav.Link>
+              </Nav.Item>
+              <Nav.Item>
+                <Nav.Link
+                  eventKey={1}
+                  onClick={() =>
+                    this.setState({
+                      showTextResponses: false,
+                      showFormResponses: true
+                    })
+                  }
+                  className={
+                    this.state.showFormResponses
+                      ? "selected-view nav-link active"
+                      : "unselected-view"
+                  }
+                >
+                  Form
+                </Nav.Link>
+              </Nav.Item>
+              {/* 
+                <Nav.Item>
+                  <Nav.Link eventKey="dashboard">
+                    <img src={DashboardIcon} alt="Dashboard Settings" style={{height:"32px", width:"32px"}}/>
+                    <span>Dashboard</span>
+                  </Nav.Link>
+                </Nav.Item>
+                */}
+            </Nav>
+            <div style={{ marginTop: "15px" }}>
+              {this.state.showTextResponses ? (
+                <div>
+                  {this.state.textResponses.map((textResponse, index) => (
+                    <div
+                      className="body-area-select"
+                      onClick={() => {
+                        this.setState({
+                          editorData: textResponse.text
+                        });
+                        this.closeModal();
+                      }}
+                    >
+                      <h6 style={{ fontSize: "19px" }}>{textResponse.title}</h6>
+                      <p
+                        dangerouslySetInnerHTML={{ __html: textResponse.text }}
+                        style={{ fontSize: "13px" }}
+                      ></p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  {this.state.formResponses.map((formResponse, index) => (
+                    <div
+                      className="body-area-select"
+                      onClick={() => {
+                        this.setState({
+                          editorData: formResponse.url
+                        });
+                        this.closeModal();
+                      }}
+                    >
+                      <h6 style={{ fontSize: "19px" }}>{formResponse.title}</h6>
+                      <p style={{ fontSize: "13px" }}>{formResponse.url}</p>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
             <div className="modalButton">
               <a className="blueBtn" onClick={this.closeModal}>
                 Cancel
