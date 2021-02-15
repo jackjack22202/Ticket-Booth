@@ -111,15 +111,15 @@ export class Integration extends React.Component {
 
   validate() {
     this.setState({ authorization: null, auth_checked: false });
-    const token = jwt.sign({ app: 'ticketbooth' }, config.monday_app.signing_secret);
+    const token = jwt.sign({ accountId: this.state.account_id }, config.monday_app.signing_secret);
     var requestOptions = {
       method: "GET",
-      headers: { "Content-Type": "application/json", 'x-access-token': token },
+      headers: { "Content-Type": "application/json", 'Authorization': token },
       redirect: "follow",
       mode: "cors",
     };
     fetch(
-      `${config.api.base_url}/checkToken?slug=${this.state.slug}`,
+      `${config.api.base_url}/check-token`,
       requestOptions
     )
       .then((response) => response.json())
@@ -132,8 +132,8 @@ export class Integration extends React.Component {
     // LISTEN to context for slug
     monday.listen("context", (res) => {
       this.setState({ context: res.data });
-      monday.api(`query { me { name account { slug } } }`).then((res) => {
-        this.setState({ slug: res.data.me.account?.slug });
+      monday.api(`query { me { name account { id slug } } }`).then((res) => {
+        this.setState({ slug: res.data.me.account?.slug, account_id: res.data.me.account?.id });
         this.validate();
       });
     });

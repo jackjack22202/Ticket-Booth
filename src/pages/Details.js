@@ -54,6 +54,7 @@ class Details extends React.Component {
       ticket_address: null,
       user: null,
       slug: null,
+      account_id: null,
       settings: null,
       updates: [],
       outerLoading: true,
@@ -128,7 +129,7 @@ class Details extends React.Component {
     }).then(() => {
         monday
         .api(
-          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { slug } } items(ids: ${this.state.ticket_id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
+          `query { me { id birthday country_code created_at email enabled id is_guest is_pending is_view_only join_date location mobile_phone name phone photo_original photo_small photo_thumb photo_thumb_small photo_tiny teams { name } time_zone_identifier title url utc_hours_diff account { id slug } } items(ids: ${this.state.ticket_id}) { id name created_at creator { photo_thumb_small } column_values { id title text } updates (limit: 10, page: ${this.state.up_page}) { id created_at text_body body creator { id name photo_thumb_small } } } } `
         )
         .then((res) => {
           new Promise((resolve, _) => {
@@ -144,7 +145,8 @@ class Details extends React.Component {
                 ticket_address: `pulse-${this.state.ticket_id}@${res.data.me.account?.slug}.monday.com`,
                 user: res.data.me,
                 outerLoading: false,
-                slug: res.data.me.account?.slug
+                slug: res.data.me.account?.slug,
+                account_id: res.data.me.account?.id
               },
               function () {
                 // call back after set state is complete
@@ -309,24 +311,24 @@ class Details extends React.Component {
           recipient: this.state.client_emails,
           creator: this.state.user.name,
           update_body: email_string,
-          ticket_address: this.state.ticket_address,
           ticket_slug: this.state.slug,
+          ticket_account: this.state.account_id,
           ticket_id: this.state.ticket_id,
           ticket_name: this.state.ticket_data.name,
           creator_address: this.state.user.email
         });
-        const token = jwt.sign({ app: 'ticketbooth' }, config.monday_app.signing_secret);
+        const token = jwt.sign({ accountId: this.state.account_id }, config.monday_app.signing_secret);
 
         var requestOptions = {
           method: "POST",
-          headers: { "Content-Type": "application/json" , 'x-access-token': token },
+          headers: { "Content-Type": "application/json" , 'Authorization': token },
           body: raw,
           redirect: "follow",
           mode: "cors"
         };
         await delay(5500);
         if (this.state.undo_email === false) {
-          fetch(`${config.api.base_url}/send`, requestOptions)
+          fetch(`${config.api.base_url}/send-email`, requestOptions)
             .then((response) => response.json())
             .then((json) => {
               if (!json.tokenCheck.data.token) {
