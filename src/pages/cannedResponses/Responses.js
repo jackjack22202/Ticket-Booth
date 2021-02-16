@@ -34,7 +34,7 @@ const Responses = () => {
   useEffect(() => {
     getTextResponses();
     getFormResponses();
-  }, [textResponses, formResponses]);
+  }, []);
 
   const getTextResponses = async () => {
     let textResponses = await monday.storage.instance.getItem("textResponses");
@@ -296,6 +296,7 @@ const Responses = () => {
               selectedIndex={selectedIndex}
               selectedTitle={selectedTitle}
               selectedUrl={selectedUrl}
+              getFormResponses={getFormResponses}
             />
           </Container>
           {formResponses.length < 1 && (
@@ -324,6 +325,7 @@ const Responses = () => {
               selectedIndex={selectedIndex}
               selectedTitle={selectedTitle}
               selectedText={selectedText}
+              getTextResponses={getTextResponses}
             />
           </Container>
           {textResponses.length < 1 && (

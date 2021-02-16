@@ -81,6 +81,7 @@ const AddCannedResponse = (props) => {
         "textResponses",
         JSON.stringify(textResponsesData)
       );
+      props.getTextResponses();
       monday.execute("notice", {
         message: "Text Response added Successfully",
         type: "success", // or "error" (red), or "info" (blue)

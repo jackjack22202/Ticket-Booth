@@ -63,6 +63,7 @@ const AddFormResponse = (props) => {
         "formResponses",
         JSON.stringify(formResponsesData)
       );
+      props.getFormResponses();
       monday.execute("notice", {
         message: "Form Response added Successfully",
         type: "success", // or "error" (red), or "info" (blue)
