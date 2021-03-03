@@ -328,7 +328,7 @@ class Details extends React.Component {
         };
         await delay(5500);
         if (this.state.undo_email === false) {
-          fetch(`${config.api.base_url}/send-email`, requestOptions)
+          fetch(`${config.api.base_url}/emails/send`, requestOptions)
             .then((response) => response.json())
             .then((json) => {
               if (!json.tokenCheck.data.token) {

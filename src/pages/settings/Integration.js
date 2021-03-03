@@ -119,7 +119,7 @@ export class Integration extends React.Component {
       mode: "cors",
     };
     fetch(
-      `${config.api.base_url}/check-token`,
+      `${config.api.base_url}/tokens/check`,
       requestOptions
     )
       .then((response) => response.json())
